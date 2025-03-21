@@ -35,7 +35,6 @@ export default function NavbarComp() {
 
     if (toggleNav) {
       tl.to('.navbar-container', {
-        height: '50vh',
         duration: 0.5,
         ease: 'power3.out',
       })
@@ -96,13 +95,13 @@ export default function NavbarComp() {
       <button
         type='button'
         onClick={handleToggleNav}
-        className='text-[var(--accent)] lg:hidden'
+        className='text-[var(--accent)] text-2xl lg:hidden'
       >
         <FaBarsStaggered />
       </button>
 
       {toggleNav && (
-        <div className='navbar-container bg-[var(--primary)] absolute top-0 left-0 z-20 text-white w-full h-0 p-5 rounded-md flex flex-col gap-[3rem] overflow-hidden'>
+        <div className='navbar-container bg-[var(--primary)] absolute top-0 left-0 z-20 text-white w-full h-3/4 p-5 rounded-md flex flex-col gap-[3rem] overflow-hidden'>
           <header className='flex justify-between items-center w-full'>
             <h1
               className={`text-[var(--accent)] text-[1.5rem] capitalize ${caveatFont.className}`}
