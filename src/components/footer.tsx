@@ -3,16 +3,16 @@ import { CiFacebook, CiInstagram } from 'react-icons/ci'
 
 export default function FooterComp() {
   return (
-    <footer className='flex flex-col justify-between items-start lg:flex-row gap-10 w-full bg-[var(--dark-blue)] max-md:px-10 max-sm:px-7 max-xs:px-5 lg:px-[8rem] lg:py-[4rem] py-[3rem] text-[var(--text-gray)]'>
+    <footer className='flex flex-col justify-between items-start lg:flex-row gap-10 w-full bg-[var(--dark-blue)] md:px-10 max-sm:px-7 max-xs:px-5 lg:px-[8rem] lg:py-[4rem] py-[3rem] text-[var(--text-gray)]'>
       {/* Company Info Section */}
       <div className='flex flex-col justify-start items-start gap-5 w-full lg:w-[35%]'>
         <h1 className='text-[2rem] text-[var(--accent)] w-full lg:w-[70%] capitalize'>
           larbol construction
-          <span className='block text-[var(--text-gray)] text-sm mt-2'>
-            Dealer in all types of construction work
+          <span className='block text-[var(--text-gray)] lg:text-sm md:text-lg max-sm:text-base mt-2 font-medium tracking-wider'>
+            Building Excellence, Delivering Trust
           </span>
         </h1>
-        <p className='text-sm'>
+        <p className='lg:text-sm md:text-lg max-sm:text-base'>
           At Larbol Construction, we are dedicated to delivering premium
           construction services that meet and exceed client expectations. We
           transform your ideas into reality with precision and care.
@@ -21,10 +21,10 @@ export default function FooterComp() {
 
       {/* Services Section */}
       <div className='flex flex-col justify-start items-start gap-5'>
-        <h1 className='font-semibold capitalize text-white text-xl'>
-          services
+        <h1 className='font-semibold capitalize text-white lg:text-xl md:text-2xl max-sm:text-lg'>
+          our services
         </h1>
-        <div className='flex flex-col gap-3'>
+        <div className='flex flex-col gap-3 lg:text-base md:text-lg max-sm:text-base'>
           <span className=''>Road construction</span>
           <span className=''>Bridge construction</span>
           <span className=''>Building construction</span>
@@ -35,10 +35,10 @@ export default function FooterComp() {
 
       {/* Contact Info Section */}
       <div className='flex flex-col justify-start items-start gap-5 w-full lg:w-[30%]'>
-        <h1 className='font-semibold capitalize text-white text-xl'>
+        <h1 className='font-semibold capitalize text-white lg:text-xl md:text-2xl max-sm:text-lg'>
           contact info
         </h1>
-        <div className='flex flex-col gap-3'>
+        <div className='flex flex-col gap-3 lg:text-base md:text-lg max-sm:text-base'>
           <p>
             <strong>Address:</strong> 123 Construction Avenue, Oshogbo, Osun
             State, Nigeria
@@ -54,16 +54,18 @@ export default function FooterComp() {
 
       {/* Socials Section */}
       <div className='flex flex-col justify-start items-start gap-5'>
-        <h1 className='font-semibold capitalize text-white text-xl'>socials</h1>
+        <h1 className='font-semibold capitalize text-white lg:text-xl md:text-2xl max-sm:text-lg'>
+          socials
+        </h1>
 
         <div className='flex flex-row gap-3 items-center'>
           <Link href='#' passHref>
-            <span className='text-[var(--accent)] text-[2rem] cursor-pointer'>
+            <span className='text-[var(--accent)] lg:text-[2rem] md:text-[3rem] max-sm:text-[3rem] cursor-pointer'>
               <CiFacebook />
             </span>
           </Link>
           <Link href='#' passHref>
-            <span className='text-[var(--accent)] text-[2rem] cursor-pointer'>
+            <span className='text-[var(--accent)] lg:text-[2rem] md:text-[3rem] max-sm:text-[3rem] cursor-pointer'>
               <CiInstagram />
             </span>
           </Link>

@@ -230,7 +230,7 @@ export default function Home() {
     <main className='flex flex-col items-center justify-center gap-[4rem] text-white w-full m-auto'>
       <header
         ref={container}
-        className='h-[100vh] w-full flex flex-col justify-center items-start m-auto text-left relative lg:px-[8rem] max-md:px-10 max-sm:px-5 max-xs:px-5 '
+        className='h-[100vh] w-full flex flex-col justify-center items-start m-auto text-left relative lg:px-[8rem] md:px-10 max-sm:px-5 max-xs:px-5 '
       >
         <Image
           src={img1}
@@ -243,10 +243,10 @@ export default function Home() {
         {/* Added overlay div */}
         <div className='absolute inset-0 bg-black/65 z-[-1]'></div>
         <div className='flex flex-col justify-start items-start gap-7 font-normal text-white w-full text-left lg:w-[65%]'>
-          <h1 className='lg:text-[3rem] max-sm:text-[1.8rem] '>
+          <h1 className='lg:text-[3rem] md:text-[3rem] max-sm:text-[1.8rem] '>
             Build Your World with Larbol: Where Construction Meets Excellence
           </h1>
-          <p className='text-lg '>
+          <p className='lg:text-lg md:text-2xl max-sm:text-lg max-xs:text-lg'>
             At Larbol, we specialize in crafting roads, bridges, buildings,
             drainage systems, and beyond. With a commitment to precision and
             innovation, we transform visions into remarkable infrastructure that
@@ -262,9 +262,8 @@ export default function Home() {
       </header>
 
       <section
-        // ref={addToRefs}
         id='services'
-        className='grid grid-cols-1 lg:grid-cols-2 content-center place-items-center w-full gap-10 lg:w-[80%] max-md:px-10 max-sm:px-7 max-xs:px-5'
+        className='grid grid-cols-1 lg:grid-cols-2 content-center place-items-center w-full gap-10 lg:w-[80%] md:px-10 max-sm:px-7 max-xs:px-5'
       >
         <div className='flex flex-col justify-start items-start gap-5'>
           <span
@@ -281,14 +280,14 @@ export default function Home() {
           </h2>
           <p
             ref={addToRefs}
-            className='item text-lg text-left font-light w-full lg:w-[90%]'
+            className='item lg:text-lg md:text-2xl max-sm:text-lg text-left font-light w-full lg:w-[90%]'
           >
             We offer a wide range of construction services to meet your needs.
             From planning to execution
           </p>
           <ul
             ref={addToRefs}
-            className='list-disc grid grid-cols-1 gap-5 space-x-5 text-left pl-4'
+            className='list-disc grid grid-cols-1 gap-5 space-x-5 text-left pl-4 lg:text-base md:text-2xl max-sm:text-lg max-xs:text-lg'
           >
             <li> Road Construction</li>
             <li> Bridge Development</li>
@@ -299,13 +298,14 @@ export default function Home() {
           </ul>
         </div>
 
-        <div className='grid grid-cols-1 lg:grid-cols-2 gap-5'>
+        <div className='grid grid-cols-1 lg:grid-cols-2 gap-5 lg:w-auto md:w-full max-sm:w-full max-xs:w-full'>
           <Image
             src={img2}
             alt='Construction background'
             width={500}
             height={500}
-            className='object-cover object-center lg:h-[600px] lg:w-[400px] max-md:h-[300px] max-sm:h-[300px] max-xs:h-[300px] rounded-l-lg'
+            className='object-cover object-center lg:h-[600px] lg:w-[400px] md:h-[400px] md:min-w-full max-sm:h-[300px] max-xs:h-[300px] lg:rounded-l-lg 
+            md:rounded-lg max-sm:rounded-lg max-xs:rounded-lg'
             priority
             ref={addToRefs}
           />
@@ -332,7 +332,7 @@ export default function Home() {
         </div>
       </section>
 
-      <section className='flex flex-col justify-start items-start gap-10 w-full lg:w-[80%] max-md:px-10 max-sm:px-7 max-xs:px-5'>
+      <section className='flex flex-col justify-start items-start gap-10 w-full lg:w-[80%] md:px-10 max-sm:px-7 max-xs:px-5'>
         <div className='flex flex-col justify-start items-start gap-3 w-full'>
           <span
             ref={addToRefs}
@@ -344,7 +344,7 @@ export default function Home() {
           <div className='flex flex-col lg:justify-between lg:items-center gap-5 w-full lg:flex-row'>
             <h1
               ref={addToRefs}
-              className='lg:text-[3rem] max-md:text-[2.5rem] max-sm:text-[2rem] max-xs:text-[2rem] max-xs:w-full capitalize font-light w-full lg:w-[40%]'
+              className='lg:text-[3rem] md:text-[2.5rem] max-sm:text-[2rem] max-xs:text-[2rem] max-xs:w-full capitalize font-light w-full lg:w-[50%]'
             >
               elevating home construction standards
             </h1>
@@ -352,7 +352,7 @@ export default function Home() {
             <button
               ref={addToRefs}
               type='button'
-              className='bg-[var(--accent)] w-[200px] lg:w-auto text-black px-6 py-2 cursor-pointer hover:opacity-80'
+              className='bg-[var(--accent)] w-[200px] lg:w-auto text-black px-6 py-3 cursor-pointer hover:opacity-80'
             >
               Explore More &rarr;
             </button>
@@ -369,8 +369,12 @@ export default function Home() {
               <div className='ring-1 ring-[var(--text-gray)] p-3 rounded-full'>
                 {item.icon}
               </div>
-              <h3 className='text-[1.5rem] font-normal'>{item.title}</h3>
-              <p className='text-lg font-light'>{item.description}</p>
+              <h3 className='lg:text-[1.5rem] md:text-[2rem] max-sm:text-base max-xs:text-base font-normal'>
+                {item.title}
+              </h3>
+              <p className='lg:text-lg md:text-2xl max-sm:text-lg max-xs:text-lg font-light'>
+                {item.description}
+              </p>
             </div>
           ))}
         </div>
@@ -392,8 +396,8 @@ export default function Home() {
         />
       </video>
 
-      <section className='lg:grid lg:grid-cols-2 gap-10 w-full lg:w-[80%] flex flex-col-reverse max-md:px-10 max-sm:px-7 max-xs:px-5 '>
-        <div className='grid grid-cols-1 content-center place-items-center gap-7'>
+      <section className='lg:grid lg:grid-cols-2 gap-10 w-full lg:w-[80%] flex flex-col-reverse md:px-10 max-sm:px-7 max-xs:px-5 '>
+        <div className='grid grid-cols-1 content-center place-items-center gap-7 lg:w-auto md:w-full max-sm:w-full max-xs:w-full'>
           {constructionImages.map((item, index) => (
             <Image
               ref={addToRefs}
@@ -402,7 +406,7 @@ export default function Home() {
               width={500}
               height={500}
               key={index}
-              className='object-cover object-center rounded-lg'
+              className='object-cover object-center rounded-lg lg:w-auto md:w-full max-sm:w-full max-xs:w-full'
               priority
             />
           ))}
@@ -417,11 +421,14 @@ export default function Home() {
           </span>
           <h1
             ref={addToRefs}
-            className='font-normal text-[2rem] lg:text-[3rem] lg:w-[70%] w-full capitalize'
+            className='font-normal max-xs:text-[2rem] max-sm:text-[2rem] md:text-[3rem] lg:text-[3rem] lg:w-[70%] w-full capitalize'
           >
             Building Dreams, Crafting Reality
           </h1>
-          <p ref={addToRefs} className='text-base'>
+          <p
+            ref={addToRefs}
+            className='lg:text-base md:text-2xl max-sm:text-lg max-xs:text-lg'
+          >
             At Larbol Construction, we turn visions into reality. With a strong
             foundation of expertise and innovation, we specialize in delivering
             exceptional construction solutions tailored to meet our clients'
@@ -432,7 +439,10 @@ export default function Home() {
             we do.
           </p>
           <div className='flex flex-col justify-start items-start gap-5 w-full py-4'>
-            <h3 ref={addToRefs} className='text-xl capitalize font-medium'>
+            <h3
+              ref={addToRefs}
+              className='lg:text-xl md:text-2xl max-sm:text-xl max-xs:text-xl capitalize font-medium'
+            >
               our mission:
             </h3>
             <div className='flex flex-col justify-start items-start gap-5 w-full'>
@@ -440,7 +450,7 @@ export default function Home() {
                 <span
                   ref={addToRefs}
                   key={index}
-                  className='text-base bg-[var(--gray)] p-3 rounded-lg'
+                  className='lg:text-base md:text-2xl max-sm:text-lg max-xs:text-lg bg-[var(--gray)] p-3 rounded-lg'
                 >
                   {item}
                 </span>
@@ -462,11 +472,14 @@ export default function Home() {
             </span>
             <h1
               ref={addToRefs}
-              className='lg:text-[3rem] text-[2rem] font-light capitalize '
+              className='lg:text-[3rem] md:text-[3rem] max-sm:text-[2rem] font-light capitalize '
             >
               Crafting Solutions, Building Excellence
             </h1>
-            <p ref={addToRefs} className='text-base text-[var(--text-gray)]'>
+            <p
+              ref={addToRefs}
+              className='lg:text-base md:text-2xl max-sm:text-base max-xs:text-background text-[var(--text-gray)]'
+            >
               Our services are designed to bring your vision to life, combining
               expertise, innovation, and reliability to deliver exceptional
               construction solutions that exceed expectations.
@@ -485,16 +498,18 @@ export default function Home() {
                   alt={item.title}
                   width={500}
                   height={500}
-                  className='object-cover object-center h-[250px] w-full rounded-lg'
+                  className='object-cover object-center lg:h-[250px] md:h-[300px] max-sm:h-[250px] max-xs:h-[250px] w-full rounded-lg'
                   priority
                 />
-                <h3 className='text-[1.5rem] font-normal'>{item.title}</h3>
-                <p className='text-base text-[var(--text-gray)] font-light'>
+                <h3 className='lg:text-[1.5rem] md:text-[2rem] max-sm:text-[1.5rem] max-xs:text-[1.5rem] font-normal'>
+                  {item.title}
+                </h3>
+                <p className='lg:text-base md:text-2xl max-sm:text-base max-xs:text-base text-[var(--text-gray)] font-light'>
                   {item.description}
                 </p>
                 <button
                   type='button'
-                  className='cursor-pointer hover:opacity-80 flex justify-start items-center gap-3 group'
+                  className='cursor-pointer hover:opacity-80 flex justify-start items-center gap-3 group lg:text-lg md:text-xl max-sm:text-lg max-xs:text-lg'
                 >
                   Learn More{' '}
                   <span className='flex justify-center items-center w-9 h-9 ring-1 ring-white rounded-full group-hover:text-black group-hover:bg-[var(--accent)] group-hover:ring-0'>
@@ -512,10 +527,12 @@ export default function Home() {
           {/* Box 1 */}
           <div
             ref={addToRefs}
-            className='bg-[var(--text-gray)] h-[15rem]  p-6 rounded-lg flex flex-col justify-center items-center gap-3'
+            className='bg-[var(--text-gray)] h-[15rem] p-6 rounded-lg flex flex-col justify-center items-center gap-3'
           >
-            <h2 className='text-4xl'>10+</h2>
-            <p className='text-lg text-[var(--gray)]'>Years of Experience</p>
+            <h2 className='lg:text-4xl md:text-5xl max-sm:text-4xl'>10+</h2>
+            <p className='lg:text-lg md:text-2xl max-sm:text-xl max-xs:text-xl text-[var(--gray)]'>
+              Years of Experience
+            </p>
           </div>
 
           {/* Box 2 */}
@@ -523,8 +540,10 @@ export default function Home() {
             ref={addToRefs}
             className='bg-[var(--primary)] h-[15rem] text-gray-100 p-6 rounded-lg flex flex-col justify-center items-center gap-3'
           >
-            <h2 className='text-4xl text-[var(--accent)] '>4.8/5</h2>
-            <p className='text-lg text-[var(--text-gray)]'>
+            <h2 className='lg:text-4xl md:text-5xl max-sm:text-4xl text-[var(--accent)] '>
+              4.8/5
+            </h2>
+            <p className='lg:text-lg md:text-2xl max-sm:text-xl max-xs:text-xl text-[var(--text-gray)]'>
               Ratings from Customers
             </p>
           </div>
@@ -534,15 +553,15 @@ export default function Home() {
             ref={addToRefs}
             className='bg-[var(--text-gray)] h-[15rem]  p-6 rounded-lg flex flex-col justify-center items-center gap-3'
           >
-            <h2 className='text-4xl'>300+</h2>
-            <p className='text-lg text-[var(--gray)]'>
+            <h2 className='lg:text-4xl md:text-5xl max-sm:text-4xl'>300+</h2>
+            <p className='lg:text-lg md:text-2xl max-sm:text-xl max-xs:text-xl text-[var(--gray)]'>
               Successful Project Completion
             </p>
           </div>
         </section>
       </section>
 
-      <section className='lg:w-[80%] max-md:px-10 max-sm:px-7 max-xs:px-5 w-full flex flex-col justify-center items-center gap-[5rem] py-[1rem] lg:py-[4rem]'>
+      <section className='lg:w-[80%] md:px-10 max-sm:px-7 max-xs:px-5 w-full flex flex-col justify-center items-center gap-[5rem] py-[1rem] lg:py-[4rem]'>
         <div className='flex flex-col lg:flex-row lg:justify-between lg:items-center gap-5 w-full'>
           <div className='flex flex-col justify-start items-start gap-2'>
             <span
@@ -553,7 +572,7 @@ export default function Home() {
             </span>
             <h1
               ref={addToRefs}
-              className='lg:text-[3rem] text-[2rem] font-light capitalize'
+              className='lg:text-[3rem] md:text-[3rem] max-sm:text-[2rem] max-xs:text-[2rem] font-light capitalize'
             >
               recent projects
             </h1>
@@ -562,7 +581,7 @@ export default function Home() {
           <button
             ref={addToRefs}
             type='button'
-            className='bg-[var(--accent)] w-[200px] lg:w-auto text-black px-6 py-2 cursor-pointer hover:opacity-80'
+            className='bg-[var(--accent)] w-[200px] lg:w-auto text-black px-6 py-3 cursor-pointer hover:opacity-80'
           >
             Explore More &rarr;
           </button>
@@ -592,7 +611,7 @@ export default function Home() {
                 width={500}
                 height={500}
                 key={index}
-                className='object-cover object-center rounded-lg w-fit'
+                className='object-cover object-center rounded-lg w-full'
                 priority
               />
             ))}
@@ -600,7 +619,7 @@ export default function Home() {
         </div>
       </section>
 
-      <section className='lg:w-[80%] max-md:px-10 max-sm:px-7 max-xs:px-5 w-full flex flex-col justify-center items-center gap-[2rem] py-[4rem]'>
+      <section className='lg:w-[80%] md:px-10 max-sm:px-7 max-xs:px-5 w-full flex flex-col justify-center items-center gap-[2rem] py-[4rem]'>
         <div className='flex flex-col justify-center items-center gap-2'>
           <span
             ref={addToRefs}
@@ -610,7 +629,7 @@ export default function Home() {
           </span>
           <h1
             ref={addToRefs}
-            className='lg:text-[3rem] text-[2rem] font-light capitalize'
+            className='lg:text-[3rem] md:text-[3rem] max-sm:text-[2rem] font-light capitalize'
           >
             our success stories
           </h1>
@@ -623,7 +642,9 @@ export default function Home() {
               key={index}
               className='bg-[var(--dark-blue)] p-6 rounded-lg flex flex-col justify-start items-start gap-3'
             >
-              <p className='text-base text-white'>{testimonial.text}</p>
+              <p className='lg:text-base md:text-2xl max-sm:text-base max-xs:text-base text-white'>
+                {testimonial.text}
+              </p>
               <p className='text-sm text-white font-light'>
                 - {testimonial.author}
               </p>
@@ -632,7 +653,7 @@ export default function Home() {
         </div>
       </section>
 
-      <section className='grid grid-cols-1 lg:grid-cols-2 gap-5 w-full lg:py-[4rem] lg:w-[80%] max-md:px-10 max-sm:px-7 max-xs:px-5'>
+      <section className='grid grid-cols-1 lg:grid-cols-2 gap-5 w-full lg:py-[4rem] lg:w-[80%] md:px-10 max-sm:px-7 max-xs:px-5'>
         <div className='flex flex-col justify-start items-start gap-5'>
           <span
             ref={addToRefs}
@@ -642,24 +663,30 @@ export default function Home() {
           </span>
           <h1
             ref={addToRefs}
-            className='lg:text-[3rem] text-[2rem] font-light capitalize'
+            className='lg:text-[3rem] md:text-[3rem] max-sm:text-[2rem] font-light capitalize'
           >
             building connections, one project at a time
           </h1>
-          <p ref={addToRefs} className='text-lg font-light'>
+          <p
+            ref={addToRefs}
+            className='lg:text-lg md:text-2xl max-sm:text-lg max-xs:text-lg font-light'
+          >
             At Larbol Construction, we value your inquiries and feedback.
             Whether you're ready to start a project or have questions, our
             dedicated team is here to assist you. Let's create something
             extraordinary together.
           </p>
-          <p ref={addToRefs} className='text-lg font-light'>
+          <p
+            ref={addToRefs}
+            className='lg:text-lg md:text-2xl max-sm:text-lg max-xs:text-lg font-light'
+          >
             Reach out to us today and experience unmatched professionalism and
             expertise in construction services.
           </p>
           <button
             ref={addToRefs}
             type='button'
-            className='bg-[var(--accent)] text-black px-6 py-2 cursor-pointer hover:opacity-80'
+            className='bg-[var(--accent)] text-black px-6 py-3 text-lg cursor-pointer hover:opacity-80'
           >
             Contact Us &rarr;
           </button>
@@ -671,7 +698,7 @@ export default function Home() {
           alt='Construction background'
           width={500}
           height={500}
-          className='object-cover object-center rounded-lg'
+          className='object-cover object-center rounded-lg w-full h-[300px] lg:w-auto lg:h-auto'
           priority
         />
       </section>
