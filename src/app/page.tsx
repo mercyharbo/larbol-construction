@@ -6,7 +6,11 @@ import img1 from '@/assets/img (5).jpeg'
 import img3 from '@/assets/portrait1.jpg'
 import img2 from '@/assets/portrait2.jpg'
 
+import { useGSAP } from '@gsap/react'
+import gsap from 'gsap'
+import { ScrollTrigger } from 'gsap/ScrollTrigger'
 import Image from 'next/image'
+import { useRef } from 'react'
 import { BiHome } from 'react-icons/bi'
 import { FaRegFaceGrinHearts } from 'react-icons/fa6'
 import { FcCurrencyExchange } from 'react-icons/fc'
@@ -15,6 +19,8 @@ import { GoArrowRight } from 'react-icons/go'
 import { LuBuilding } from 'react-icons/lu'
 import { MdOutlineRecycling } from 'react-icons/md'
 import { RiShieldCheckLine } from 'react-icons/ri'
+
+gsap.registerPlugin(useGSAP, ScrollTrigger) // register the hook to avoid React version discrepancies
 
 const whyChooseUs = [
   {
@@ -153,9 +159,79 @@ const testimonials = [
 ]
 
 export default function Home() {
+  const container = useRef(null)
+  const revealRefs = useRef<Array<HTMLElement>>([])
+
+  useGSAP(() => {
+    revealRefs.current.forEach((el, index) => [
+      gsap.fromTo(
+        el,
+        { y: -100, autoAlpha: 0 },
+        {
+          y: 0,
+          duration: 1,
+          ease: 'power2.out',
+          autoAlpha: 1,
+          stagger: 0.5,
+          delay: 0.5,
+          scrollTrigger: {
+            id: `section-${index + 1}`,
+            trigger: el,
+            start: 'top center+=20',
+            end: 'bottom center',
+            toggleActions: 'play none none reverse',
+          },
+        }
+      ),
+    ])
+  }, [revealRefs])
+
+  const addToRefs = (el: HTMLElement | null) => {
+    if (el && !revealRefs.current.includes(el)) {
+      revealRefs.current.push(el)
+    }
+  }
+
+  useGSAP(
+    () => {
+      const tl = gsap.timeline()
+
+      tl.from('header h1', {
+        y: 100,
+        opacity: 0,
+        duration: 1.5,
+        ease: 'power4.out',
+      })
+        .from(
+          'header p',
+          {
+            y: 50,
+            opacity: 0,
+            duration: 1,
+            ease: 'power4.out',
+          },
+          '-=0.5'
+        )
+        .from(
+          'header button',
+          {
+            y: 30,
+            opacity: 0,
+            duration: 0.5,
+            ease: 'power4.out',
+          },
+          '-=0.3'
+        )
+    },
+    { scope: container }
+  )
+
   return (
     <main className='flex flex-col items-center justify-center gap-[4rem] text-white w-full m-auto'>
-      <header className='h-[100vh] w-full flex flex-col justify-center items-start m-auto text-left relative lg:px-[8rem] max-md:px-10 max-sm:px-5 max-xs:px-5 '>
+      <header
+        ref={container}
+        className='h-[100vh] w-full flex flex-col justify-center items-start m-auto text-left relative lg:px-[8rem] max-md:px-10 max-sm:px-5 max-xs:px-5 '
+      >
         <Image
           src={img1}
           alt='Construction background'
@@ -166,7 +242,7 @@ export default function Home() {
 
         {/* Added overlay div */}
         <div className='absolute inset-0 bg-black/65 z-[-1]'></div>
-        <div className='flex flex-col justify-start items-start gap-7 font-normal text-white w-full text-left lg:w-[50%]'>
+        <div className='flex flex-col justify-start items-start gap-7 font-normal text-white w-full text-left lg:w-[65%]'>
           <h1 className='lg:text-[3rem] max-sm:text-[1.8rem] '>
             Build Your World with Larbol: Where Construction Meets Excellence
           </h1>
@@ -185,16 +261,35 @@ export default function Home() {
         </div>
       </header>
 
-      <section className='grid grid-cols-1 lg:grid-cols-2 content-center place-items-center w-full gap-10 lg:w-[80%] max-md:px-10 max-sm:px-7 max-xs:px-5'>
+      <section
+        // ref={addToRefs}
+        id='services'
+        className='grid grid-cols-1 lg:grid-cols-2 content-center place-items-center w-full gap-10 lg:w-[80%] max-md:px-10 max-sm:px-7 max-xs:px-5'
+      >
         <div className='flex flex-col justify-start items-start gap-5'>
-          <h2 className='text-[2.5rem] font-light capitalize w-full lg:w-[80%]'>
+          <span
+            ref={addToRefs}
+            className='item text-[var(--accent)] text-sm uppercase flex justify-start items-center gap-2'
+          >
+            <BiHome /> services
+          </span>
+          <h2
+            ref={addToRefs}
+            className='item text-[2.5rem] font-light capitalize w-full lg:w-[80%]'
+          >
             Services we offer
           </h2>
-          <p className='text-lg text-left font-light w-full lg:w-[90%]'>
+          <p
+            ref={addToRefs}
+            className='item text-lg text-left font-light w-full lg:w-[90%]'
+          >
             We offer a wide range of construction services to meet your needs.
             From planning to execution
           </p>
-          <ul className='list-disc grid grid-cols-1 lg:grid-cols-3 gap-5 space-x-5 text-left pl-4 '>
+          <ul
+            ref={addToRefs}
+            className='list-disc grid grid-cols-1 gap-5 space-x-5 text-left pl-4'
+          >
             <li> Road Construction</li>
             <li> Bridge Development</li>
             <li> Building Construction</li>
@@ -212,6 +307,7 @@ export default function Home() {
             height={500}
             className='object-cover object-center lg:h-[600px] lg:w-[400px] max-md:h-[300px] max-sm:h-[300px] max-xs:h-[300px] rounded-l-lg'
             priority
+            ref={addToRefs}
           />
           <div className='hidden lg:grid lg:grid-cols-1 gap-5 w-full'>
             <Image
@@ -221,6 +317,7 @@ export default function Home() {
               height={500}
               className='object-cover object-center lg:h-[290px] lg:w-[400px] rounded-r-lg'
               priority
+              ref={addToRefs}
             />
             <Image
               src={img4}
@@ -229,6 +326,7 @@ export default function Home() {
               height={500}
               className='object-cover object-center lg:h-[290px] lg:w-[400px] rounded-r-lg'
               priority
+              ref={addToRefs}
             />
           </div>
         </div>
@@ -236,16 +334,23 @@ export default function Home() {
 
       <section className='flex flex-col justify-start items-start gap-10 w-full lg:w-[80%] max-md:px-10 max-sm:px-7 max-xs:px-5'>
         <div className='flex flex-col justify-start items-start gap-3 w-full'>
-          <span className='text-[var(--accent)] text-sm uppercase flex justify-start items-center gap-2'>
+          <span
+            ref={addToRefs}
+            className='text-[var(--accent)] text-sm uppercase flex justify-start items-center gap-2'
+          >
             <BiHome /> why choose us
           </span>
 
           <div className='flex flex-col lg:justify-between lg:items-center gap-5 w-full lg:flex-row'>
-            <h1 className='lg:text-[3rem] max-md:text-[2.5rem] max-sm:text-[2rem] max-xs:text-[2rem] max-xs:w-full capitalize font-light w-full lg:w-[40%]'>
+            <h1
+              ref={addToRefs}
+              className='lg:text-[3rem] max-md:text-[2.5rem] max-sm:text-[2rem] max-xs:text-[2rem] max-xs:w-full capitalize font-light w-full lg:w-[40%]'
+            >
               elevating home construction standards
             </h1>
 
             <button
+              ref={addToRefs}
               type='button'
               className='bg-[var(--accent)] w-[200px] lg:w-auto text-black px-6 py-2 cursor-pointer hover:opacity-80'
             >
@@ -258,6 +363,7 @@ export default function Home() {
           {whyChooseUs.map((item, index) => (
             <div
               key={index}
+              ref={addToRefs}
               className='flex flex-col justify-start items-start gap-5'
             >
               <div className='ring-1 ring-[var(--text-gray)] p-3 rounded-full'>
@@ -272,7 +378,14 @@ export default function Home() {
 
       <hr className='lg:w-[80%] lg:mt-[5rem] w-[90%] border-[var(--text-gray)]' />
 
-      <video className='lg:w-[80%]' controls autoPlay muted loop>
+      <video
+        ref={addToRefs}
+        className='lg:w-[80%]'
+        controls
+        autoPlay
+        muted
+        loop
+      >
         <source
           src='https://cdn.pixabay.com/video/2020/09/29/51102-463106269_large.mp4'
           type='video/mp4'
@@ -283,6 +396,7 @@ export default function Home() {
         <div className='grid grid-cols-1 content-center place-items-center gap-7'>
           {constructionImages.map((item, index) => (
             <Image
+              ref={addToRefs}
               src={item}
               alt={`Construction image ${index}`}
               width={500}
@@ -295,13 +409,19 @@ export default function Home() {
         </div>
 
         <div className='flex flex-col justify-start items-start gap-5'>
-          <span className='text-[var(--accent)] text-sm uppercase flex justify-start items-center gap-2'>
+          <span
+            ref={addToRefs}
+            className='text-[var(--accent)] text-sm uppercase flex justify-start items-center gap-2'
+          >
             <BiHome /> about us
           </span>
-          <h1 className='font-normal text-[2rem] lg:text-[3rem] lg:w-[70%] w-full capitalize'>
+          <h1
+            ref={addToRefs}
+            className='font-normal text-[2rem] lg:text-[3rem] lg:w-[70%] w-full capitalize'
+          >
             Building Dreams, Crafting Reality
           </h1>
-          <p className='text-base'>
+          <p ref={addToRefs} className='text-base'>
             At Larbol Construction, we turn visions into reality. With a strong
             foundation of expertise and innovation, we specialize in delivering
             exceptional construction solutions tailored to meet our clients'
@@ -312,10 +432,13 @@ export default function Home() {
             we do.
           </p>
           <div className='flex flex-col justify-start items-start gap-5 w-full py-4'>
-            <h3 className='text-xl capitalize font-medium'>our mission:</h3>
+            <h3 ref={addToRefs} className='text-xl capitalize font-medium'>
+              our mission:
+            </h3>
             <div className='flex flex-col justify-start items-start gap-5 w-full'>
               {missionHighlights.map((item, index) => (
                 <span
+                  ref={addToRefs}
                   key={index}
                   className='text-base bg-[var(--gray)] p-3 rounded-lg'
                 >
@@ -330,14 +453,20 @@ export default function Home() {
       <section className='bg-[var(--gray)] w-full px-5 py-[4rem] lg:px-[8rem] flex flex-col justify-center items-center gap-10 '>
         <div className='flex flex-col justify-center items-center gap-10 '>
           <div className='flex flex-col justify-center items-center gap-4 w-full text-center lg:w-[50%]'>
-            <span className='text-[var(--accent)] text-sm uppercase flex justify-center items-center gap-2'>
+            <span
+              ref={addToRefs}
+              className='text-[var(--accent)] text-sm uppercase flex justify-center items-center gap-2'
+            >
               <BiHome />
               our services
             </span>
-            <h1 className='lg:text-[3rem] text-[2rem] font-light capitalize '>
+            <h1
+              ref={addToRefs}
+              className='lg:text-[3rem] text-[2rem] font-light capitalize '
+            >
               Crafting Solutions, Building Excellence
             </h1>
-            <p className='text-base text-[var(--text-gray)]'>
+            <p ref={addToRefs} className='text-base text-[var(--text-gray)]'>
               Our services are designed to bring your vision to life, combining
               expertise, innovation, and reliability to deliver exceptional
               construction solutions that exceed expectations.
@@ -347,6 +476,7 @@ export default function Home() {
           <div className='grid grid-cols-1 lg:grid-cols-3 gap-5 lg:gap-10 space-y-10 w-full'>
             {services.map((item) => (
               <div
+                ref={addToRefs}
                 key={item.id}
                 className='flex flex-col justify-start items-start gap-3'
               >
@@ -376,17 +506,23 @@ export default function Home() {
           </div>
         </div>
 
-        <hr className='w-full border-[var(--text-gray)]' />
+        <hr ref={addToRefs} className='w-full border-[var(--text-gray)]' />
 
         <section className='grid grid-cols-1 lg:grid-cols-3 gap-5 w-full'>
           {/* Box 1 */}
-          <div className='bg-[var(--text-gray)] h-[15rem]  p-6 rounded-lg flex flex-col justify-center items-center gap-3'>
+          <div
+            ref={addToRefs}
+            className='bg-[var(--text-gray)] h-[15rem]  p-6 rounded-lg flex flex-col justify-center items-center gap-3'
+          >
             <h2 className='text-4xl'>10+</h2>
             <p className='text-lg text-[var(--gray)]'>Years of Experience</p>
           </div>
 
           {/* Box 2 */}
-          <div className='bg-[var(--primary)] h-[15rem] text-gray-100 p-6 rounded-lg flex flex-col justify-center items-center gap-3'>
+          <div
+            ref={addToRefs}
+            className='bg-[var(--primary)] h-[15rem] text-gray-100 p-6 rounded-lg flex flex-col justify-center items-center gap-3'
+          >
             <h2 className='text-4xl text-[var(--accent)] '>4.8/5</h2>
             <p className='text-lg text-[var(--text-gray)]'>
               Ratings from Customers
@@ -394,7 +530,10 @@ export default function Home() {
           </div>
 
           {/* Box 4 */}
-          <div className='bg-[var(--text-gray)] h-[15rem]  p-6 rounded-lg flex flex-col justify-center items-center gap-3'>
+          <div
+            ref={addToRefs}
+            className='bg-[var(--text-gray)] h-[15rem]  p-6 rounded-lg flex flex-col justify-center items-center gap-3'
+          >
             <h2 className='text-4xl'>300+</h2>
             <p className='text-lg text-[var(--gray)]'>
               Successful Project Completion
@@ -406,15 +545,22 @@ export default function Home() {
       <section className='lg:w-[80%] max-md:px-10 max-sm:px-7 max-xs:px-5 w-full flex flex-col justify-center items-center gap-[5rem] py-[1rem] lg:py-[4rem]'>
         <div className='flex flex-col lg:flex-row lg:justify-between lg:items-center gap-5 w-full'>
           <div className='flex flex-col justify-start items-start gap-2'>
-            <span className='text-sm text-[var(--accent)] uppercase flex justify-start items-center gap-2'>
+            <span
+              ref={addToRefs}
+              className='text-sm text-[var(--accent)] uppercase flex justify-start items-center gap-2'
+            >
               <BiHome /> our projects
             </span>
-            <h1 className='lg:text-[3rem] text-[2rem] font-light capitalize'>
+            <h1
+              ref={addToRefs}
+              className='lg:text-[3rem] text-[2rem] font-light capitalize'
+            >
               recent projects
             </h1>
           </div>
 
           <button
+            ref={addToRefs}
             type='button'
             className='bg-[var(--accent)] w-[200px] lg:w-auto text-black px-6 py-2 cursor-pointer hover:opacity-80'
           >
@@ -426,6 +572,7 @@ export default function Home() {
           <div className='grid grid-cols-1 lg:grid-cols-2 content-center place-items-center gap-5 w-full'>
             {imageUrls.slice(0, 2).map((url, index) => (
               <Image
+                ref={addToRefs}
                 src={url}
                 alt={`Construction image ${index}`}
                 width={500}
@@ -439,6 +586,7 @@ export default function Home() {
           <div className='grid grid-cols-1 lg:grid-cols-3 gap-5 w-full'>
             {imageUrls.slice(2, 5).map((url, index) => (
               <Image
+                ref={addToRefs}
                 src={url}
                 alt={`Construction image ${index}`}
                 width={500}
@@ -454,10 +602,16 @@ export default function Home() {
 
       <section className='lg:w-[80%] max-md:px-10 max-sm:px-7 max-xs:px-5 w-full flex flex-col justify-center items-center gap-[2rem] py-[4rem]'>
         <div className='flex flex-col justify-center items-center gap-2'>
-          <span className='text-sm text-[var(--accent)] uppercase flex justify-start items-center gap-2'>
+          <span
+            ref={addToRefs}
+            className='text-sm text-[var(--accent)] uppercase flex justify-start items-center gap-2'
+          >
             <BiHome /> testimony
           </span>
-          <h1 className='lg:text-[3rem] text-[2rem] font-light capitalize'>
+          <h1
+            ref={addToRefs}
+            className='lg:text-[3rem] text-[2rem] font-light capitalize'
+          >
             our success stories
           </h1>
         </div>
@@ -465,6 +619,7 @@ export default function Home() {
         <div className='grid grid-cols-1 lg:grid-cols-3 gap-5 w-full'>
           {testimonials.map((testimonial, index) => (
             <div
+              ref={addToRefs}
               key={index}
               className='bg-[var(--dark-blue)] p-6 rounded-lg flex flex-col justify-start items-start gap-3'
             >
@@ -479,23 +634,30 @@ export default function Home() {
 
       <section className='grid grid-cols-1 lg:grid-cols-2 gap-5 w-full lg:py-[4rem] lg:w-[80%] max-md:px-10 max-sm:px-7 max-xs:px-5'>
         <div className='flex flex-col justify-start items-start gap-5'>
-          <span className='text-[var(--accent)] text-sm uppercase flex justify-start items-center gap-2'>
+          <span
+            ref={addToRefs}
+            className='text-[var(--accent)] text-sm uppercase flex justify-start items-center gap-2'
+          >
             <BiHome /> get in touch
           </span>
-          <h1 className='lg:text-[3rem] text-[2rem] font-light capitalize'>
+          <h1
+            ref={addToRefs}
+            className='lg:text-[3rem] text-[2rem] font-light capitalize'
+          >
             building connections, one project at a time
           </h1>
-          <p className='text-lg font-light'>
+          <p ref={addToRefs} className='text-lg font-light'>
             At Larbol Construction, we value your inquiries and feedback.
             Whether you're ready to start a project or have questions, our
             dedicated team is here to assist you. Let's create something
             extraordinary together.
           </p>
-          <p className='text-lg font-light'>
+          <p ref={addToRefs} className='text-lg font-light'>
             Reach out to us today and experience unmatched professionalism and
             expertise in construction services.
           </p>
           <button
+            ref={addToRefs}
             type='button'
             className='bg-[var(--accent)] text-black px-6 py-2 cursor-pointer hover:opacity-80'
           >
@@ -504,6 +666,7 @@ export default function Home() {
         </div>
 
         <Image
+          ref={addToRefs}
           src={img5}
           alt='Construction background'
           width={500}

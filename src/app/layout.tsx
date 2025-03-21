@@ -1,39 +1,35 @@
 import FooterComp from '@/components/footer'
 import NavbarComp from '@/components/navbar'
 import type { Metadata } from 'next'
-import { Geist, Geist_Mono } from 'next/font/google'
+import { Poppins } from 'next/font/google'
 import './globals.css'
 
-const geistSans = Geist({
-  variable: '--font-geist-sans',
+const poppins = Poppins({
+  weight: ['400', '500', '600', '700'],
   subsets: ['latin'],
-})
-
-const geistMono = Geist_Mono({
-  variable: '--font-geist-mono',
-  subsets: ['latin'],
+  variable: '--font-poppins',
 })
 
 export const metadata: Metadata = {
-  title: 'Larbol Construction - Professional Construction Services',
+  title: 'Larbol Construction - Transforming Spaces, Building Dreams',
   description:
-    'Larbol Construction offers expert residential and commercial construction services, home remodeling, renovations, and general contracting in [Your Location]. Quality craftsmanship and reliable service.',
+    'Larbol Construction delivers exceptional residential and commercial construction services, including custom home remodeling, innovative renovations, and expert general contracting in [Your Location]. Trusted for quality, precision, and reliability, we bring your visions to life.',
   keywords: [
-    'construction company',
-    'home renovation',
-    'commercial construction',
-    'general contractor',
-    'remodeling services',
-    'building contractor',
-    'construction services',
-    'home improvement',
-    'custom construction',
-    'larbol construction',
+    'expert construction services',
+    'home renovation experts',
+    'commercial construction solutions',
+    'reliable general contractors',
+    'premium remodeling services',
+    'innovative building contractor',
+    'custom construction designs',
+    'home improvement professionals',
+    'trusted construction company',
+    'Larbol Construction services',
   ],
   openGraph: {
-    title: 'Larbol Construction - Professional Construction Services',
+    title: 'Larbol Construction - Transforming Spaces, Building Dreams',
     description:
-      'Expert construction and renovation services for residential and commercial projects',
+      'Discover premium construction and remodeling services for residential and commercial projects. From innovative designs to flawless execution, Larbol Construction turns your vision into reality.',
     type: 'website',
   },
   robots: {
@@ -49,9 +45,7 @@ export default function RootLayout({
 }>) {
   return (
     <html lang='en'>
-      <body
-        className={`${geistSans.variable} ${geistMono.variable} antialiased`}
-      >
+      <body className={`${poppins.variable} `}>
         <NavbarComp />
         {children}
         <FooterComp />
