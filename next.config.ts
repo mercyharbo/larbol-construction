@@ -25,6 +25,12 @@ module.exports = {
         port: '',
         pathname: '/**', // Make sure to handle all possible paths.
       },
+      {
+        protocol: 'https',
+        hostname: 'cdn.pixabay.com',
+        port: '',
+        pathname: '/**', // Make sure to handle all possible paths.
+      },
     ],
   },
 }

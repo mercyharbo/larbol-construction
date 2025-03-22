@@ -116,7 +116,7 @@ export default function AboutPageComp() {
         />
 
         {/* Added overlay div */}
-        <div className='absolute inset-0 bg-black/65 z-[-1]'></div>
+        <div className='absolute inset-0 bg-black/65 z-[-1]' />
 
         <h1 className='lg:text-[4rem] md:text-[3rem] max-sm:text-[2rem] max-xs:text-[2rem] font-light capitalize '>
           about us
