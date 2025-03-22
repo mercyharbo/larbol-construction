@@ -1,8 +1,10 @@
 import Image from 'next/image'
-import { BiCalendar } from 'react-icons/bi'
+import { BiCalendar, BiHome } from 'react-icons/bi'
 import { CgWorkAlt } from 'react-icons/cg'
 import { CiLocationOff } from 'react-icons/ci'
 import { TbTag } from 'react-icons/tb'
+
+import img5 from '@/assets/bridges.png'
 
 const projects = [
   {
@@ -58,9 +60,9 @@ export default function ProjectsComp() {
         {projects.map((project, index) => (
           <div
             key={index}
-            className='flex flex-col justify-start items-start gap-[4rem] w-full'
+            className='flex flex-col justify-start items-start gap-10 lg:gap-[4rem] w-full'
           >
-            <div className='flex justify-between items-center gap-5 w-full'>
+            <div className='flex flex-col lg:flex-row justify-between items-center gap-5 w-full'>
               <div className='flex flex-col justify-start items-start gap-3'>
                 <span className='text-[var(--accent)] capitalize text-sm '>
                   project {index + 1}{' '}
@@ -74,7 +76,7 @@ export default function ProjectsComp() {
                 </div>
               </div>
 
-              <div className='flex flex-col justify-start items-start gap-4 bg-[var(--dark-blue)] p-3 rounded-md'>
+              <div className='flex flex-col justify-start items-start gap-4 bg-[var(--dark-blue)] p-3 rounded-md w-full lg:w-auto'>
                 <div className='flex justify-start items-center gap-3 w-full'>
                   <CgWorkAlt className='text-[var(--accent)]' />
                   <span className=''>{project.client}</span>
@@ -97,11 +99,61 @@ export default function ProjectsComp() {
               alt='Project thumbnail'
               width={800}
               height={500}
-              className='rounded-md w-full h-[60vh] object-cover'
+              className='rounded-md w-full h-[40vh] lg:h-[60vh] object-cover'
             />
           </div>
         ))}
       </div>
+
+      <section className='grid grid-cols-1 lg:grid-cols-2 gap-5 w-full lg:py-[4rem] lg:w-[80%] md:px-10 max-sm:px-7 max-xs:px-5'>
+        <div className='flex flex-col justify-start items-start gap-5'>
+          <span
+            //   ref={addToRefs}
+            className='text-[var(--accent)] text-sm uppercase flex justify-start items-center gap-2'
+          >
+            <BiHome /> get in touch
+          </span>
+          <h1
+            //   ref={addToRefs}
+            className='lg:text-[3rem] md:text-[3rem] max-sm:text-[2rem] font-light capitalize'
+          >
+            building connections, one project at a time
+          </h1>
+          <p
+            //   ref={addToRefs}
+            className='lg:text-lg md:text-2xl max-sm:text-lg max-xs:text-lg font-light'
+          >
+            At Larbol Construction, we value your inquiries and feedback.
+            Whether you're ready to start a project or have questions, our
+            dedicated team is here to assist you. Let's create something
+            extraordinary together.
+          </p>
+          <p
+            //   ref={addToRefs}
+            className='lg:text-lg md:text-2xl max-sm:text-lg max-xs:text-lg font-light'
+          >
+            Reach out to us today and experience unmatched professionalism and
+            expertise in construction services.
+          </p>
+          <button
+            //   ref={addToRefs}
+            type='button'
+            className='bg-[var(--accent)] text-black px-6 py-3 text-lg cursor-pointer hover:opacity-80'
+          >
+            Contact Us &rarr;
+          </button>
+        </div>
+
+        <Image
+          // ref={addToRefs}
+          src={img5}
+          alt='Construction background'
+          width={500}
+          height={500}
+          className='object-cover object-center rounded-lg w-full h-[300px] lg:w-auto lg:h-auto'
+          priority
+        />
+      </section>
     </main>
   )
 }
