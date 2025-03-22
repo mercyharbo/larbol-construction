@@ -41,6 +41,34 @@ const teamMembers = [
       'Tola is a detail-oriented project manager who ensures seamless execution of projects, meeting deadlines and budgets while coordinating the team effectively.',
   },
 ]
+
+const works = [
+  'Residential Developments',
+  'Commercial Projects',
+  'Renovations & Remodeling',
+  'Sustainable Construction',
+  'Consulting and Advisory',
+  'Project Management',
+]
+
+const faqs = [
+  {
+    question: 'What services does Larbol Construction offer?',
+    answer:
+      'We specialize in residential and commercial construction, home remodeling, renovations, general contracting, and custom construction projects. Our team ensures quality craftsmanship and reliable service at every step.',
+  },
+  {
+    question: 'Why should I choose Larbol Construction for my project?',
+    answer:
+      'At Larbol Construction, we prioritize your vision and turn it into reality with precision and expertise. With years of experience, a highly skilled team, and a commitment to delivering exceptional results on time and within budget, we’re your trusted partner for all construction needs.',
+  },
+  {
+    question: 'How can I get a quote for my project?',
+    answer:
+      'Getting started is easy! Simply contact us through our website or give us a call. Share the details of your project, and our team will provide you with a tailored, no-obligation quote that matches your specific requirements.',
+  },
+]
+
 gsap.registerPlugin(useGSAP, ScrollTrigger) // register the hook to avoid React version discrepancies
 
 export default function AboutPageComp() {
@@ -197,6 +225,130 @@ export default function AboutPageComp() {
               <p className='text-base'>{member.description}</p>
             </div>
           ))}
+        </div>
+      </section>
+
+      <section className='grid grid-cols-1 content-center w-full py-[4rem] mx-auto lg:grid-cols-2 gap-[4rem] lg:px-[8rem] md:px-10 max-sm:px-7 max-xs:px-5'>
+        <div className='flex flex-col justify-start items-start gap-5'>
+          <span
+            ref={addToRefs}
+            className='text-[var(--accent)] text-sm uppercase flex justify-start items-center gap-2'
+          >
+            <BiHome /> expertise and experience
+          </span>
+          <h1
+            ref={addToRefs}
+            className='font-normal max-xs:text-[2rem] max-sm:text-[2rem] md:text-[3rem] lg:text-[3rem] capitalize'
+          >
+            Bringing expertise to every projct
+          </h1>
+          <p
+            ref={addToRefs}
+            className='lg:text-base md:text-2xl max-sm:text-lg max-xs:text-lg'
+          >
+            At Larbol Construction, our core values guide everything we do. We
+            believe in building with integrity, ensuring that every project is
+            executed
+            <span className='font-semibold'>
+              {' '}
+              ethically and responsibly.
+            </span>{' '}
+            We strive for excellence in every detail, from design to
+            construction, to deliver top-quality results that exceed
+            expectations. Our commitment to innovation drives us to explore new
+            technologies and sustainable practices, ensuring that we build
+            structures that are both modern and eco-friendly.
+          </p>
+
+          <div className='grid grid-cols-1 lg:grid-cols-2 gap-5 w-full'>
+            {works.map((item, index) => (
+              <span
+                key={index}
+                ref={addToRefs}
+                className='lg:text-base md:text-2xl max-sm:text-lg max-xs:text-lg bg-[var(--dark-blue)] p-3 rounded-lg flex justify-center items-center'
+              >
+                {item}
+              </span>
+            ))}
+          </div>
+        </div>
+
+        <Image
+          ref={addToRefs}
+          src={`https://img.freepik.com/free-photo/portrait-person-working-construction-industry_23-2151349637.jpg?t=st=1742614504~exp=1742618104~hmac=e3c0a263bba5205c0a01a22349cc67e6247275f528c962fcc06ea7483f087be3&w=740`}
+          alt='Construction background'
+          width={500}
+          height={300}
+          className='object-cover lg:object-center object-left rounded-lg w-full lg:h-[500px] md:h-[350px] max-sm:h-[250px] max-xs:h-[250px]'
+          priority
+        />
+      </section>
+
+      <section className='bg-[var(--gray)] p-[4rem] w-full flex flex-col justify-center items-center text-center gap-10 lg:text-left lg:justify-between lg:flex-row lg:px-[12rem] md:px-10 max-sm:px-7 max-xs:px-5 '>
+        <h1 ref={addToRefs} className='text-[3rem] font-light '>
+          Get in touch with our team 24/7
+        </h1>
+        <button
+          ref={addToRefs}
+          type='button'
+          className='bg-[var(--accent)] w-[200px] lg:w-auto text-black px-6 py-3 cursor-pointer hover:opacity-80'
+        >
+          Contact Us &rarr;
+        </button>
+      </section>
+
+      <section className='flex flex-col justify-start items-start gap-[4rem] w-full py-[4rem] lg:px-[8rem] md:px-10 max-sm:px-7 max-xs:px-5'>
+        <div className='flex flex-col justify-start items-start gap-3 w-full lg:w-[60%]'>
+          <span
+            ref={addToRefs}
+            className='text-[var(--accent)] text-sm uppercase flex justify-start items-center gap-2'
+          >
+            <BiHome /> frequently asked questions
+          </span>
+          <h1
+            ref={addToRefs}
+            className='font-light max-xs:text-[2rem] max-sm:text-[2rem] md:text-[3rem] lg:text-[3rem] capitalize'
+          >
+            Everything you need to know about our services and solutions
+          </h1>
+        </div>
+
+        <div className='grid grid-cols-1 lg:grid-cols-2 w-full gap-[4rem]'>
+          <Image
+            ref={addToRefs}
+            src={`https://img.freepik.com/free-photo/monochrome-scene-depicting-life-workers-construction-industry-site_23-2151431480.jpg?t=st=1742617115~exp=1742620715~hmac=c4b502770a5ee0f543c2a67e78754a4d0c1cf8c20e8d48834511ef703f68d822&w=1380`}
+            alt='Construction background'
+            width={500}
+            height={500}
+            className='object-cover object-center rounded-lg h-full lg:w-auto md:w-full max-sm:w-full max-xs:w-full'
+            priority
+          />
+
+          <div className='flex flex-col justify-start items-start gap-5'>
+            {faqs.map((faq, index) => (
+              <div
+                key={index}
+                ref={addToRefs}
+                className='bg-[var(--gray)] p-5 rounded-lg w-full'
+              >
+                <button
+                  onClick={() => {
+                    const el = document.getElementById(`answer-${index}`)
+                    el?.classList.toggle('hidden')
+                  }}
+                  className='flex justify-between items-center w-full text-left'
+                >
+                  <h3 className='text-xl font-medium text-[var(--text-gray)]'>
+                    {faq.question}
+                  </h3>
+                  <span className='text-2xl'>+</span>
+                </button>
+                <p id={`answer-${index}`} className='text-base mt-3 hidden'>
+                  {faq.answer}
+                </p>
+              </div>
+            ))}
+          </div>
         </div>
       </section>
     </main>
