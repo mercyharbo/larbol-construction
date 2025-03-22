@@ -1,6 +1,10 @@
 'use client'
 
+import { useGSAP } from '@gsap/react'
+import gsap from 'gsap'
+import { ScrollTrigger } from 'gsap/ScrollTrigger'
 import Image from 'next/image'
+import { useRef } from 'react'
 import { BiHome } from 'react-icons/bi'
 
 const constructionImages = [
@@ -37,13 +41,44 @@ const teamMembers = [
       'Tola is a detail-oriented project manager who ensures seamless execution of projects, meeting deadlines and budgets while coordinating the team effectively.',
   },
 ]
-
-console.log(teamMembers)
+gsap.registerPlugin(useGSAP, ScrollTrigger) // register the hook to avoid React version discrepancies
 
 export default function AboutPageComp() {
+  const revealRefs = useRef<Array<HTMLElement>>([])
+
+  useGSAP(() => {
+    revealRefs.current.forEach((el, index) => [
+      gsap.fromTo(
+        el,
+        { y: -100, autoAlpha: 0 },
+        {
+          y: 0,
+          duration: 1,
+          ease: 'power2.out',
+          autoAlpha: 1,
+          stagger: 0.5,
+          delay: 0.5,
+          scrollTrigger: {
+            id: `section-${index + 1}`,
+            trigger: el,
+            start: 'top center+=20',
+            end: 'bottom center',
+            toggleActions: 'play none none reverse',
+          },
+        }
+      ),
+    ])
+  }, [revealRefs])
+
+  const addToRefs = (el: HTMLElement | null) => {
+    if (el && !revealRefs.current.includes(el)) {
+      revealRefs.current.push(el)
+    }
+  }
+
   return (
     <main className='flx flex-col justify-center items-center gap-[4rem] w-full'>
-      <header className='flex flex-col justify-center items-center m-auto h-screen w-full text-white relative'>
+      <header className='flex flex-col justify-center items-center m-auto lg:h-screen md:h-[50vh] max-sm:h-[60vh] w-full text-white relative'>
         <Image
           src={`https://img.freepik.com/free-photo/monochrome-scene-depicting-life-workers-construction-industry-site_23-2151431527.jpg?t=st=1742605959~exp=1742609559~hmac=147a15f6e7be67201457125fc0c8a0ab4196885458c126351bd3673a502a0b87&w=1380`}
           alt='Construction background'
@@ -64,7 +99,7 @@ export default function AboutPageComp() {
         <div className='grid grid-cols-1 content-center place-items-center gap-7 lg:w-auto md:w-full max-sm:w-full max-xs:w-full'>
           {constructionImages.map((item, index) => (
             <Image
-              // ref={addToRefs}
+              ref={addToRefs}
               src={item}
               alt={`Construction image ${index}`}
               width={500}
@@ -78,19 +113,19 @@ export default function AboutPageComp() {
 
         <div className='flex flex-col justify-start items-start gap-5'>
           <span
-            //   ref={addToRefs}
+            ref={addToRefs}
             className='text-[var(--accent)] text-sm uppercase flex justify-start items-center gap-2'
           >
             <BiHome /> about us
           </span>
           <h1
-            //   ref={addToRefs}
+            ref={addToRefs}
             className='font-normal max-xs:text-[2rem] max-sm:text-[2rem] md:text-[3rem] lg:text-[3rem] lg:w-[70%] w-full capitalize'
           >
             Building Dreams, Crafting Reality
           </h1>
           <p
-            //   ref={addToRefs}
+            ref={addToRefs}
             className='lg:text-base md:text-2xl max-sm:text-lg max-xs:text-lg'
           >
             At Larbol Construction, we turn visions into reality. With a strong
@@ -104,7 +139,7 @@ export default function AboutPageComp() {
           </p>
           <div className='flex flex-col justify-start items-start gap-5 w-full py-4'>
             <h3
-              // ref={addToRefs}
+              ref={addToRefs}
               className='lg:text-xl md:text-2xl max-sm:text-xl max-xs:text-xl capitalize font-medium'
             >
               our mission:
@@ -112,7 +147,7 @@ export default function AboutPageComp() {
             <div className='flex flex-col justify-start items-start gap-5 w-full'>
               {missionHighlights.map((item, index) => (
                 <span
-                  // ref={addToRefs}
+                  ref={addToRefs}
                   key={index}
                   className='lg:text-base md:text-2xl max-sm:text-lg max-xs:text-lg bg-[var(--gray)] p-3 rounded-lg'
                 >
@@ -127,23 +162,24 @@ export default function AboutPageComp() {
       <section className='w-full bg-[var(--gray)] py-[4rem] mx-auto flex flex-col justify-center items-center gap-10 lg:px-[8rem] md:px-10 max-sm:px-7 max-xs:px-5 '>
         <div className='flex flex-col justify-center items-center gap-3 lg:w-[55%] w-full'>
           <span
-            //   ref={addToRefs}
+            ref={addToRefs}
             className='text-[var(--accent)] text-sm uppercase flex justify-start items-center gap-2'
           >
             <BiHome /> meet our teams
           </span>
           <h1
-            //   ref={addToRefs}
+            ref={addToRefs}
             className='font-normal max-xs:text-[2rem] max-sm:text-[2rem] md:text-[3rem] lg:text-[3rem] text-center w-full capitalize'
           >
             Who We Are: Expertise You Can Trust
           </h1>
         </div>
 
-        <div className='grid grid-cols-1 lg:grid-cols-3 gap-5'>
+        <div className='grid grid-cols-1 lg:grid-cols-3 gap-[3rem]'>
           {teamMembers.map((member, index) => (
             <div
               key={index}
+              ref={addToRefs}
               className='flex flex-col justify-start items-start gap-3'
             >
               <Image
