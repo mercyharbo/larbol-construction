@@ -1,10 +1,19 @@
+'use client'
+
+import { useGSAP } from '@gsap/react'
+import gsap from 'gsap'
+import { ScrollTrigger } from 'gsap/ScrollTrigger'
 import Image from 'next/image'
+import { useRef } from 'react'
+
 import { BiCalendar, BiHome } from 'react-icons/bi'
 import { CgWorkAlt } from 'react-icons/cg'
 import { CiLocationOff } from 'react-icons/ci'
 import { TbTag } from 'react-icons/tb'
 
 import img5 from '@/assets/bridges.png'
+
+gsap.registerPlugin(useGSAP, ScrollTrigger) // register the hook to avoid React version discrepancies
 
 const projects = [
   {
@@ -37,6 +46,38 @@ const projects = [
 ]
 
 export default function ProjectsComp() {
+  const revealRefs = useRef<Array<HTMLElement>>([])
+
+  useGSAP(() => {
+    revealRefs.current.forEach((el, index) => [
+      gsap.fromTo(
+        el,
+        { y: -100, autoAlpha: 0 },
+        {
+          y: 0,
+          duration: 1,
+          ease: 'power2.out',
+          autoAlpha: 1,
+          stagger: 0.5,
+          delay: 0.5,
+          scrollTrigger: {
+            id: `section-${index + 1}`,
+            trigger: el,
+            start: 'top center+=20',
+            end: 'bottom center',
+            toggleActions: 'play none none reverse',
+          },
+        }
+      ),
+    ])
+  }, [revealRefs])
+
+  const addToRefs = (el: HTMLElement | null) => {
+    if (el && !revealRefs.current.includes(el)) {
+      revealRefs.current.push(el)
+    }
+  }
+
   return (
     <main className='flex flex-col justify-center items-center gap-[4rem]'>
       <header className='flex flex-col justify-center items-center m-auto lg:h-screen md:h-[50vh] max-sm:h-[60vh] w-full text-white relative'>
@@ -51,8 +92,11 @@ export default function ProjectsComp() {
         {/* Added overlay div */}
         <div className='absolute inset-0 bg-black/65 z-[-1]'></div>
 
-        <h1 className='lg:text-[4rem] md:text-[3rem] max-sm:text-[2rem] max-xs:text-[2rem] font-light capitalize '>
-          Project{' '}
+        <h1
+          ref={addToRefs}
+          className='lg:text-[4rem] md:text-[3rem] max-sm:text-[2rem] max-xs:text-[2rem] font-light capitalize '
+        >
+          Projects
         </h1>
       </header>
 
@@ -60,11 +104,12 @@ export default function ProjectsComp() {
         {projects.map((project, index) => (
           <div
             key={index}
+            ref={addToRefs}
             className='flex flex-col justify-start items-start gap-10 lg:gap-[4rem] w-full'
           >
             <div className='flex flex-col lg:flex-row justify-between items-center gap-5 w-full'>
               <div className='flex flex-col justify-start items-start gap-3'>
-                <span className='text-[var(--accent)] capitalize text-sm '>
+                <span className='text-[var(--accent)] uppercase text-sm '>
                   project {index + 1}{' '}
                 </span>
                 <h1 className='text-[2rem] lg:w-[70%] w-full font-light capitalize '>
@@ -108,19 +153,19 @@ export default function ProjectsComp() {
       <section className='grid grid-cols-1 lg:grid-cols-2 gap-5 w-full lg:py-[4rem] lg:w-[80%] md:px-10 max-sm:px-7 max-xs:px-5'>
         <div className='flex flex-col justify-start items-start gap-5'>
           <span
-            //   ref={addToRefs}
+            ref={addToRefs}
             className='text-[var(--accent)] text-sm uppercase flex justify-start items-center gap-2'
           >
             <BiHome /> get in touch
           </span>
           <h1
-            //   ref={addToRefs}
+            ref={addToRefs}
             className='lg:text-[3rem] md:text-[3rem] max-sm:text-[2rem] font-light capitalize'
           >
             building connections, one project at a time
           </h1>
           <p
-            //   ref={addToRefs}
+            ref={addToRefs}
             className='lg:text-lg md:text-2xl max-sm:text-lg max-xs:text-lg font-light'
           >
             At Larbol Construction, we value your inquiries and feedback.
@@ -129,14 +174,14 @@ export default function ProjectsComp() {
             extraordinary together.
           </p>
           <p
-            //   ref={addToRefs}
+            ref={addToRefs}
             className='lg:text-lg md:text-2xl max-sm:text-lg max-xs:text-lg font-light'
           >
             Reach out to us today and experience unmatched professionalism and
             expertise in construction services.
           </p>
           <button
-            //   ref={addToRefs}
+            ref={addToRefs}
             type='button'
             className='bg-[var(--accent)] text-black px-6 py-3 text-lg cursor-pointer hover:opacity-80'
           >
@@ -145,7 +190,7 @@ export default function ProjectsComp() {
         </div>
 
         <Image
-          // ref={addToRefs}
+          ref={addToRefs}
           src={img5}
           alt='Construction background'
           width={500}
