@@ -20,7 +20,6 @@ const navigationItems = [
   { name: 'Projects', href: '/projects' },
   { name: 'Services', href: '/services' },
   { name: 'Contact Us', href: '/contact' },
-  { name: 'Blog', href: '/blog' },
 ]
 
 export default function NavbarComp() {
