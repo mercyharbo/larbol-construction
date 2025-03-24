@@ -59,12 +59,20 @@ export default function FooterComp() {
         </h1>
 
         <div className='flex flex-row gap-3 items-center'>
-          <Link href='#' passHref>
+          <Link
+            href='https://web.facebook.com/bolaafoo'
+            passHref
+            target='_blank'
+          >
             <span className='text-[var(--accent)] lg:text-[2rem] md:text-[3rem] max-sm:text-[3rem] cursor-pointer'>
               <CiFacebook />
             </span>
           </Link>
-          <Link href='#' passHref>
+          <Link
+            href='https://www.instagram.com/olatayoadebola?utm_source=ig_web_button_share_sheet&igsh=ZDNlZDc0MzIxNw=='
+            passHref
+            target='_blank'
+          >
             <span className='text-[var(--accent)] lg:text-[2rem] md:text-[3rem] max-sm:text-[3rem] cursor-pointer'>
               <CiInstagram />
             </span>

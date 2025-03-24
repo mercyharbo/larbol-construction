@@ -130,10 +130,9 @@ export default function SliderComp({ slides, height = '500px' }: SliderProps) {
     <div
       ref={sliderRef}
       className={cn(
-        'w-full relative overflow-hidden h-[80vh]',
+        'w-full relative overflow-hidden h-[calc(100vh-3.5rem)]', // Subtracting h-14 (3.5rem) from viewport height
         height && height
       )}
-      //   style={{ height }}
     >
       {slides.map((slide, index) => (
         <div

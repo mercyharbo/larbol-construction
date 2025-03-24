@@ -65,7 +65,7 @@ export default function NavbarComp() {
   }, [toggleNav])
 
   return (
-    <nav className='flex justify-between items-center w-full h-20 px-10 text-white bg-[var(--primary)]'>
+    <nav className='flex justify-between items-center w-full h-20 px-10 text-white fixed top-0 left-0 z-50 bg-[var(--primary)]'>
       <h1
         className={`text-[var(--accent)] text-[1.5rem] capitalize ${caveatFont.className}`}
       >
