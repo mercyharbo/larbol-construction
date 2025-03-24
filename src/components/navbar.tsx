@@ -2,16 +2,16 @@
 
 import { useGSAP } from '@gsap/react'
 import gsap from 'gsap'
-import { Caveat } from 'next/font/google'
+import { Roboto } from 'next/font/google'
 import Link from 'next/link'
 import { usePathname } from 'next/navigation'
 import { useState } from 'react'
 import { CgClose } from 'react-icons/cg'
 import { FaBarsStaggered } from 'react-icons/fa6'
 
-const caveatFont = Caveat({
-  subsets: ['latin'], // Specify the character subsets needed
-  weight: ['400', '700'], // Include font weights if desired
+const robotoFont = Roboto({
+  subsets: ['latin'],
+  weight: ['400', '700'],
 })
 
 const navigationItems = [
@@ -67,9 +67,9 @@ export default function NavbarComp() {
   return (
     <nav className='flex justify-between items-center w-full h-20 px-10 text-white fixed top-0 left-0 z-50 bg-[var(--primary)]'>
       <h1
-        className={`text-[var(--accent)] text-[1.5rem] capitalize ${caveatFont.className}`}
+        className={`text-[var(--accent)] text-[1.5rem] font-semibold capitalize ${robotoFont.className}`}
       >
-        lb construction
+        larbol construction
       </h1>
 
       <div className='hidden lg:flex justify-center items-center gap-5'>
@@ -101,13 +101,14 @@ export default function NavbarComp() {
       </button>
 
       {toggleNav && (
-        <div className='navbar-container bg-[var(--primary)] absolute top-0 left-0 z-20 text-white w-full h-3/4 p-5 rounded-md flex flex-col gap-[3rem] overflow-hidden'>
+        <div className='navbar-container bg-[var(--primary)] fixed top-0 left-0 z-[100] text-white w-full h-auto p-3 pb-[3rem] flex flex-col gap-[3rem] overflow-hidden'>
           <header className='flex justify-between items-center w-full'>
-            <h1
-              className={`text-[var(--accent)] text-[1.5rem] capitalize ${caveatFont.className}`}
+            <Link
+              href='/'
+              className={`text-[var(--accent)] font-semibold capitalize ${robotoFont.className}`}
             >
-              lb construction
-            </h1>
+              larbol construction
+            </Link>
 
             <button
               type='button'

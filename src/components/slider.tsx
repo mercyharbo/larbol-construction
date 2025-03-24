@@ -142,7 +142,7 @@ export default function SliderComp({ slides, height = '500px' }: SliderProps) {
           }}
           className='absolute top-0 left-0 w-full h-full overflow-hidden'
         >
-          <div className='absolute inset-0 z-10 bg-black/70' />
+          <div className='absolute inset-0 z-10 bg-black/60' />
           <Image
             src={slide.imageUrl}
             alt={`slide ${index + 1}`}
