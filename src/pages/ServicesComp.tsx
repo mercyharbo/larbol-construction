@@ -214,7 +214,7 @@ export default function ServicesComp() {
 
   return (
     <main className='flex flex-col justify-center items-center gap-[4rem]'>
-      <header className='flex flex-col justify-center items-center m-auto lg:h-screen md:h-[50vh] max-sm:h-[60vh] w-full text-white relative'>
+      <header className='flex flex-col justify-center items-center m-auto lg:h-[80vh] md:h-[50vh] max-sm:h-[60vh] h-[calc(100vh-3.5rem)] w-full text-white relative'>
         <Image
           src={`https://cdn.pixabay.com/photo/2015/09/29/22/49/blueprint-964629_1280.jpg`}
           alt='Construction background'

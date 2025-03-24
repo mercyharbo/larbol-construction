@@ -106,7 +106,7 @@ export default function AboutPageComp() {
 
   return (
     <main className='flx flex-col justify-center items-center gap-[4rem] w-full'>
-      <header className='flex flex-col justify-center items-center m-auto lg:h-screen md:h-[50vh] max-sm:h-[60vh] w-full text-white relative'>
+      <header className='flex flex-col justify-center items-center m-auto h-[calc(100vh-3.5rem)] lg:h-[80vh] md:h-[50vh] max-sm:h-[60vh] w-full text-white relative'>
         <Image
           src={`https://img.freepik.com/free-photo/monochrome-scene-depicting-life-workers-construction-industry-site_23-2151431527.jpg?t=st=1742605959~exp=1742609559~hmac=147a15f6e7be67201457125fc0c8a0ab4196885458c126351bd3673a502a0b87&w=1380`}
           alt='Construction background'
