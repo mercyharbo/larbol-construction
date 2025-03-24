@@ -5,6 +5,7 @@ import img4 from '@/assets/img (2).jpeg'
 import img1 from '@/assets/img (5).jpeg'
 import img3 from '@/assets/portrait1.jpg'
 import img2 from '@/assets/portrait2.jpg'
+import SliderComp from '@/components/slider'
 
 import { useGSAP } from '@gsap/react'
 import gsap from 'gsap'
@@ -158,6 +159,38 @@ const testimonials = [
   },
 ]
 
+const sliderImgs = [
+  {
+    id: 1,
+    imageUrl:
+      'https://img.freepik.com/free-photo/heavy-machines-construction-workers-working-building_181624-8234.jpg?t=st=1742825808~exp=1742829408~hmac=6bd8796392a5d0f981b1a87693b7ebeb1238cf94db51c0ff76ff70f75e4b7249&w=1060',
+    title: 'Heavy Construction',
+  },
+  {
+    id: 2,
+    imageUrl:
+      'https://img.freepik.com/free-photo/construction-workers-sunset_53876-138180.jpg?t=st=1742825554~exp=1742829154~hmac=d333c046e5863c022a2b43cea78371cc44a6e064b415f3349cd92cf95a93e67d&w=1380',
+    title: 'Construction Workers',
+  },
+  {
+    id: 3,
+    imageUrl:
+      'https://img.freepik.com/free-photo/large-building-site_1127-3252.jpg?t=st=1742825904~exp=1742829504~hmac=a4ca4c3bd2c6db6cf0209ea7ea248770766dac9f933315c11a95a7f297d6484d&w=1380',
+    title: 'Building Site',
+  },
+  {
+    id: 4,
+    imageUrl:
+      'https://img.freepik.com/free-photo/construction-site_53876-23128.jpg?t=st=1742825996~exp=1742829596~hmac=47ca4c2927ad2993e69be1344803edacfd47e9c43654eda96a8adf2c091c106a&w=1380',
+    title: 'Construction Site',
+  },
+  {
+    id: 5,
+    imageUrl: img1.src,
+    title: 'Construction Project',
+  },
+]
+
 export default function Home() {
   const container = useRef(null)
   const revealRefs = useRef<Array<HTMLElement>>([])
@@ -228,38 +261,7 @@ export default function Home() {
 
   return (
     <main className='flex flex-col items-center justify-center gap-[4rem] text-white w-full m-auto'>
-      <header
-        ref={container}
-        className='h-[100vh] w-full flex flex-col justify-center items-start m-auto text-left relative lg:px-[8rem] md:px-10 max-sm:px-5 max-xs:px-5 '
-      >
-        <Image
-          src={img1}
-          alt='Construction background'
-          fill
-          className='object-cover lg:object-center object-left z-[-2]' // Changed z-index to -2
-          priority
-        />
-
-        {/* Added overlay div */}
-        <div className='absolute inset-0 bg-black/65 z-[-1]'></div>
-        <div className='flex flex-col justify-start items-start gap-7 font-normal text-white w-full text-left lg:w-[65%]'>
-          <h1 className='lg:text-[3rem] md:text-[3rem] max-sm:text-[1.8rem] '>
-            Build Your World with Larbol: Where Construction Meets Excellence
-          </h1>
-          <p className='lg:text-lg md:text-2xl max-sm:text-lg max-xs:text-lg'>
-            At Larbol, we specialize in crafting roads, bridges, buildings,
-            drainage systems, and beyond. With a commitment to precision and
-            innovation, we transform visions into remarkable infrastructure that
-            stands the test of time.
-          </p>
-          <button
-            type='button'
-            className='bg-[var(--accent)] text-black px-6 py-2 cursor-pointer hover:opacity-80'
-          >
-            Explore More &rarr;
-          </button>
-        </div>
-      </header>
+      <SliderComp slides={sliderImgs} />
 
       <section
         id='services'
