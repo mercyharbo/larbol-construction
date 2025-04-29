@@ -6,17 +6,22 @@ export default function FooterComp() {
     <footer className='flex flex-col justify-between items-start lg:flex-row gap-10 w-full bg-[var(--dark-blue)] md:px-10 max-sm:px-7 max-xs:px-5 lg:px-[8rem] lg:py-[4rem] py-[3rem] text-[var(--text-gray)]'>
       {/* Company Info Section */}
       <div className='flex flex-col justify-start items-start gap-5 w-full lg:w-[35%]'>
-        <h1 className='text-[2rem] text-[var(--accent)] w-full lg:w-[70%] capitalize'>
-          larbol construction
-          <span className='block text-[var(--text-gray)] lg:text-sm md:text-lg max-sm:text-base mt-2 font-medium tracking-wider'>
-            Building Excellence, Delivering Trust
-          </span>
-        </h1>
-        <p className='lg:text-sm md:text-lg max-sm:text-base'>
-          At Larbol Construction, we are dedicated to delivering premium
-          construction services that meet and exceed client expectations. We
-          transform your ideas into reality with precision and care.
-        </p>
+        <div className='flex flex-col gap-4'>
+          <Link href='/' className='group'>
+            <div className='flex flex-col'>
+              <span className='text-3xl font-bebas-neue tracking-wider bg-gradient-to-r from-[var(--accent)] via-white to-[var(--accent)] bg-clip-text text-transparent group-hover:from-white group-hover:to-white transition-all duration-300'>
+                LARBOL
+              </span>
+              <span className='text-sm font-playfair tracking-widest text-gray-300 uppercase group-hover:text-[var(--accent)] transition-colors duration-300'>
+                Construction
+              </span>
+            </div>
+          </Link>
+          <p className='text-gray-300 max-w-md'>
+            Building Excellence, Crafting Dreams. Your trusted partner in
+            construction and development.
+          </p>
+        </div>
       </div>
 
       {/* Services Section */}
@@ -64,7 +69,7 @@ export default function FooterComp() {
             passHref
             target='_blank'
           >
-            <span className='text-[var(--accent)] lg:text-[2rem] md:text-[3rem] max-sm:text-[3rem] cursor-pointer'>
+            <span className='text-[var(--accent)] text-2xl cursor-pointer'>
               <CiFacebook />
             </span>
           </Link>
@@ -73,7 +78,7 @@ export default function FooterComp() {
             passHref
             target='_blank'
           >
-            <span className='text-[var(--accent)] lg:text-[2rem] md:text-[3rem] max-sm:text-[3rem] cursor-pointer'>
+            <span className='text-[var(--accent)] text-2xl cursor-pointer'>
               <CiInstagram />
             </span>
           </Link>

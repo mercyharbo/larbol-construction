@@ -1,4 +1,4 @@
-import ContactComp from '@/pages/ContactComp'
+import ContactComp from '@/components/ContactComp'
 
 export const metadata = {
   title: 'Contact Us - Larbol Construction',

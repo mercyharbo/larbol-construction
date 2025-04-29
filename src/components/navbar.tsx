@@ -66,11 +66,16 @@ export default function NavbarComp() {
 
   return (
     <nav className='flex justify-between items-center w-full h-20 px-10 text-white fixed top-0 left-0 z-50 bg-[var(--primary)]'>
-      <h1
-        className={`text-[var(--accent)] text-[1.5rem] font-semibold capitalize ${robotoFont.className}`}
-      >
-        larbol construction
-      </h1>
+      <Link href='/' className='group'>
+        <div className='flex flex-col'>
+          <span className='text-3xl font-bebas-neue tracking-wider bg-gradient-to-r from-[var(--accent)] via-white to-[var(--accent)] bg-clip-text text-transparent group-hover:from-white group-hover:to-white transition-all duration-300'>
+            LARBOL
+          </span>
+          <span className='text-sm font-playfair tracking-widest text-gray-300 uppercase group-hover:text-[var(--accent)] transition-colors duration-300'>
+            Construction
+          </span>
+        </div>
+      </Link>
 
       <div className='hidden lg:flex justify-center items-center gap-5'>
         {navigationItems.map((item) => (
@@ -88,10 +93,6 @@ export default function NavbarComp() {
         ))}
       </div>
 
-      <button className='bg-[var(--accent)] text-black px-4 py-2 rounded-md hover:opacity-80 hidden lg:block'>
-        Get Started
-      </button>
-
       <button
         type='button'
         onClick={handleToggleNav}
@@ -101,13 +102,17 @@ export default function NavbarComp() {
       </button>
 
       {toggleNav && (
-        <div className='navbar-container bg-[var(--primary)] fixed top-0 left-0 z-[100] text-white w-full h-auto p-3 pb-[3rem] flex flex-col gap-[3rem] overflow-hidden'>
+        <div className='navbar-container bg-[var(--primary)] fixed top-0 left-0 z-[100] text-white w-full h-auto p-5 pb-[3rem] flex flex-col gap-[3rem] overflow-hidden'>
           <header className='flex justify-between items-center w-full'>
-            <Link
-              href='/'
-              className={`text-[var(--accent)] font-semibold capitalize ${robotoFont.className}`}
-            >
-              larbol construction
+            <Link href='/' className='group'>
+              <div className='flex flex-col'>
+                <span className='text-3xl font-bebas-neue tracking-wider bg-gradient-to-r from-[var(--accent)] via-white to-[var(--accent)] bg-clip-text text-transparent group-hover:from-white group-hover:to-white transition-all duration-300'>
+                  LARBOL
+                </span>
+                <span className='text-sm font-playfair tracking-widest text-gray-300 uppercase group-hover:text-[var(--accent)] transition-colors duration-300'>
+                  Construction
+                </span>
+              </div>
             </Link>
 
             <button
@@ -134,10 +139,6 @@ export default function NavbarComp() {
               </Link>
             ))}
           </div>
-
-          <button className='bg-[var(--accent)] text-black px-4 py-3 rounded-md hover:opacity-80'>
-            Get Started
-          </button>
         </div>
       )}
     </nav>

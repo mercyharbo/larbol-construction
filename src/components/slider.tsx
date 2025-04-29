@@ -1,6 +1,9 @@
+'use client'
+
 import { cn } from '@/utils'
 import gsap from 'gsap'
 import Image from 'next/image'
+import Link from 'next/link'
 import { useEffect, useRef, useState } from 'react'
 import { IoIosArrowBack, IoIosArrowForward } from 'react-icons/io'
 
@@ -61,11 +64,20 @@ export default function SliderComp({ slides, height = '500px' }: SliderProps) {
 
     setIsAnimating(true)
 
-    // Make sure the next slide is visible but with opacity 0
+    // Calculate the direction of movement
+    const isNext =
+      nextIndex > currentSlide ||
+      (currentSlide === slides.length - 1 && nextIndex === 0)
+    const isPrev =
+      nextIndex < currentSlide ||
+      (currentSlide === 0 && nextIndex === slides.length - 1)
+
+    // Position the next slide off-screen based on direction
     gsap.set(slideRefs.current[nextIndex], {
       visibility: 'visible',
       opacity: 0,
-      scale: nextIndex > currentSlide ? 1.1 : 0.9, // Scale based on direction
+      x: isNext ? '100%' : '-100%',
+      scale: 1,
     })
 
     const timeline = gsap.timeline({
@@ -83,7 +95,7 @@ export default function SliderComp({ slides, height = '500px' }: SliderProps) {
     // Current slide animation
     timeline.to(slideRefs.current[currentSlide], {
       opacity: 0,
-      scale: nextIndex > currentSlide ? 0.9 : 1.1, // Scale based on direction
+      x: isNext ? '-100%' : '100%',
       duration: 0.7,
       ease: 'power2.inOut',
     })
@@ -93,12 +105,12 @@ export default function SliderComp({ slides, height = '500px' }: SliderProps) {
       slideRefs.current[nextIndex],
       {
         opacity: 1,
-        scale: 1,
+        x: '0%',
         duration: 0.7,
         ease: 'power2.inOut',
       },
       '-=0.5'
-    ) // Overlap with previous animation
+    )
 
     setCurrentSlide(nextIndex)
   }
@@ -148,26 +160,27 @@ export default function SliderComp({ slides, height = '500px' }: SliderProps) {
             alt={`slide ${index + 1}`}
             fill
             priority
+            sizes='(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw'
             className='object-cover w-full transition-transform duration-700'
           />
           <div className='absolute inset-0 z-20 flex items-center justify-center p-8'>
             <div className='flex flex-col items-center text-center gap-7 font-normal text-white w-full lg:w-[65%]'>
-              <h1 className='lg:text-[3rem] md:text-[3rem] max-sm:text-[1.8rem]'>
-                Build Your World with Larbol: Where Construction Meets
-                Excellence
+              <h1 className='lg:text-4xl/snug md:text-[3rem] max-sm:text-xl'>
+                Building Tomorrow's Legacy: Where Innovation Meets
+                Infrastructure Excellence
               </h1>
-              <p className='lg:text-lg md:text-2xl max-sm:text-lg max-xs:text-lg'>
-                At Larbol, we specialize in crafting roads, bridges, buildings,
-                drainage systems, and beyond. With a commitment to precision and
-                innovation, we transform visions into remarkable infrastructure
-                that stands the test of time.
+              <p className='lg:text-lg md:text-2xl max-sm:text-base max-xs:text-base max-w-3xl text-[var(--text-gray)]'>
+                From groundbreaking road networks to iconic structures, we build
+                the foundation of tomorrow. With cutting-edge technology and
+                decades of expertise, we're shaping the future of construction,
+                one project at a time.
               </p>
-              <button
-                type='button'
-                className='bg-[var(--accent)] text-black px-6 py-2 cursor-pointer hover:opacity-80'
+              <Link
+                href='/services'
+                className='bg-[var(--accent)] text-black px-6 py-2 cursor-pointer hover:opacity-80 transition-all duration-300 hover:scale-105'
               >
-                Explore More &rarr;
-              </button>
+                Explore Our Services &rarr;
+              </Link>
             </div>
           </div>
         </div>

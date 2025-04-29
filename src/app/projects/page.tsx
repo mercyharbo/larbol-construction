@@ -1,4 +1,4 @@
-import ProjectsComp from '@/pages/ProjectsComp'
+import ProjectsComp from '@/components/ProjectsComp'
 
 export const metadata = {
   title: 'Projects | Larbol Construction',
