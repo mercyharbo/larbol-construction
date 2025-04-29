@@ -30,13 +30,13 @@ const teamMembers = [
   {
     name: 'Afolabi Ridwan Damilare',
     position: 'Lead Architect',
-    url: '/assets/mercy.jpeg',
+    url: '/assets/mercy.JPEG',
     description:
       "Afolabi is a creative architect with a passion for designing innovative and sustainable structures, turning clients' visions into reality with precision and style.",
   },
   {
     name: 'Afolabi Moshood Opeyemi',
-    url: '/assets/makols.jpeg',
+    url: '/assets/makols.JPEG',
     description:
       'Tola is a detail-oriented project manager who ensures seamless execution of projects, meeting deadlines and budgets while coordinating the team effectively.',
   },

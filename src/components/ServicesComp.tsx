@@ -6,7 +6,23 @@ import { ScrollTrigger } from 'gsap/ScrollTrigger'
 import Image from 'next/image'
 import { useRef, useState } from 'react'
 import { BiCheck, BiHome } from 'react-icons/bi'
-import { FiArrowDown, FiArrowRight, FiSun } from 'react-icons/fi'
+import {
+  FaDollarSign,
+  FaHandsHelping,
+  FaRegClock,
+  FaTools,
+} from 'react-icons/fa'
+import {
+  FiArrowDown,
+  FiArrowRight,
+  FiCheckCircle,
+  FiMessageCircle,
+  FiPenTool,
+  FiSun,
+  FiTool,
+} from 'react-icons/fi'
+import { GiMaterialsScience } from 'react-icons/gi'
+import { MdOutlineThumbUp } from 'react-icons/md'
 
 gsap.registerPlugin(useGSAP, ScrollTrigger)
 
@@ -179,24 +195,49 @@ export default function ServicesComp({
         </div>
 
         <div className='grid grid-cols-1 lg:grid-cols-3 gap-10 w-full'>
-          {contentSections.map((section, index) => (
-            <div
-              key={index}
-              ref={addToRefs}
-              className='group flex flex-col justify-center items-center gap-5 text-center bg-[var(--dark-blue)] p-8 rounded-lg w-full hover:bg-[var(--gray)] transition-all duration-300 hover:shadow-lg hover:shadow-[var(--accent)]/10'
-            >
-              <div className='flex justify-center items-center border border-[var(--accent)] rounded-full w-16 h-16 p-2 text-[1.8rem] text-[var(--accent)] group-hover:bg-[var(--accent)] group-hover:text-black transition-all duration-300'>
-                {section.icon}
+          {contentSections.map((section, index) => {
+            let IconComponent
+            switch (section.icon) {
+              case 'FaTools':
+                IconComponent = FaTools
+                break
+              case 'GiMaterialsScience':
+                IconComponent = GiMaterialsScience
+                break
+              case 'FaHandsHelping':
+                IconComponent = FaHandsHelping
+                break
+              case 'FaDollarSign':
+                IconComponent = FaDollarSign
+                break
+              case 'MdOutlineThumbUp':
+                IconComponent = MdOutlineThumbUp
+                break
+              case 'FaRegClock':
+                IconComponent = FaRegClock
+                break
+              default:
+                IconComponent = FaTools
+            }
+            return (
+              <div
+                key={index}
+                ref={addToRefs}
+                className='group flex flex-col justify-center items-center gap-5 text-center bg-[var(--dark-blue)] p-8 rounded-lg w-full hover:bg-[var(--gray)] transition-all duration-300 hover:shadow-lg hover:shadow-[var(--accent)]/10'
+              >
+                <div className='flex justify-center items-center border border-[var(--accent)] rounded-full w-16 h-16 p-2 text-[1.8rem] text-[var(--accent)] group-hover:bg-[var(--accent)] group-hover:text-black transition-all duration-300'>
+                  <IconComponent />
+                </div>
+                <h1 className='text-[1.5rem] lg:text-[1.5rem] md:text-[1.5rem] max-sm:text-[1rem] font-light group-hover:text-[var(--accent)] transition-colors duration-300'>
+                  {section.title}
+                </h1>
+                <p className='text-[var(--text-gray)] group-hover:text-white/80 transition-colors duration-300'>
+                  {section.description}
+                </p>
+                <div className='w-0 h-[2px] bg-[var(--accent)] group-hover:w-20 transition-all duration-300'></div>
               </div>
-              <h1 className='text-[1.5rem] lg:text-[1.5rem] md:text-[1.5rem] max-sm:text-[1rem] font-light group-hover:text-[var(--accent)] transition-colors duration-300'>
-                {section.title}
-              </h1>
-              <p className='text-[var(--text-gray)] group-hover:text-white/80 transition-colors duration-300'>
-                {section.description}
-              </p>
-              <div className='w-0 h-[2px] bg-[var(--accent)] group-hover:w-20 transition-all duration-300'></div>
-            </div>
-          ))}
+            )
+          })}
         </div>
       </section>
 
@@ -280,22 +321,41 @@ export default function ServicesComp({
         </div>
 
         <div className='grid grid-cols-1 lg:grid-cols-4 gap-5 w-full'>
-          {processSteps.map((item, index) => (
-            <div key={index} ref={addToRefs} className='relative'>
-              <div className='flex flex-col justify-center items-center gap-3 text-center h-full bg-[var(--dark-blue)] p-5 rounded-md w-full'>
-                <div className='flex justify-center items-center border border-[var(--accent)] rounded-full w-14 h-14 p-2 text-[1.5rem] text-['>
-                  {item.icon}
+          {processSteps.map((item, index) => {
+            let IconComponent
+            switch (item.icon) {
+              case 'FiMessageCircle':
+                IconComponent = FiMessageCircle
+                break
+              case 'FiPenTool':
+                IconComponent = FiPenTool
+                break
+              case 'FiTool':
+                IconComponent = FiTool
+                break
+              case 'FiCheckCircle':
+                IconComponent = FiCheckCircle
+                break
+              default:
+                IconComponent = FiMessageCircle
+            }
+            return (
+              <div key={index} ref={addToRefs} className='relative'>
+                <div className='flex flex-col justify-center items-center gap-3 text-center h-full bg-[var(--dark-blue)] p-5 rounded-md w-full'>
+                  <div className='flex justify-center items-center border border-[var(--accent)] rounded-full w-14 h-14 p-2 text-[1.5rem] text-[var(--accent)]'>
+                    <IconComponent />
+                  </div>
+                  <h1 className='text-[1.5rem] lg:text-[1.5rem] md:text-[1.5rem] max-sm:text-[1rem]'>
+                    {item.title}
+                  </h1>
+                  <p className='text-[var(--text-gray)]'>{item.description}</p>
                 </div>
-                <h1 className='text-[1.5rem] lg:text-[1.5rem] md:text-[1.5rem] max-sm:text-[1rem]'>
-                  {item.title}
-                </h1>
-                <p className='text-[var(--text-gray)]'>{item.description}</p>
+                {index !== processSteps.length - 1 && (
+                  <div className='lg:hidden h-5 border-r-2 border-dashed border-[var(--accent)] absolute left-1/2 -bottom-5'></div>
+                )}
               </div>
-              {index !== processSteps.length - 1 && (
-                <div className='lg:hidden h-5 border-r-2 border-dashed border-[var(--accent)] absolute left-1/2 -bottom-5'></div>
-              )}
-            </div>
-          ))}
+            )
+          })}
         </div>
 
         {/* Arrow Section with Dashed Lines */}
