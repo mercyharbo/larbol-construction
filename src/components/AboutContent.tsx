@@ -36,6 +36,7 @@ const teamMembers = [
   },
   {
     name: 'Afolabi Moshood Opeyemi',
+    position: 'Lead Project Manager',
     url: '/makols.JPEG',
     description:
       'Tola is a detail-oriented project manager who ensures seamless execution of projects, meeting deadlines and budgets while coordinating the team effectively.',
