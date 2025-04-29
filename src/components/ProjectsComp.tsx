@@ -251,7 +251,7 @@ export default function ProjectsComp() {
 
         <Image
           ref={addToRefs}
-          src='/assets/bridges.png'
+          src='/bridges.png'
           alt='Construction background'
           width={500}
           height={500}

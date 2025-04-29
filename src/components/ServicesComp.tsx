@@ -223,7 +223,7 @@ export default function ServicesComp({
               <div
                 key={index}
                 ref={addToRefs}
-                className='group flex flex-col justify-center items-center gap-5 text-center bg-[var(--dark-blue)] p-8 rounded-lg w-full hover:bg-[var(--gray)] transition-all duration-300 hover:shadow-lg hover:shadow-[var(--accent)]/10'
+                className='group flex flex-col justify-center items-center gap-5 text-center bg-[var(--dark-blue)] p-8 rounded-lg w-full hover:bg-[var(--gray)] hover:shadow-[var(--accent)]/10'
               >
                 <div className='flex justify-center items-center border border-[var(--accent)] rounded-full w-16 h-16 p-2 text-[1.8rem] text-[var(--accent)] group-hover:bg-[var(--accent)] group-hover:text-black transition-all duration-300'>
                   <IconComponent />
@@ -272,7 +272,7 @@ export default function ServicesComp({
               <div
                 ref={addToRefs}
                 key={service.id}
-                className='flex flex-col justify-start items-start gap-4 group relative overflow-hidden bg-gradient-to-b from-[var(--dark-blue)] to-[var(--dark-blue)]/80 rounded-xl p-6 hover:shadow-[var(--accent)]/20 hover:translate-y-[-5px] transition-all duration-500 hover:bg-gradient-to-b hover:from-[var(--dark-blue)] hover:to-[var(--accent)]/10'
+                className='flex flex-col justify-start items-start gap-4 group relative overflow-hidden bg-gradient-to-b from-[var(--dark-blue)] to-[var(--dark-blue)]/80 rounded-xl p-6 hover:shadow-[var(--accent)]/20 hover:translate-y-[-5px] hover:bg-gradient-to-b hover:from-[var(--dark-blue)] hover:to-[var(--accent)]/10'
               >
                 <div className='relative w-full overflow-hidden rounded-lg'>
                   <Image
@@ -282,20 +282,13 @@ export default function ServicesComp({
                     height={500}
                     className='object-cover object-center lg:h-[250px] md:h-[300px] max-sm:h-[250px] max-xs:h-[250px] w-full transition-transform duration-700 group-hover:scale-110'
                     priority
-                    ref={addToRefs}
                   />
                   <div className='absolute inset-0 bg-gradient-to-t from-black/80 via-black/40 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500'></div>
                 </div>
-                <h3
-                  ref={addToRefs}
-                  className='lg:text-[1.5rem] md:text-[2rem] max-sm:text-[1.5rem] max-xs:text-[1.5rem] font-medium text-white group-hover:text-[var(--accent)] transition-colors duration-500'
-                >
+                <h3 className='lg:text-[1.5rem] md:text-[2rem] max-sm:text-[1.5rem] max-xs:text-[1.5rem] font-medium text-white group-hover:text-[var(--accent)] transition-colors duration-500'>
                   {service.title}
                 </h3>
-                <p
-                  ref={addToRefs}
-                  className='lg:text-base md:text-2xl max-sm:text-base max-xs:text-base text-[var(--text-gray)] font-light group-hover:text-white/90 transition-colors duration-500'
-                >
+                <p className='lg:text-base md:text-2xl max-sm:text-base max-xs:text-base text-[var(--text-gray)] font-light group-hover:text-white/90 transition-colors duration-500'>
                   {service.description}
                 </p>
               </div>

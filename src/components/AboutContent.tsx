@@ -23,20 +23,20 @@ const teamMembers = [
   {
     name: 'Afolabi Adebola Khadijah',
     position: 'Chief Executive Officer (CEO)',
-    url: '/assets/ceo.jpg',
+    url: '/ceo.jpg',
     description:
       "Afolabi is a visionary leader with over 15 years of experience in the construction industry. She ensures that every project aligns with the company's mission of delivering excellence.",
   },
   {
     name: 'Afolabi Ridwan Damilare',
     position: 'Lead Architect',
-    url: '/assets/mercy.JPEG',
+    url: '/mercy.JPEG',
     description:
       "Afolabi is a creative architect with a passion for designing innovative and sustainable structures, turning clients' visions into reality with precision and style.",
   },
   {
     name: 'Afolabi Moshood Opeyemi',
-    url: '/assets/makols.JPEG',
+    url: '/makols.JPEG',
     description:
       'Tola is a detail-oriented project manager who ensures seamless execution of projects, meeting deadlines and budgets while coordinating the team effectively.',
   },
