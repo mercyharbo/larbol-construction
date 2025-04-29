@@ -2,17 +2,11 @@
 
 import { useGSAP } from '@gsap/react'
 import gsap from 'gsap'
-import { Roboto } from 'next/font/google'
 import Link from 'next/link'
 import { usePathname } from 'next/navigation'
 import { useState } from 'react'
 import { CgClose } from 'react-icons/cg'
 import { FaBarsStaggered } from 'react-icons/fa6'
-
-const robotoFont = Roboto({
-  subsets: ['latin'],
-  weight: ['400', '700'],
-})
 
 const navigationItems = [
   { name: 'Home', href: '/' },
@@ -35,40 +29,40 @@ export default function NavbarComp() {
 
     if (toggleNav) {
       tl.to('.navbar-container', {
-        y: 0,
+        x: 0,
         opacity: 1,
-        duration: 0.5,
-        ease: 'power3.out',
+        duration: 0.3,
+        ease: 'power2.out',
       })
         .from('.navbar-bg', {
-          scale: 0.8,
+          scale: 1,
           opacity: 0,
-          duration: 0.5,
+          duration: 0.2,
           ease: 'power2.out',
         })
         .from('header', {
           opacity: 0,
-          y: -20,
-          duration: 0.3,
+          x: -20,
+          duration: 0.2,
         })
         .from('nav a', {
           opacity: 0,
-          y: -20,
-          stagger: 0.1,
-          duration: 0.3,
+          x: -20,
+          stagger: 0.05,
+          duration: 0.2,
         })
         .from('nav button', {
           opacity: 0,
-          y: -20,
-          duration: 0.3,
+          x: -20,
+          duration: 0.2,
         })
     } else {
       // Animation for closing the navbar
       tl.to('.navbar-container', {
-        y: -800,
+        x: '-100%',
         opacity: 0,
-        duration: 0.5,
-        ease: 'power3.in',
+        duration: 0.3,
+        ease: 'power2.in',
       })
     }
   }, [toggleNav])
@@ -111,7 +105,7 @@ export default function NavbarComp() {
       </button>
 
       {toggleNav && (
-        <div className='navbar-container bg-[var(--primary)] fixed top-0 left-0 z-[100] text-white w-full h-auto p-5 pb-[3rem] flex flex-col gap-[3rem] overflow-hidden'>
+        <div className='navbar-container bg-[var(--primary)] fixed top-0 left-0 z-[100] text-white w-[80%] h-screen p-5 pb-[3rem] flex flex-col gap-[3rem] overflow-hidden transform -translate-x-full'>
           <div className='navbar-bg absolute inset-0 bg-gradient-to-br from-[var(--primary)] via-[var(--dark-blue)] to-[var(--primary)] opacity-90' />
           <header className='relative z-10 flex justify-between items-center w-full'>
             <Link href='/' className='group'>
@@ -139,6 +133,7 @@ export default function NavbarComp() {
               <Link
                 key={item.href}
                 href={item.href}
+                onClick={() => setToggleNav(false)}
                 className={`font-normal ${
                   pathname === item.href
                     ? 'text-[var(--accent)]'

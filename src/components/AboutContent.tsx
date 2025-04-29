@@ -285,7 +285,7 @@ export default function AboutPageComp() {
       </section>
 
       <section className='bg-[var(--gray)] p-[4rem] w-full flex flex-col justify-center items-center text-center gap-10 lg:text-left lg:justify-between lg:flex-row lg:px-[12rem] md:px-10 max-sm:px-7 max-xs:px-5 '>
-        <h1 ref={addToRefs} className='text-[3rem] font-light '>
+        <h1 ref={addToRefs} className='text-3xl lg:text-[3rem] font-light '>
           Get in touch with our team 24/7
         </h1>
         <Link
