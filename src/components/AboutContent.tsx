@@ -276,7 +276,7 @@ export default function AboutPageComp() {
 
         <Image
           ref={addToRefs}
-          src={`/assets/ceo1.jpg`}
+          src={`/ceo1.jpg`}
           alt='Construction background'
           width={500}
           height={300}
