@@ -45,7 +45,7 @@ export const metadata: Metadata = {
     siteName: 'Larbol Construction',
     images: [
       {
-        url: '/assets/indexpagescreenshot.png',
+        url: '/indexpagescreenshot.png',
         width: 1920,
         height: 1080,
         alt: 'Larbol Construction - Building Tomorrow',
@@ -59,7 +59,7 @@ export const metadata: Metadata = {
     title: 'Larbol Construction - Building Tomorrow with Excellence',
     description:
       'Larbol Construction is a premier construction company specializing in road networks, bridge development, and infrastructure projects.',
-    images: ['/assets/indexpagescreenshot.png'],
+    images: ['/indexpagescreenshot.png'],
     creator: '@larbolconstruction',
   },
   robots: {
