@@ -9,10 +9,10 @@ export default function FooterComp() {
         <div className='flex flex-col gap-4'>
           <Link href='/' className='group'>
             <div className='flex flex-col'>
-              <span className='text-3xl font-bebas-neue tracking-wider bg-gradient-to-r from-[var(--accent)] via-white to-[var(--accent)] bg-clip-text text-transparent group-hover:from-white group-hover:to-white transition-all duration-300'>
+              <span className='text-3xl font-bebas-neue tracking-wider bg-gradient-to-r from-[var(--accent)] via-white to-[var(--accent)] bg-clip-text text-transparent transition-all duration-300'>
                 LARBOL
               </span>
-              <span className='text-sm font-playfair tracking-widest text-gray-300 uppercase group-hover:text-[var(--accent)] transition-colors duration-300'>
+              <span className='text-sm font-playfair tracking-widest text-gray-300 uppercase transition-colors duration-300'>
                 Construction
               </span>
             </div>

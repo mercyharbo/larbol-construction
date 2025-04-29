@@ -90,7 +90,7 @@ export const services = [
 
 export const testimonials = [
   {
-    text: 'Larbol Construction turned our vision into reality with such precision and care. We couldn\'t have asked for a better team!',
+    text: "Larbol Construction turned our vision into reality with such precision and care. We couldn't have asked for a better team!",
     author: 'Adebayo Adekunle',
   },
   {
@@ -102,7 +102,7 @@ export const testimonials = [
     author: 'Fatima Abdullahi',
   },
   {
-    text: 'I\'m blown away by the quality of work Larbol Construction delivered. They truly care about their clients\' satisfaction!',
+    text: "I'm blown away by the quality of work Larbol Construction delivered. They truly care about their clients' satisfaction!",
     author: 'Emeka Obi',
   },
   {
@@ -142,7 +142,8 @@ export const sliderImages = [
   },
   {
     id: 5,
-    imageUrl: '/assets/img (5).jpeg',
+    imageUrl:
+      'https://img.freepik.com/free-photo/construction-site_53876-23128.jpg',
     title: 'Construction Project',
   },
-] 
+]

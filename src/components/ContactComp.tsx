@@ -39,12 +39,6 @@ export default function ContactComp() {
             Reach out to us today and experience unmatched professionalism and
             expertise in construction services.
           </p>
-          <button
-            type='button'
-            className='bg-[var(--accent)] text-black px-6 py-3 text-lg cursor-pointer hover:opacity-80'
-          >
-            Contact Us &rarr;
-          </button>
         </div>
 
         <form

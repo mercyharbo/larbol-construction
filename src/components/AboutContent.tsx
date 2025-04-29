@@ -4,6 +4,7 @@ import { useGSAP } from '@gsap/react'
 import gsap from 'gsap'
 import { ScrollTrigger } from 'gsap/ScrollTrigger'
 import Image from 'next/image'
+import Link from 'next/link'
 import { useRef } from 'react'
 import { BiHome } from 'react-icons/bi'
 
@@ -20,23 +21,22 @@ const missionHighlights = [
 
 const teamMembers = [
   {
-    name: 'John Adewale',
+    name: 'Afolabi Adebola Khadijah',
     position: 'Chief Executive Officer (CEO)',
-    url: 'https://img.freepik.com/free-photo/female-engineers-working_23-2151657859.jpg?t=st=1742608482~exp=1742612082~hmac=bedb2544c56b8a9be5fca8ebc71b96497f5dd69328131dd58c7d376ca59c977e&w=740',
+    url: '/assets/ceo.jpg',
     description:
-      "John is a visionary leader with over 15 years of experience in the construction industry. He ensures that every project aligns with the company's mission of delivering excellence.",
+      "Afolabi is a visionary leader with over 15 years of experience in the construction industry. She ensures that every project aligns with the company's mission of delivering excellence.",
   },
   {
-    name: 'Grace Emeka',
+    name: 'Afolabi Ridwan Damilare',
     position: 'Lead Architect',
-    url: 'https://img.freepik.com/free-photo/female-engineers-working_23-2151657865.jpg?t=st=1742608537~exp=1742612137~hmac=eec240c3a2b2e6a07caf0a42af873bbc4f9017d4991c7f7c7caaac35da096479&w=740',
+    url: '/assets/mercy.jpeg',
     description:
-      "Grace is a creative architect with a passion for designing innovative and sustainable structures, turning clients' visions into reality with precision and style.",
+      "Afolabi is a creative architect with a passion for designing innovative and sustainable structures, turning clients' visions into reality with precision and style.",
   },
   {
-    name: 'Tola Owolabi',
-    position: 'Project Manager',
-    url: 'https://img.freepik.com/free-photo/female-engineers-working_23-2151657891.jpg?t=st=1742608585~exp=1742612185~hmac=a34d5ee66e2c477bc40e78eea7532c3ffed693b14ba21f41c1d90ea2aba1cc27&w=1380',
+    name: 'Afolabi Moshood Opeyemi',
+    url: '/assets/makols.jpeg',
     description:
       'Tola is a detail-oriented project manager who ensures seamless execution of projects, meeting deadlines and budgets while coordinating the team effectively.',
   },
@@ -60,7 +60,7 @@ const faqs = [
   {
     question: 'Why should I choose Larbol Construction for my project?',
     answer:
-      'At Larbol Construction, we prioritize your vision and turn it into reality with precision and expertise. With years of experience, a highly skilled team, and a commitment to delivering exceptional results on time and within budget, we’re your trusted partner for all construction needs.',
+      "At Larbol Construction, we prioritize your vision and turn it into reality with precision and expertise. With years of experience, a highly skilled team, and a commitment to delivering exceptional results on time and within budget, we're your trusted partner for all construction needs.",
   },
   {
     question: 'How can I get a quote for my project?',
@@ -203,19 +203,19 @@ export default function AboutPageComp() {
           </h1>
         </div>
 
-        <div className='grid grid-cols-1 lg:grid-cols-3 gap-[3rem]'>
+        <div className='grid grid-cols-1 lg:grid-cols-3 gap-[3rem] w-[90%] mx-auto'>
           {teamMembers.map((member, index) => (
             <div
               key={index}
               ref={addToRefs}
-              className='flex flex-col justify-start items-start gap-3'
+              className='flex flex-col justify-start items-start gap-3 w-full'
             >
               <Image
                 src={member.url}
                 alt={member.name}
                 width={500}
                 height={500}
-                className='object-cover object-center rounded-lg h-[250px]'
+                className='object-cover object-top rounded-lg h-[320px] w-full'
                 priority
               />
               <h3 className='text-xl font-medium capitalize'>{member.name}</h3>
@@ -275,11 +275,11 @@ export default function AboutPageComp() {
 
         <Image
           ref={addToRefs}
-          src={`https://img.freepik.com/free-photo/portrait-person-working-construction-industry_23-2151349637.jpg?t=st=1742614504~exp=1742618104~hmac=e3c0a263bba5205c0a01a22349cc67e6247275f528c962fcc06ea7483f087be3&w=740`}
+          src={`/assets/ceo1.jpg`}
           alt='Construction background'
           width={500}
           height={300}
-          className='object-cover lg:object-center object-left rounded-lg w-full lg:h-[500px] md:h-[350px] max-sm:h-[250px] max-xs:h-[250px]'
+          className='object-cover object-center rounded-lg w-full lg:h-[500px] md:h-[350px] max-sm:h-[250px] max-xs:h-[250px]'
           priority
         />
       </section>
@@ -288,13 +288,13 @@ export default function AboutPageComp() {
         <h1 ref={addToRefs} className='text-[3rem] font-light '>
           Get in touch with our team 24/7
         </h1>
-        <button
+        <Link
+          href='/contact'
           ref={addToRefs}
-          type='button'
-          className='bg-[var(--accent)] w-[200px] lg:w-auto text-black px-6 py-3 cursor-pointer hover:opacity-80'
+          className='bg-[var(--accent)] w-[200px] lg:w-auto text-black px-6 py-3 cursor-pointer hover:opacity-80 inline-block'
         >
           Contact Us &rarr;
-        </button>
+        </Link>
       </section>
 
       <section className='flex flex-col justify-start items-start gap-[4rem] w-full py-[4rem] lg:px-[8rem] md:px-10 max-sm:px-7 max-xs:px-5'>

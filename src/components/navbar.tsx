@@ -35,29 +35,38 @@ export default function NavbarComp() {
 
     if (toggleNav) {
       tl.to('.navbar-container', {
+        y: 0,
+        opacity: 1,
         duration: 0.5,
         ease: 'power3.out',
       })
+        .from('.navbar-bg', {
+          scale: 0.8,
+          opacity: 0,
+          duration: 0.5,
+          ease: 'power2.out',
+        })
         .from('header', {
           opacity: 0,
-          y: 20,
+          y: -20,
           duration: 0.3,
         })
         .from('nav a', {
           opacity: 0,
-          y: 20,
+          y: -20,
           stagger: 0.1,
           duration: 0.3,
         })
         .from('nav button', {
           opacity: 0,
-          y: 20,
+          y: -20,
           duration: 0.3,
         })
     } else {
       // Animation for closing the navbar
-      gsap.to('.navbar-container', {
+      tl.to('.navbar-container', {
         y: -800,
+        opacity: 0,
         duration: 0.5,
         ease: 'power3.in',
       })
@@ -68,10 +77,10 @@ export default function NavbarComp() {
     <nav className='flex justify-between items-center w-full h-20 px-10 text-white fixed top-0 left-0 z-50 bg-[var(--primary)]'>
       <Link href='/' className='group'>
         <div className='flex flex-col'>
-          <span className='text-3xl font-bebas-neue tracking-wider bg-gradient-to-r from-[var(--accent)] via-white to-[var(--accent)] bg-clip-text text-transparent group-hover:from-white group-hover:to-white transition-all duration-300'>
+          <span className='text-2xl font-bebas-neue tracking-wider bg-gradient-to-r from-[var(--accent)] via-white to-[var(--accent)] bg-clip-text text-transparent transition-all duration-300'>
             LARBOL
           </span>
-          <span className='text-sm font-playfair tracking-widest text-gray-300 uppercase group-hover:text-[var(--accent)] transition-colors duration-300'>
+          <span className='text-sm font-playfair tracking-widest text-gray-300 uppercase transition-colors duration-300'>
             Construction
           </span>
         </div>
@@ -103,10 +112,11 @@ export default function NavbarComp() {
 
       {toggleNav && (
         <div className='navbar-container bg-[var(--primary)] fixed top-0 left-0 z-[100] text-white w-full h-auto p-5 pb-[3rem] flex flex-col gap-[3rem] overflow-hidden'>
-          <header className='flex justify-between items-center w-full'>
+          <div className='navbar-bg absolute inset-0 bg-gradient-to-br from-[var(--primary)] via-[var(--dark-blue)] to-[var(--primary)] opacity-90' />
+          <header className='relative z-10 flex justify-between items-center w-full'>
             <Link href='/' className='group'>
               <div className='flex flex-col'>
-                <span className='text-3xl font-bebas-neue tracking-wider bg-gradient-to-r from-[var(--accent)] via-white to-[var(--accent)] bg-clip-text text-transparent group-hover:from-white group-hover:to-white transition-all duration-300'>
+                <span className='text-2xl font-bebas-neue tracking-wider bg-gradient-to-r from-[var(--accent)] via-white to-[var(--accent)] bg-clip-text text-transparent group-hover:from-white group-hover:to-white transition-all duration-300'>
                   LARBOL
                 </span>
                 <span className='text-sm font-playfair tracking-widest text-gray-300 uppercase group-hover:text-[var(--accent)] transition-colors duration-300'>
@@ -124,7 +134,7 @@ export default function NavbarComp() {
             </button>
           </header>
 
-          <div className='flex flex-col justify-start items-start gap-5 w-full'>
+          <div className='relative z-10 flex flex-col justify-start items-start gap-5 w-full'>
             {navigationItems.map((item) => (
               <Link
                 key={item.href}

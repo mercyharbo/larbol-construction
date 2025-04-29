@@ -3,9 +3,6 @@ import SliderComp from '@/components/slider'
 import Testimonials from '@/components/Testimonials'
 import WhyChooseUs from '@/components/WhyChooseUs'
 import { sliderImages } from '@/constants/data'
-import { Metadata } from 'next'
-
-
 
 export default function Home() {
   return (

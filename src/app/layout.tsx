@@ -16,6 +16,7 @@ const playfairDisplay = Playfair_Display({
 })
 
 export const metadata: Metadata = {
+  metadataBase: new URL('https://larbol-construction.vercel.app'),
   title: 'Larbol Construction - Building Tomorrow with Excellence',
   description:
     'Larbol Construction is a premier construction company specializing in road networks, bridge development, and infrastructure projects. With over 10 years of expertise, we deliver innovative and sustainable construction solutions.',
@@ -76,12 +77,6 @@ export const metadata: Metadata = {
     canonical: 'https://larbol-construction.vercel.app/',
   },
   category: 'construction',
-  viewport: {
-    width: 'device-width',
-    initialScale: 1,
-    maximumScale: 1,
-  },
-  themeColor: '#000000',
   manifest: '/manifest.json',
   icons: {
     icon: '/favicon.ico',

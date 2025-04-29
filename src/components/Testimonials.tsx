@@ -84,16 +84,9 @@ export default function Testimonials() {
                 <p className='text-gray-300 leading-relaxed group-hover:text-white/90 transition-colors duration-300 italic'>
                   "{testimonial.text}"
                 </p>
-                <div className='flex items-center gap-3'>
-                  <div className='w-10 h-10 bg-[var(--accent)]/20 p-2 rounded-full flex items-center justify-center group-hover:scale-110 transition-transform duration-300'>
-                    <span className='text-[var(--accent)] text-lg font-bold'>
-                      {testimonial.author.charAt(0)}
-                    </span>
-                  </div>
-                  <p className='font-semibold text-[var(--accent)] group-hover:text-white transition-colors duration-300'>
-                    {testimonial.author}
-                  </p>
-                </div>
+                <p className='font-semibold text-[var(--accent)] group-hover:text-white transition-colors duration-300'>
+                  - {testimonial.author}
+                </p>
               </div>
             </div>
           ))}

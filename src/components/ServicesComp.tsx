@@ -6,26 +6,9 @@ import { ScrollTrigger } from 'gsap/ScrollTrigger'
 import Image from 'next/image'
 import { useRef, useState } from 'react'
 import { BiCheck, BiHome } from 'react-icons/bi'
-import {
-  FaDollarSign,
-  FaHandsHelping,
-  FaRegClock,
-  FaTools,
-} from 'react-icons/fa'
-import {
-  FiArrowDown,
-  FiArrowRight,
-  FiCheckCircle,
-  FiMessageCircle,
-  FiPenTool,
-  FiSun,
-  FiTool,
-} from 'react-icons/fi'
-import { GiMaterialsScience } from 'react-icons/gi'
-import { GoArrowRight } from 'react-icons/go'
-import { MdOutlineThumbUp } from 'react-icons/md'
+import { FiArrowDown, FiArrowRight, FiSun } from 'react-icons/fi'
 
-gsap.registerPlugin(useGSAP, ScrollTrigger) // register the hook to avoid React version discrepancies
+gsap.registerPlugin(useGSAP, ScrollTrigger)
 
 const services = [
   'Proven track record of successful projects',
@@ -42,143 +25,35 @@ const imgurls = [
   'https://cdn.pixabay.com/photo/2017/04/02/09/08/bulldozer-2195329_1280.jpg',
 ]
 
-const faqs = [
-  {
-    question: 'What services does Larbol Construction offer?',
-    answer:
-      'We specialize in residential and commercial construction, home remodeling, renovations, general contracting, and custom construction projects. Our team ensures quality craftsmanship and reliable service at every step.',
-  },
-  {
-    question: 'Why should I choose Larbol Construction for my project?',
-    answer:
-      'At Larbol Construction, we prioritize your vision and turn it into reality with precision and expertise. With years of experience, a highly skilled team, and a commitment to delivering exceptional results on time and within budget, we’re your trusted partner for all construction needs.',
-  },
-  {
-    question: 'How can I get a quote for my project?',
-    answer:
-      'Getting started is easy! Simply contact us through our website or give us a call. Share the details of your project, and our team will provide you with a tailored, no-obligation quote that matches your specific requirements.',
-  },
-]
+type ServicesCompProps = {
+  servicesData: Array<{
+    id: number
+    title: string
+    description: string
+    imageUrl: string
+  }>
+  contentSections: Array<{
+    title: string
+    description: string
+    icon: string
+  }>
+  processSteps: Array<{
+    title: string
+    description: string
+    icon: string
+  }>
+  faqs: Array<{
+    question: string
+    answer: string
+  }>
+}
 
-const servicesData = [
-  {
-    id: 1,
-    title: 'Road Construction',
-    description:
-      'We specialize in designing and constructing durable and efficient roadways to meet modern infrastructure needs.',
-    imageUrl:
-      'https://img.freepik.com/free-photo/heavy-machinery-used-construction-industry-engineering_23-2151307772.jpg?t=st=1742426244~exp=1742429844~hmac=1efe016d57d4ac6c95af4e3d3132d219a0e0c9d901d0eef7481374c8d72faef5&w=1800', // Replace with a specific image if needed
-  },
-  {
-    id: 2,
-    title: 'Bridge Development',
-    description:
-      'Our team creates robust bridge solutions that connect communities with precision and engineering excellence.',
-    imageUrl:
-      'https://img.freepik.com/free-photo/new-road-construction_1385-3188.jpg?t=st=1742426027~exp=1742429627~hmac=bb88ef0746e8b87279eaea68939cf349bc097694e49f4339b3fc0667a8f8d489&w=1380', // Replace with a specific image if needed
-  },
-  {
-    id: 3,
-    title: 'Building Construction',
-    description:
-      'From residential to commercial projects, we deliver high-quality structures tailored to your vision.',
-    imageUrl:
-      'https://img.freepik.com/free-photo/building-new-concrete-house_1398-2995.jpg?t=st=1742420978~exp=1742424578~hmac=452e12dbb1dab8a4afb0a6f04250e813fab1e0c9a6c4d0f259b664cd258e1be0&w=1380', // Replace with a specific image if needed
-  },
-  {
-    id: 4,
-    title: 'Drainage Systems',
-    description:
-      'We implement effective drainage solutions to manage water flow and prevent environmental challenges.',
-    imageUrl:
-      'https://img.freepik.com/free-photo/new-recently-built-highway-brcko-district-bosnia-herzegovina_181624-3266.jpg?t=st=1742425820~exp=1742429420~hmac=1667719d2493cd87c93d5bac035e63b8d0a9b8818e85931115a4ffed38c5e3a5&w=1380', // Replace with a specific image if needed
-  },
-  {
-    id: 5,
-    title: 'Infrastructure Planning',
-    description:
-      'Strategic planning services that pave the way for future-ready and sustainable developments.',
-    imageUrl:
-      'https://img.freepik.com/free-photo/construction-concept-image-helmet-rolled-blueprints-wooden-boards-retro-style_1423-263.jpg?t=st=1742425636~exp=1742429236~hmac=499f003d3be4ceac14dfaf7fca797b12b0c98ccf2bb15f5a83ddc1fbc4dd94a0&w=826', // Replace with a specific image if needed
-  },
-  {
-    id: 6,
-    title: 'Project Management',
-    description:
-      'End-to-end project management to ensure timely, cost-effective, and high-quality outcomes.',
-    imageUrl:
-      'https://img.freepik.com/free-photo/helmet-drafting-tools_23-2147785530.jpg?t=st=1742425587~exp=1742429187~hmac=2414be0fe93b489743f22e4aa0b892cde4c892c0c1769229b777fdada5073826&w=826', // Replace with a specific image if needed
-  },
-]
-
-const contentSections = [
-  {
-    title: 'Unmatched Construction Expertise',
-    description:
-      'With years of experience, Larbol Construction delivers exceptional craftsmanship and reliable service for all residential and commercial projects.',
-    icon: <FaTools />, // Represents construction tools and expertise
-  },
-  {
-    title: 'Premium Quality Materials',
-    description:
-      'We use only top-quality materials to ensure durability, beauty, and functionality in every project we undertake.',
-    icon: <GiMaterialsScience />, // Represents materials and quality
-  },
-  {
-    title: 'Tailored Construction Solutions',
-    description:
-      'At Larbol Construction, we bring your unique vision to life with personalized solutions designed to meet your specific needs.',
-    icon: <FaHandsHelping />, // Represents personalized assistance
-  },
-  {
-    title: 'Cost-Effective Excellence',
-    description:
-      'Get premium construction services that fit your budget without compromising on quality or reliability.',
-    icon: <FaDollarSign />, // Represents affordability
-  },
-  {
-    title: 'Client Satisfaction Guaranteed',
-    description:
-      'We’re committed to exceeding expectations through seamless communication, transparency, and top-notch results.',
-    icon: <MdOutlineThumbUp />, // Represents satisfaction and trust
-  },
-
-  {
-    title: 'Timely and Efficient Services',
-    description:
-      'Our team ensures that every project is completed on schedule with precision and attention to detail.',
-    icon: <FaRegClock />, // Represents timeliness and efficiency
-  },
-]
-
-const processSteps = [
-  {
-    title: 'Initial Consultation',
-    description:
-      'We start by understanding your vision and needs during an in-depth consultation. Our team listens to your ideas, discusses possibilities, and assesses the scope of the project to ensure alignment with your goals.',
-    icon: <FiMessageCircle />, // Represents communication
-  },
-  {
-    title: 'Design and Planning',
-    description:
-      'Our architects and planners collaborate to create innovative, functional designs. We ensure every detail is tailored to meet your specifications, while providing comprehensive plans that outline timelines and budgets.',
-    icon: <FiPenTool />, // Represents design and creativity
-  },
-  {
-    title: 'Construction',
-    description:
-      'With precision and care, our construction team transforms designs into reality. We prioritize quality, safety, and efficiency to deliver exceptional results, all while keeping you updated throughout the process.',
-    icon: <FiTool />, // Represents construction work
-  },
-  {
-    title: 'Quality Assurance and Delivery',
-    description:
-      'Before handing over the finished project, we perform thorough quality checks to ensure everything meets our high standards. Your satisfaction is our priority, and we guarantee the project is completed on time and to perfection.',
-    icon: <FiCheckCircle />, // Represents assurance and approval
-  },
-]
-
-export default function ServicesComp() {
+export default function ServicesComp({
+  servicesData,
+  contentSections,
+  processSteps,
+  faqs,
+}: ServicesCompProps) {
   const [isActive, setIsActive] = useState<number | null>(null)
   const revealRefs = useRef<Array<HTMLElement>>([])
 
@@ -308,15 +183,18 @@ export default function ServicesComp() {
             <div
               key={index}
               ref={addToRefs}
-              className='flex flex-col justify-center items-center gap-3 text-center bg-[var(--dark-blue)] p-5 rounded-md w-full'
+              className='group flex flex-col justify-center items-center gap-5 text-center bg-[var(--dark-blue)] p-8 rounded-lg w-full hover:bg-[var(--gray)] transition-all duration-300 hover:shadow-lg hover:shadow-[var(--accent)]/10'
             >
-              <div className='flex justify-center items-center border border-[var(--accent)] rounded-full w-14 h-14 p-2 text-[1.5rem] text-['>
+              <div className='flex justify-center items-center border border-[var(--accent)] rounded-full w-16 h-16 p-2 text-[1.8rem] text-[var(--accent)] group-hover:bg-[var(--accent)] group-hover:text-black transition-all duration-300'>
                 {section.icon}
               </div>
-              <h1 className='text-[1.5rem] lg:text-[1.5rem] md:text-[1.5rem] max-sm:text-[1rem]'>
+              <h1 className='text-[1.5rem] lg:text-[1.5rem] md:text-[1.5rem] max-sm:text-[1rem] font-light group-hover:text-[var(--accent)] transition-colors duration-300'>
                 {section.title}
               </h1>
-              <p className='text-[var(--text-gray)]'>{section.description}</p>
+              <p className='text-[var(--text-gray)] group-hover:text-white/80 transition-colors duration-300'>
+                {section.description}
+              </p>
+              <div className='w-0 h-[2px] bg-[var(--accent)] group-hover:w-20 transition-all duration-300'></div>
             </div>
           ))}
         </div>
@@ -348,44 +226,37 @@ export default function ServicesComp() {
             </p>
           </div>
 
-          <div className='grid grid-cols-1 lg:grid-cols-3 gap-5 lg:gap-10 space-y-10 w-full'>
-            {servicesData.map((item) => (
+          <div className='grid grid-cols-1 lg:grid-cols-3 gap-8 lg:gap-10 w-full'>
+            {servicesData.map((service, index) => (
               <div
                 ref={addToRefs}
-                key={item.id}
-                className='flex flex-col justify-start items-start gap-3'
+                key={service.id}
+                className='flex flex-col justify-start items-start gap-4 group relative overflow-hidden bg-gradient-to-b from-[var(--dark-blue)] to-[var(--dark-blue)]/80 rounded-xl p-6 hover:shadow-[var(--accent)]/20 hover:translate-y-[-5px] transition-all duration-500 hover:bg-gradient-to-b hover:from-[var(--dark-blue)] hover:to-[var(--accent)]/10'
               >
-                <Image
-                  src={item.imageUrl}
-                  alt={item.title}
-                  width={500}
-                  height={500}
-                  className='object-cover object-center lg:h-[250px] md:h-[300px] max-sm:h-[250px] max-xs:h-[250px] w-full rounded-lg'
-                  priority
-                  ref={addToRefs}
-                />
+                <div className='relative w-full overflow-hidden rounded-lg'>
+                  <Image
+                    src={service.imageUrl}
+                    alt={service.title}
+                    width={500}
+                    height={500}
+                    className='object-cover object-center lg:h-[250px] md:h-[300px] max-sm:h-[250px] max-xs:h-[250px] w-full transition-transform duration-700 group-hover:scale-110'
+                    priority
+                    ref={addToRefs}
+                  />
+                  <div className='absolute inset-0 bg-gradient-to-t from-black/80 via-black/40 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500'></div>
+                </div>
                 <h3
                   ref={addToRefs}
-                  className='lg:text-[1.5rem] md:text-[2rem] max-sm:text-[1.5rem] max-xs:text-[1.5rem] font-normal'
+                  className='lg:text-[1.5rem] md:text-[2rem] max-sm:text-[1.5rem] max-xs:text-[1.5rem] font-medium text-white group-hover:text-[var(--accent)] transition-colors duration-500'
                 >
-                  {item.title}
+                  {service.title}
                 </h3>
                 <p
                   ref={addToRefs}
-                  className='lg:text-base md:text-2xl max-sm:text-base max-xs:text-base text-[var(--text-gray)] font-light'
+                  className='lg:text-base md:text-2xl max-sm:text-base max-xs:text-base text-[var(--text-gray)] font-light group-hover:text-white/90 transition-colors duration-500'
                 >
-                  {item.description}
+                  {service.description}
                 </p>
-                <button
-                  type='button'
-                  ref={addToRefs}
-                  className='cursor-pointer hover:opacity-80 flex justify-start items-center gap-3 group lg:text-lg md:text-xl max-sm:text-lg max-xs:text-lg'
-                >
-                  Learn More{' '}
-                  <span className='flex justify-center items-center w-9 h-9 ring-1 ring-white rounded-full group-hover:text-black group-hover:bg-[var(--accent)] group-hover:ring-0'>
-                    <GoArrowRight />
-                  </span>
-                </button>
               </div>
             ))}
           </div>

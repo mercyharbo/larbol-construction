@@ -164,8 +164,8 @@ export default function SliderComp({ slides, height = '500px' }: SliderProps) {
             className='object-cover w-full transition-transform duration-700'
           />
           <div className='absolute inset-0 z-20 flex items-center justify-center p-8'>
-            <div className='flex flex-col items-center text-center gap-7 font-normal text-white w-full lg:w-[65%]'>
-              <h1 className='lg:text-4xl/snug md:text-[3rem] max-sm:text-xl'>
+            <div className='flex flex-col items-center text-center gap-7 font-normal text-white w-full lg:w-[65%] max-sm:gap-5 max-xs:gap-3'>
+              <h1 className='lg:text-4xl/snug md:text-[3rem] max-sm:text-2xl/relaxed'>
                 Building Tomorrow's Legacy: Where Innovation Meets
                 Infrastructure Excellence
               </h1>
