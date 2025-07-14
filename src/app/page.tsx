@@ -6,7 +6,7 @@ import { sliderImages } from '@/constants/data'
 
 export default function Home() {
   return (
-    <main className='flex flex-col items-center justify-center gap-10'>
+    <main className='flex flex-col items-center justify-center'>
       <SliderComp slides={sliderImages} />
       <WhyChooseUs />
       <Services />

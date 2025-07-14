@@ -1,41 +1,66 @@
 'use client'
 
+import type React from 'react'
+
 import { cn } from '@/utils'
 import gsap from 'gsap'
+import { ChevronLeft, ChevronRight, Maximize2, Pause, Play } from 'lucide-react'
 import Image from 'next/image'
 import Link from 'next/link'
-import { useEffect, useRef, useState } from 'react'
-import { IoIosArrowBack, IoIosArrowForward } from 'react-icons/io'
+import { useCallback, useEffect, useRef, useState } from 'react'
 
 interface SlideData {
   id: number
   imageUrl: string
   title: string
+  caption?: string
 }
 
 interface SliderProps {
   slides: SlideData[]
   height?: string
+  autoPlay?: boolean
+  autoPlayInterval?: number
+  showCounter?: boolean
+  showProgressBar?: boolean
+  enableFullscreen?: boolean
 }
 
-export default function SliderComp({ slides, height = '500px' }: SliderProps) {
+export default function EnhancedSlider({
+  slides,
+  height = '500px',
+  autoPlay = true,
+  autoPlayInterval = 5000,
+  showCounter = true,
+  showProgressBar = true,
+  enableFullscreen = false,
+}: SliderProps) {
   const sliderRef = useRef<HTMLDivElement>(null)
   const slideRefs = useRef<(HTMLDivElement | null)[]>([])
+  const progressRef = useRef<HTMLDivElement>(null)
   const [currentSlide, setCurrentSlide] = useState(0)
   const [isAnimating, setIsAnimating] = useState(false)
+  const [isPaused, setIsPaused] = useState(false)
+  const [isFullscreen, setIsFullscreen] = useState(false)
+  const [touchStart, setTouchStart] = useState<number | null>(null)
+  const [touchEnd, setTouchEnd] = useState<number | null>(null)
+  const [imagesLoaded, setImagesLoaded] = useState<boolean[]>(
+    new Array(slides.length).fill(false)
+  )
+  const intervalRef = useRef<NodeJS.Timeout | null>(null)
+  const progressAnimationRef = useRef<gsap.core.Tween | null>(null)
 
-  /* The `useEffect` hook you provided is responsible for initializing the slider component using GSAP
-(GreenSock Animation Platform) when the component mounts. Here's a breakdown of what it does: */
+  // Minimum swipe distance
+  const minSwipeDistance = 50
+
+  // Initialize slider
   useEffect(() => {
     const context = gsap.context(() => {
-      // Hide all slides except the first one
       gsap.set(slideRefs.current, {
         opacity: 0,
         scale: 1.1,
         visibility: 'hidden',
       })
-
-      // Show the first slide
       gsap.set(slideRefs.current[0], {
         opacity: 1,
         scale: 1,
@@ -46,106 +71,247 @@ export default function SliderComp({ slides, height = '500px' }: SliderProps) {
     return () => context.revert()
   }, [])
 
-  /**
-   * The `goToSlide` function in TypeScript React handles animating transitions between slides with
-   * GreenSock Animation Platform (GSAP) while preventing animation overlap.
-   * @param {number} index - The `index` parameter in the `goToSlide` function represents the index of
-   * the slide you want to navigate to within the `slides` array. This function handles the animation to
-   * transition from the current slide to the slide at the specified index.
-   * @returns The `goToSlide` function returns `undefined` since there is no explicit return statement in
-   * the function. The function is primarily used to perform animations and update the state within the
-   * function itself.
-   */
-  const goToSlide = (index: number) => {
-    if (isAnimating) return // Prevent animation overlap
+  // Progress bar animation
+  const startProgressAnimation = useCallback(() => {
+    if (!showProgressBar || !progressRef.current || isPaused || !autoPlay)
+      return
 
-    const nextIndex = ((index % slides.length) + slides.length) % slides.length
-    if (nextIndex === currentSlide) return // Don't animate if it's the same slide
-
-    setIsAnimating(true)
-
-    // Calculate the direction of movement
-    const isNext =
-      nextIndex > currentSlide ||
-      (currentSlide === slides.length - 1 && nextIndex === 0)
-    const isPrev =
-      nextIndex < currentSlide ||
-      (currentSlide === 0 && nextIndex === slides.length - 1)
-
-    // Position the next slide off-screen based on direction
-    gsap.set(slideRefs.current[nextIndex], {
-      visibility: 'visible',
-      opacity: 0,
-      x: isNext ? '100%' : '-100%',
-      scale: 1,
-    })
-
-    const timeline = gsap.timeline({
+    progressAnimationRef.current = gsap.to(progressRef.current, {
+      width: '100%',
+      duration: autoPlayInterval / 1000,
+      ease: 'none',
       onComplete: () => {
-        setIsAnimating(false)
-        // Hide previous slides completely
-        slides.forEach((_, i) => {
-          if (i !== nextIndex) {
-            gsap.set(slideRefs.current[i], { visibility: 'hidden' })
-          }
-        })
+        if (!isPaused && autoPlay) {
+          nextSlide()
+        }
       },
     })
+  }, [isPaused, autoPlay, autoPlayInterval])
 
-    // Current slide animation
-    timeline.to(slideRefs.current[currentSlide], {
-      opacity: 0,
-      x: isNext ? '-100%' : '100%',
-      duration: 0.7,
-      ease: 'power2.inOut',
-    })
+  const resetProgressAnimation = useCallback(() => {
+    if (progressAnimationRef.current) {
+      progressAnimationRef.current.kill()
+    }
+    if (progressRef.current) {
+      gsap.set(progressRef.current, { width: '0%' })
+    }
+  }, [])
 
-    // Next slide animation (slightly overlapped)
-    timeline.to(
-      slideRefs.current[nextIndex],
-      {
-        opacity: 1,
-        x: '0%',
+  const goToSlide = useCallback(
+    (index: number) => {
+      if (isAnimating) return
+      const nextIndex =
+        ((index % slides.length) + slides.length) % slides.length
+      if (nextIndex === currentSlide) return
+
+      setIsAnimating(true)
+      resetProgressAnimation()
+
+      const isNext =
+        nextIndex > currentSlide ||
+        (currentSlide === slides.length - 1 && nextIndex === 0)
+
+      gsap.set(slideRefs.current[nextIndex], {
+        visibility: 'visible',
+        opacity: 0,
+        x: isNext ? '100%' : '-100%',
+        scale: 1,
+      })
+
+      const timeline = gsap.timeline({
+        onComplete: () => {
+          setIsAnimating(false)
+          slides.forEach((_, i) => {
+            if (i !== nextIndex) {
+              gsap.set(slideRefs.current[i], { visibility: 'hidden' })
+            }
+          })
+          startProgressAnimation()
+        },
+      })
+
+      timeline.to(slideRefs.current[currentSlide], {
+        opacity: 0,
+        x: isNext ? '-100%' : '100%',
         duration: 0.7,
         ease: 'power2.inOut',
-      },
-      '-=0.5'
-    )
+      })
 
-    setCurrentSlide(nextIndex)
-  }
+      timeline.to(
+        slideRefs.current[nextIndex],
+        {
+          opacity: 1,
+          x: '0%',
+          duration: 0.7,
+          ease: 'power2.inOut',
+        },
+        '-=0.5'
+      )
 
-  /**
-   * The above functions `nextSlide` and `prevSlide` are used to navigate to the next and previous slides
-   * respectively in a slideshow.
-   */
-  const nextSlide = () => {
+      setCurrentSlide(nextIndex)
+    },
+    [
+      currentSlide,
+      isAnimating,
+      slides.length,
+      startProgressAnimation,
+      resetProgressAnimation,
+    ]
+  )
+
+  const nextSlide = useCallback(() => {
     goToSlide(currentSlide + 1)
-  }
+  }, [currentSlide, goToSlide])
 
-  const prevSlide = () => {
+  const prevSlide = useCallback(() => {
     goToSlide(currentSlide - 1)
+  }, [currentSlide, goToSlide])
+
+  // Touch handlers
+  const onTouchStart = (e: React.TouchEvent) => {
+    setTouchEnd(null)
+    setTouchStart(e.targetTouches[0].clientX)
   }
 
-  // Auto-play functionality
-  useEffect(() => {
-    const interval = setInterval(() => {
-      if (!isAnimating && slides.length > 1) {
-        nextSlide()
-      }
-    }, 5000) // Change slide every 5 seconds
+  const onTouchMove = (e: React.TouchEvent) => {
+    setTouchEnd(e.targetTouches[0].clientX)
+  }
 
-    return () => clearInterval(interval)
-  }, [currentSlide, isAnimating, slides.length])
+  const onTouchEnd = () => {
+    if (!touchStart || !touchEnd) return
+
+    const distance = touchStart - touchEnd
+    const isLeftSwipe = distance > minSwipeDistance
+    const isRightSwipe = distance < -minSwipeDistance
+
+    if (isLeftSwipe) {
+      nextSlide()
+    } else if (isRightSwipe) {
+      prevSlide()
+    }
+  }
+
+  // Keyboard navigation
+  useEffect(() => {
+    const handleKeyDown = (e: KeyboardEvent) => {
+      if (isAnimating) return
+
+      switch (e.key) {
+        case 'ArrowLeft':
+          e.preventDefault()
+          prevSlide()
+          break
+        case 'ArrowRight':
+        case ' ':
+          e.preventDefault()
+          nextSlide()
+          break
+        case 'Home':
+          e.preventDefault()
+          goToSlide(0)
+          break
+        case 'End':
+          e.preventDefault()
+          goToSlide(slides.length - 1)
+          break
+        case 'Escape':
+          if (isFullscreen) {
+            setIsFullscreen(false)
+          }
+          break
+      }
+    }
+
+    window.addEventListener('keydown', handleKeyDown)
+    return () => window.removeEventListener('keydown', handleKeyDown)
+  }, [
+    isAnimating,
+    nextSlide,
+    prevSlide,
+    goToSlide,
+    slides.length,
+    isFullscreen,
+  ])
+
+  // Auto-play with pause on hover
+  useEffect(() => {
+    if (!autoPlay || isPaused || isAnimating || slides.length <= 1) return
+
+    startProgressAnimation()
+
+    return () => {
+      resetProgressAnimation()
+    }
+  }, [
+    currentSlide,
+    isPaused,
+    isAnimating,
+    slides.length,
+    autoPlay,
+    startProgressAnimation,
+    resetProgressAnimation,
+  ])
+
+  // Pause/resume handlers
+  const handleMouseEnter = () => {
+    if (autoPlay) {
+      setIsPaused(true)
+      resetProgressAnimation()
+    }
+  }
+
+  const handleMouseLeave = () => {
+    if (autoPlay) {
+      setIsPaused(false)
+    }
+  }
+
+  const togglePlayPause = () => {
+    setIsPaused(!isPaused)
+  }
+
+  // Image load handler
+  const handleImageLoad = (index: number) => {
+    setImagesLoaded((prev) => {
+      const newState = [...prev]
+      newState[index] = true
+      return newState
+    })
+  }
+
+  // Fullscreen toggle
+  const toggleFullscreen = () => {
+    setIsFullscreen(!isFullscreen)
+  }
 
   return (
     <div
       ref={sliderRef}
       className={cn(
-        'w-full relative overflow-hidden h-[calc(100vh-3.5rem)]', // Subtracting h-14 (3.5rem) from viewport height
-        height && height
+        'w-full relative overflow-hidden bg-gray-900',
+        isFullscreen ? 'fixed inset-0 z-50' : 'h-[calc(100vh-3.5rem)]',
+        height && !isFullscreen && height
       )}
+      onMouseEnter={handleMouseEnter}
+      onMouseLeave={handleMouseLeave}
+      onTouchStart={onTouchStart}
+      onTouchMove={onTouchMove}
+      onTouchEnd={onTouchEnd}
+      role='region'
+      aria-label='Image carousel'
+      aria-live='polite'
     >
+      {/* Progress Bar */}
+      {showProgressBar && autoPlay && (
+        <div className='absolute top-0 left-0 w-full h-1 bg-white/20 z-40'>
+          <div
+            ref={progressRef}
+            className='h-full bg-white transition-colors'
+            style={{ width: '0%' }}
+          />
+        </div>
+      )}
+
       {slides.map((slide, index) => (
         <div
           key={slide.id}
@@ -153,33 +319,42 @@ export default function SliderComp({ slides, height = '500px' }: SliderProps) {
             slideRefs.current[index] = el
           }}
           className='absolute top-0 left-0 w-full h-full overflow-hidden'
+          aria-hidden={currentSlide !== index}
         >
           <div className='absolute inset-0 z-10 bg-black/60' />
+
+          {/* Loading placeholder */}
+          {!imagesLoaded[index] && (
+            <div className='absolute inset-0 z-5 bg-gray-800 flex items-center justify-center'>
+              <div className='animate-spin rounded-full h-12 w-12 border-b-2 border-white'></div>
+            </div>
+          )}
+
           <Image
-            src={slide.imageUrl}
-            alt={`slide ${index + 1}`}
+            src={slide.imageUrl || '/placeholder.svg'}
+            alt={slide.title}
             fill
-            priority
+            priority={index === 0}
             sizes='(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw'
             className='object-cover w-full transition-transform duration-700'
+            onLoad={() => handleImageLoad(index)}
           />
+
           <div className='absolute inset-0 z-20 flex items-center justify-center p-8'>
             <div className='flex flex-col items-center text-center gap-7 font-normal text-white w-full lg:w-[65%] max-sm:gap-5 max-xs:gap-3'>
               <h1 className='lg:text-4xl/snug md:text-[3rem] max-sm:text-2xl/relaxed'>
-                Building Tomorrow's Legacy: Where Innovation Meets
-                Infrastructure Excellence
+                {slide.title ||
+                  "Building Tomorrow's Legacy: Where Innovation Meets Infrastructure Excellence"}
               </h1>
-              <p className='lg:text-lg md:text-2xl max-sm:text-base max-xs:text-base max-w-3xl text-[var(--text-gray)]'>
-                From groundbreaking road networks to iconic structures, we build
-                the foundation of tomorrow. With cutting-edge technology and
-                decades of expertise, we're shaping the future of construction,
-                one project at a time.
+              <p className='lg:text-lg md:text-2xl max-sm:text-base max-xs:text-base max-w-3xl text-gray-300'>
+                {slide.caption ||
+                  "From groundbreaking road networks to iconic structures, we build the foundation of tomorrow. With cutting-edge technology and decades of expertise, we're shaping the future of construction, one project at a time."}
               </p>
               <Link
                 href='/services'
-                className='bg-[var(--accent)] text-black px-6 py-2 cursor-pointer hover:opacity-80 transition-all duration-300 hover:scale-105'
+                className='bg-blue-600 hover:bg-blue-700 text-white px-6 py-3 rounded-lg cursor-pointer transition-all duration-300 hover:scale-105 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2'
               >
-                Explore Our Services &rarr;
+                Explore Our Services →
               </Link>
             </div>
           </div>
@@ -190,18 +365,74 @@ export default function SliderComp({ slides, height = '500px' }: SliderProps) {
       <button
         onClick={prevSlide}
         disabled={isAnimating}
-        className='absolute cursor-pointer left-4 top-1/2 -translate-y-1/2 bg-white/30 hover:bg-white/50 p-2 rounded-full hidden lg:block transition-colors z-30 disabled:opacity-50'
+        className='absolute cursor-pointer left-4 top-1/2 -translate-y-1/2 bg-white/20 lg:block hidden hover:bg-white/30 p-3 rounded-full transition-all duration-200 z-30 disabled:opacity-50 focus:outline-none focus:ring-2 focus:ring-white/50'
+        aria-label='Previous slide'
       >
-        <IoIosArrowBack size={24} color='white' />
+        <ChevronLeft size={24} color='white' />
       </button>
 
       <button
         onClick={nextSlide}
         disabled={isAnimating}
-        className='absolute cursor-pointer right-4 top-1/2 -translate-y-1/2 bg-white/30 hover:bg-white/50 p-2 rounded-full hidden lg:block transition-colors z-30 disabled:opacity-50'
+        className='absolute cursor-pointer right-4 top-1/2 -translate-y-1/2 bg-white/20 lg:block hidden hover:bg-white/30 p-3 rounded-full transition-all duration-200 z-30 disabled:opacity-50 focus:outline-none focus:ring-2 focus:ring-white/50'
+        aria-label='Next slide'
       >
-        <IoIosArrowForward size={24} color='white' />
+        <ChevronRight size={24} color='white' />
       </button>
+
+      {/* Mobile Navigation Arrows */}
+      <div className='lg:hidden absolute bottom-16 left-1/2 -translate-x-1/2 flex gap-4 z-30'>
+        <button
+          onClick={prevSlide}
+          disabled={isAnimating}
+          className='bg-white/20 hover:bg-white/30 p-2 rounded-full transition-all duration-200 disabled:opacity-50'
+          aria-label='Previous slide'
+        >
+          <ChevronLeft size={20} color='white' />
+        </button>
+        <button
+          onClick={nextSlide}
+          disabled={isAnimating}
+          className='bg-white/20 hover:bg-white/30 p-2 rounded-full transition-all duration-200 disabled:opacity-50'
+          aria-label='Next slide'
+        >
+          <ChevronRight size={20} color='white' />
+        </button>
+      </div>
+
+      {/* Controls */}
+      <div className='absolute top-4 right-4 flex gap-2 z-30'>
+        {autoPlay && (
+          <button
+            onClick={togglePlayPause}
+            className='bg-white/20 hover:bg-white/30 p-2 rounded-full transition-all duration-200 focus:outline-none focus:ring-2 focus:ring-white/50'
+            aria-label={isPaused ? 'Play slideshow' : 'Pause slideshow'}
+          >
+            {isPaused ? (
+              <Play size={20} color='white' />
+            ) : (
+              <Pause size={20} color='white' />
+            )}
+          </button>
+        )}
+
+        {enableFullscreen && (
+          <button
+            onClick={toggleFullscreen}
+            className='bg-white/20 hover:bg-white/30 p-2 rounded-full transition-all duration-200 focus:outline-none focus:ring-2 focus:ring-white/50'
+            aria-label={isFullscreen ? 'Exit fullscreen' : 'Enter fullscreen'}
+          >
+            <Maximize2 size={20} color='white' />
+          </button>
+        )}
+      </div>
+
+      {/* Slide Counter */}
+      {showCounter && (
+        <div className='absolute top-4 left-4 bg-black/50 text-white px-3 py-1 rounded-full text-sm z-30'>
+          {currentSlide + 1} / {slides.length}
+        </div>
+      )}
 
       {/* Dots Navigation */}
       <div className='absolute bottom-4 left-1/2 -translate-x-1/2 flex gap-2 z-30'>
@@ -210,11 +441,13 @@ export default function SliderComp({ slides, height = '500px' }: SliderProps) {
             key={index}
             onClick={() => goToSlide(index)}
             disabled={isAnimating}
-            className={`w-3 h-3 cursor-pointer rounded-full transition-all duration-300 ${
+            className={cn(
+              'h-3 cursor-pointer rounded-full transition-all duration-300 focus:outline-none focus:ring-2 focus:ring-white/50',
               currentSlide === index
-                ? 'bg-[var(--accent)] w-6'
-                : 'bg-[var(--gray)]/50'
-            }`}
+                ? 'bg-white w-6'
+                : 'bg-white/50 w-3 hover:bg-white/70'
+            )}
+            aria-label={`Go to slide ${index + 1}`}
           />
         ))}
       </div>
