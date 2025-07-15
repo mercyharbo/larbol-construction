@@ -501,7 +501,7 @@ export default function EnhancedServices() {
               </div>
 
               {/* View controls */}
-              <div className='flex items-center gap-4'>
+              <div className='flex items-center gap-4 justify-between w-full lg:w-auto lg:justify-start'>
                 <select
                   value={sortBy}
                   onChange={(e) => setSortBy(e.target.value as any)}
@@ -539,7 +539,7 @@ export default function EnhancedServices() {
           className={
             viewMode === 'grid'
               ? 'grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 2xl:grid-cols-4 gap-8'
-              : 'space-y-6 max-w-7xl mx-auto p-4'
+              : 'space-y-6 lg:max-w-7xl lg:mx-auto w-full'
           }
         >
           {filteredServices.map((service, index) => (
@@ -547,7 +547,9 @@ export default function EnhancedServices() {
               key={service.id}
               ref={addToRefs}
               className={`group relative bg-white/5 backdrop-blur-sm border border-white/10 rounded-2xl overflow-hidden hover:bg-white/10 hover:border-white/20 hover:shadow-2xl hover:shadow-blue-500/20 ${
-                viewMode === 'list' ? 'flex gap-6' : ''
+                viewMode === 'list'
+                  ? 'flex flex-col sm:flex-row gap-4 sm:gap-6'
+                  : ''
               }`}
             >
               {service.popular && (
@@ -570,12 +572,15 @@ export default function EnhancedServices() {
               {/* Image container */}
               <div
                 className={`relative overflow-hidden ${
-                  viewMode === 'list' ? 'w-48 h-32' : 'h-48'
+                  viewMode === 'list'
+                    ? 'w-full aspect-video sm:w-48 sm:h-32 sm:aspect-auto'
+                    : 'h-48'
                 }`}
               >
                 <Image
                   src={
-                    service.imageUrl || '/placeholder.svg?height=300&width=400'
+                    service.imageUrl ||
+                    'https://cdn.pixabay.com/photo/2016/02/01/21/15/excavator-1174428_1280.jpg'
                   }
                   alt={service.title}
                   fill
@@ -707,7 +712,7 @@ export default function EnhancedServices() {
               <Image
                 src={
                   selectedService.imageUrl ||
-                  '/placeholder.svg?height=300&width=600'
+                  'https://cdn.pixabay.com/photo/2019/11/03/20/11/portrait-4599553_1280.jpg'
                 }
                 alt={selectedService.title}
                 width={600}

@@ -420,18 +420,14 @@ export default function EnhancedWhyChooseUs() {
           })}
         </div>
 
-        <div className='text-center'>
-          <div className='inline-flex items-center gap-4 bg-gradient-to-r from-blue-600 to-purple-600 p-6 rounded-2xl'>
-            <div className='flex items-center gap-2'>
-              <Zap className='text-yellow-400' size={24} />
-              <span className='text-lg font-semibold'>
-                Ready to get started?
-              </span>
-            </div>
-            <button className='bg-white text-blue-600 px-6 py-2 rounded-lg font-medium hover:bg-gray-100 transition-colors'>
-              Contact Us Today
-            </button>
+        <div className='flex flex-col lg:flex-row items-center gap-4 bg-gradient-to-r from-blue-600 to-purple-600 p-6 rounded-2xl'>
+          <div className='flex items-center gap-2'>
+            <Zap className='text-yellow-400' size={24} />
+            <span className='text-lg font-semibold'>Ready to get started?</span>
           </div>
+          <button className='bg-white text-blue-600 px-6 py-2 rounded-lg font-medium hover:bg-gray-100 transition-colors'>
+            Contact Us Today
+          </button>
         </div>
       </div>
     </section>

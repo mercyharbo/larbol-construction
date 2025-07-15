@@ -31,6 +31,12 @@ module.exports = {
         port: '',
         pathname: '/**', // Make sure to handle all possible paths.
       },
+      {
+        protocol: 'https',
+        hostname: 'i.pinimg.com',
+        port: '',
+        pathname: '/**', // Make sure to handle all possible paths.
+      },
     ],
   },
 }

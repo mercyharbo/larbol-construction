@@ -10,8 +10,6 @@ import {
   Award,
   Building,
   Camera,
-  ChevronLeft,
-  ChevronRight,
   Filter,
   Grid3X3,
   Heart,
@@ -24,7 +22,7 @@ import {
   TrendingUp,
   Verified,
   Video,
-  X
+  X,
 } from 'lucide-react'
 import Image from 'next/image'
 import { useEffect, useRef, useState } from 'react'
@@ -37,7 +35,8 @@ const enhancedTestimonials = [
     ...testimonials[0],
     id: 1,
     rating: 5,
-    avatar: '/placeholder.svg?height=80&width=80',
+    avatar:
+      'https://i.pinimg.com/736x/ce/98/36/ce9836d6d78e7a2f524d5c0ed97c8de3.jpg',
     position: 'CEO',
     company: 'Tech Innovations Inc.',
     location: 'New York, NY',
@@ -46,8 +45,8 @@ const enhancedTestimonials = [
     verified: true,
     featured: true,
     images: [
-      '/placeholder.svg?height=200&width=300',
-      '/placeholder.svg?height=200&width=300',
+      'https://i.pinimg.com/736x/3d/c9/c3/3dc9c31e1703ac5a10a04f740203f6ec.jpg',
+      'https://i.pinimg.com/1200x/9a/38/6b/9a386b0f8fb2bb961d0429250f6ab42e.jpg',
     ],
     videoUrl: null,
     likes: 24,
@@ -57,7 +56,8 @@ const enhancedTestimonials = [
     ...testimonials[1],
     id: 2,
     rating: 5,
-    avatar: '/placeholder.svg?height=80&width=80',
+    avatar:
+      'https://i.pinimg.com/1200x/0b/2e/98/0b2e988dcec7af0209aa42d919c6967b.jpg',
     position: 'Homeowner',
     company: 'Private Residence',
     location: 'Los Angeles, CA',
@@ -65,7 +65,9 @@ const enhancedTestimonials = [
     projectType: 'Residential',
     verified: true,
     featured: false,
-    images: ['/placeholder.svg?height=200&width=300'],
+    images: [
+      'https://i.pinimg.com/736x/b2/43/a0/b243a048408396129b3079dc535b0f29.jpg',
+    ],
     videoUrl: '/placeholder-video.mp4',
     likes: 31,
     helpful: 25,
@@ -74,7 +76,8 @@ const enhancedTestimonials = [
     ...testimonials[2],
     id: 3,
     rating: 4,
-    avatar: '/placeholder.svg?height=80&width=80',
+    avatar:
+      'https://i.pinimg.com/1200x/97/e1/59/97e159c6c2dcb7d9d0c455e1a4e6287d.jpg',
     position: 'Project Manager',
     company: 'Urban Development Corp',
     location: 'Chicago, IL',
@@ -82,7 +85,10 @@ const enhancedTestimonials = [
     projectType: 'Infrastructure',
     verified: true,
     featured: true,
-    images: [],
+    images: [
+      'https://i.pinimg.com/736x/e8/2c/08/e82c087782d016bde52997809b34b570.jpg',
+      'https://i.pinimg.com/1200x/b3/92/a9/b392a9634e95c53797ec26e31fc992fc.jpg',
+    ],
     videoUrl: null,
     likes: 19,
     helpful: 14,
@@ -91,7 +97,8 @@ const enhancedTestimonials = [
     ...testimonials[0],
     id: 4,
     rating: 5,
-    avatar: '/placeholder.svg?height=80&width=80',
+    avatar:
+      'https://i.pinimg.com/736x/a7/78/1b/a7781b8c72004ae4f9c014cfeeffd005.jpg',
     position: 'Facilities Director',
     company: 'Healthcare Systems',
     location: 'Miami, FL',
@@ -100,8 +107,8 @@ const enhancedTestimonials = [
     verified: true,
     featured: false,
     images: [
-      '/placeholder.svg?height=200&width=300',
-      '/placeholder.svg?height=200&width=300',
+      'https://i.pinimg.com/736x/a2/fa/69/a2fa69538f8fca3e833e5bf71cda02c6.jpg',
+      'https://i.pinimg.com/736x/a9/e0/37/a9e0372548a1930abe384fd79ee13fe9.jpg',
     ],
     videoUrl: null,
     likes: 42,
@@ -111,7 +118,8 @@ const enhancedTestimonials = [
     ...testimonials[1],
     id: 5,
     rating: 5,
-    avatar: '/placeholder.svg?height=80&width=80',
+    avatar:
+      'https://i.pinimg.com/736x/3b/d4/25/3bd42567321ad6bf5fa828ad95c499a6.jpg',
     position: 'Property Owner',
     company: 'Residential Client',
     location: 'Seattle, WA',
@@ -119,7 +127,9 @@ const enhancedTestimonials = [
     projectType: 'Residential',
     verified: false,
     featured: false,
-    images: [],
+    images: [
+      'https://i.pinimg.com/736x/a7/ac/88/a7ac88715bfa8c70fa373cfcb4815c6d.jpg',
+    ],
     videoUrl: '/placeholder-video.mp4',
     likes: 16,
     helpful: 12,
@@ -128,7 +138,8 @@ const enhancedTestimonials = [
     ...testimonials[2],
     id: 6,
     rating: 4,
-    avatar: '/placeholder.svg?height=80&width=80',
+    avatar:
+      'https://i.pinimg.com/736x/83/cb/ec/83cbec8de600194db81b44590ca32603.jpg',
     position: 'Operations Manager',
     company: 'Manufacturing Co.',
     location: 'Detroit, MI',
@@ -136,7 +147,9 @@ const enhancedTestimonials = [
     projectType: 'Industrial',
     verified: true,
     featured: false,
-    images: ['/placeholder.svg?height=200&width=300'],
+    images: [
+      'https://i.pinimg.com/736x/15/e0/77/15e07754221e54e3e7e40c18498be5fb.jpg',
+    ],
     videoUrl: null,
     likes: 28,
     helpful: 21,
@@ -494,13 +507,11 @@ export default function EnhancedTestimonials() {
       ref={container}
       className='bg-gradient-to-br from-slate-900 via-blue-900 to-slate-900 w-full text-white relative overflow-hidden py-20 px-5 lg:px-10'
     >
-   
       <div className='absolute inset-0 opacity-10'>
         <div className="absolute inset-0 bg-[url('/placeholder.svg?height=100&width=100')] opacity-20" />
         <div className='absolute top-0 left-0 w-full h-full bg-gradient-to-r from-blue-600/10 to-purple-600/10' />
       </div>
 
-   
       <div className='absolute inset-0 overflow-hidden pointer-events-none'>
         {[...Array(20)].map((_, i) => (
           <div
@@ -541,7 +552,6 @@ export default function EnhancedTestimonials() {
             exceptional service.
           </p>
 
-          {/* Statistics */}
           <div className='grid grid-cols-2 md:grid-cols-4 gap-6 max-w-4xl mx-auto space-y-5'>
             <div className='text-center space-y-2'>
               <h3 className='text-3xl font-bold text-blue-400'>4.8</h3>
@@ -561,10 +571,8 @@ export default function EnhancedTestimonials() {
             </div>
           </div>
 
-          {/* Controls */}
           <div className='flex flex-wrap items-center justify-center gap-4'>
-            {/* Filter buttons */}
-            <div className='flex flex-wrap gap-2'>
+            <div className='flex flex-wrap gap-2 justify-center lg:justify-start'>
               {projectTypes.map((type) => (
                 <button
                   key={type}
@@ -580,7 +588,6 @@ export default function EnhancedTestimonials() {
               ))}
             </div>
 
-            {/* View mode toggle */}
             <div className='flex bg-white/10 rounded-lg p-1'>
               <button
                 onClick={() => setViewMode('grid')}
@@ -602,7 +609,6 @@ export default function EnhancedTestimonials() {
               </button>
             </div>
 
-            {/* Add testimonial button */}
             <button
               onClick={() => setShowSubmissionForm(true)}
               className='bg-green-600 hover:bg-green-700 text-white px-4 py-2 rounded-full text-sm font-medium transition-colors flex items-center gap-2'
@@ -613,7 +619,6 @@ export default function EnhancedTestimonials() {
           </div>
         </div>
 
-        {/* Carousel View */}
         {viewMode === 'carousel' && (
           <div className='relative max-w-4xl mx-auto mb-16'>
             <div ref={carouselRef} className='overflow-hidden rounded-2xl'>
@@ -665,8 +670,7 @@ export default function EnhancedTestimonials() {
               </div>
             </div>
 
-            {/* Carousel controls */}
-            <button
+            {/* <button
               onClick={prevSlide}
               className='absolute left-4 top-1/2 -translate-y-1/2 bg-white/20 hover:bg-white/30 p-3 rounded-full transition-colors'
             >
@@ -677,9 +681,8 @@ export default function EnhancedTestimonials() {
               className='absolute right-4 top-1/2 -translate-y-1/2 bg-white/20 hover:bg-white/30 p-3 rounded-full transition-colors'
             >
               <ChevronRight size={24} />
-            </button>
+            </button> */}
 
-            {/* Carousel indicators */}
             <div className='flex justify-center gap-2 mt-6'>
               {featuredTestimonials.map((_, index) => (
                 <button
@@ -693,21 +696,9 @@ export default function EnhancedTestimonials() {
                 />
               ))}
             </div>
-
-           
-            {/* <div className='flex justify-center '>
-              <button
-                onClick={() => setIsAutoPlaying(!isAutoPlaying)}
-                className='flex items-center gap-2 bg-white/10 hover:bg-white/20 px-4 py-2 rounded-full text-sm transition-colors'
-              >
-                {isAutoPlaying ? <Pause size={16} /> : <Play size={16} />}
-                {isAutoPlaying ? 'Pause' : 'Play'}
-              </button>
-            </div> */}
           </div>
         )}
 
-        {/* Grid View */}
         {viewMode === 'grid' && (
           <div className='grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 2xl:grid-cols-4 gap-8'>
             {filteredTestimonials.map((testimonial, index) => (
@@ -731,7 +722,6 @@ export default function EnhancedTestimonials() {
                 )}
 
                 <div className='p-6 space-y-5'>
-              
                   <div className='flex items-start gap-4'>
                     <Image
                       src={testimonial.avatar || '/placeholder.svg'}
@@ -766,7 +756,6 @@ export default function EnhancedTestimonials() {
                     </div>
                   </div>
 
-                 
                   <blockquote className='text-gray-300 leading-relaxed group-hover:text-white/90 transition-colors duration-300'>
                     <Quote
                       className='quote-icon inline-block text-blue-400'
@@ -775,7 +764,6 @@ export default function EnhancedTestimonials() {
                     {testimonial.text}
                   </blockquote>
 
-              
                   <div className='flex items-center gap-4 text-xs text-gray-400'>
                     <span className='flex items-center gap-1'>
                       <Building size={12} />
@@ -787,7 +775,6 @@ export default function EnhancedTestimonials() {
                     </span>
                   </div>
 
-               
                   {testimonial.images.length > 0 && (
                     <div className='flex gap-2'>
                       {testimonial.images.slice(0, 3).map((image, idx) => (
@@ -797,7 +784,7 @@ export default function EnhancedTestimonials() {
                           alt={`Project ${idx + 1}`}
                           width={60}
                           height={60}
-                          className='rounded-lg object-cover cursor-pointer hover:opacity-80 transition-opacity'
+                          className='rounded-lg object-cover cursor-pointer hover:opacity-80 transition-opacity h-[60px] w-[60px] '
                         />
                       ))}
                       {testimonial.images.length > 3 && (
@@ -808,7 +795,6 @@ export default function EnhancedTestimonials() {
                     </div>
                   )}
 
-                
                   <div className='flex items-center justify-between pt-4 border-t border-white/10'>
                     <div className='flex items-center gap-4 text-sm text-gray-400'>
                       <button className='flex items-center gap-1 hover:text-red-400 transition-colors'>
@@ -830,7 +816,6 @@ export default function EnhancedTestimonials() {
           </div>
         )}
 
-      
         {filteredTestimonials.length === 0 && (
           <div className='text-center py-16'>
             <div className='text-gray-400 space-y-4'>
@@ -841,22 +826,21 @@ export default function EnhancedTestimonials() {
           </div>
         )}
 
-      
-        <div className='text-center '>
-          <div className='inline-flex items-center gap-4 bg-gradient-to-r from-blue-600 to-purple-600 p-6 rounded-2xl'>
-            <div className='flex items-center gap-2'>
-              <Quote className='text-white' size={24} />
+        <div className='flex flex-col sm:flex-row items-center sm:justify-between gap-4 bg-gradient-to-r from-blue-600 to-purple-600 p-6 rounded-2xl text-center sm:text-left'>
+          <div className='flex items-center gap-2 justify-center sm:justify-start w-full sm:w-auto whitespace-nowrap'>
+            <span className='flex items-center gap-2'>
+              <Quote className='text-white flex-shrink-0' size={24} />
               <span className='text-lg font-semibold'>
                 Ready to share your experience?
               </span>
-            </div>
-            <button
-              onClick={() => setShowSubmissionForm(true)}
-              className='bg-white text-blue-600 px-6 py-2 rounded-lg font-medium hover:bg-gray-100 transition-colors'
-            >
-              Write a Review
-            </button>
+            </span>
           </div>
+          <button
+            onClick={() => setShowSubmissionForm(true)}
+            className='bg-white text-blue-600 px-6 py-2 rounded-lg font-medium hover:bg-gray-100 transition-colors w-full sm:w-auto'
+          >
+            Write a Review
+          </button>
         </div>
       </div>
 
