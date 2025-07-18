@@ -41,7 +41,7 @@ const enhancedWhyChooseUs = [
   },
   {
     ...whyChooseUs[1],
-    stat: { number: 25, suffix: ' Years', label: 'Experience' },
+    stat: { number: 15, suffix: ' Years', label: 'Experience' },
     details:
       "Our quarter-century of experience has taught us that quality isn't just about materials—it's about attention to every detail.",
   },
@@ -241,13 +241,11 @@ export default function EnhancedWhyChooseUs() {
       ref={container}
       className='bg-gradient-to-br from-slate-900 via-blue-900 to-slate-900 text-white relative overflow-hidden py-20 px-5 lg:px-10'
     >
-      {/* Enhanced background effects */}
       <div className='bg-pattern absolute inset-0 opacity-10'>
         <div className="absolute inset-0 bg-[url('/placeholder.svg?height=100&width=100')] opacity-20" />
         <div className='absolute top-0 left-0 w-full h-full bg-gradient-to-r from-blue-600/10 to-purple-600/10' />
       </div>
 
-      {/* Floating particles */}
       <div className='absolute inset-0 overflow-hidden pointer-events-none'>
         {[...Array(20)].map((_, i) => (
           <div
@@ -262,15 +260,6 @@ export default function EnhancedWhyChooseUs() {
           />
         ))}
       </div>
-
-      {/* Animation control */}
-      {/* <button
-        onClick={toggleAnimations}
-        className='fixed top-20 right-4 z-50 bg-white/10 backdrop-blur-sm p-2 rounded-full hover:bg-white/20 transition-colors'
-        aria-label={animationsPaused ? 'Resume animations' : 'Pause animations'}
-      >
-        {animationsPaused ? <Play size={20} /> : <Pause size={20} />}
-      </button> */}
 
       <div className='container mx-auto relative z-10 flex flex-col gap-[5rem]'>
         <div className='text-center flex flex-col gap-5'>
@@ -324,7 +313,6 @@ export default function EnhancedWhyChooseUs() {
           </div>
         </div>
 
-        {/* Enhanced cards grid */}
         <div className='grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8'>
           {enhancedWhyChooseUs.map((item, index) => {
             const Icon = iconComponents[item.icon] || Building
@@ -420,7 +408,7 @@ export default function EnhancedWhyChooseUs() {
           })}
         </div>
 
-        <div className='flex flex-col lg:flex-row items-center gap-4 bg-gradient-to-r from-blue-600 to-purple-600 p-6 rounded-2xl'>
+        <div className='flex flex-col lg:flex-row lg:justify-center lg:items-center gap-4 bg-gradient-to-r from-blue-600 to-purple-600 p-6 rounded-2xl'>
           <div className='flex items-center gap-2'>
             <Zap className='text-yellow-400' size={24} />
             <span className='text-lg font-semibold'>Ready to get started?</span>

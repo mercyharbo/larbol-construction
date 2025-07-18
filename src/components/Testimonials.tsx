@@ -826,7 +826,7 @@ export default function EnhancedTestimonials() {
           </div>
         )}
 
-        <div className='flex flex-col sm:flex-row items-center sm:justify-between gap-4 bg-gradient-to-r from-blue-600 to-purple-600 p-6 rounded-2xl text-center sm:text-left'>
+        <div className='flex lg:items-center lg:justify-center lg:flex-row flex-col justify-center items-center  gap-4 bg-gradient-to-r from-blue-600 to-purple-600 p-6 rounded-2xl text-center sm:text-left'>
           <div className='flex items-center gap-2 justify-center sm:justify-start w-full sm:w-auto whitespace-nowrap'>
             <span className='flex items-center gap-2'>
               <Quote className='text-white flex-shrink-0' size={24} />
