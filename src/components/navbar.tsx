@@ -155,7 +155,7 @@ export default function NavbarComp() {
               {navigationItems.map((item) => {
                 const Icon = item.icon
                 const isActive = pathname === item.href
-                const isServices = item.name === 'Services'
+                const isServices = item.name === 'Servicesss'
 
                 return (
                   <div key={item.href} className='relative'>
@@ -168,16 +168,16 @@ export default function NavbarComp() {
                         <button className='flex items-center gap-2 px-4 py-2 rounded-lg font-medium transition-all duration-200 hover:bg-white/10 hover:text-blue-400 group'>
                           <Icon size={16} />
                           {item.name}
-                          <ChevronDown
+                          {/* <ChevronDown
                             size={14}
                             className={`transition-transform duration-200 ${
                               showServicesDropdown ? 'rotate-180' : ''
                             }`}
-                          />
+                          /> */}
                         </button>
 
-                        {/* Services Dropdown */}
-                        {showServicesDropdown && (
+                
+                        {/* {showServicesDropdown && (
                           <div className='absolute top-full left-0 mt-2 w-64 bg-slate-800/95 backdrop-blur-xl border border-slate-700 rounded-xl shadow-2xl overflow-hidden'>
                             <div className='p-2'>
                               {servicesDropdown.map((service) => (
@@ -191,7 +191,7 @@ export default function NavbarComp() {
                               ))}
                             </div>
                           </div>
-                        )}
+                        )} */}
                       </div>
                     ) : (
                       <Link
@@ -222,10 +222,10 @@ export default function NavbarComp() {
                 <Search size={20} />
               </button>
 
-              <button className='relative p-2 text-slate-400 hover:text-white hover:bg-white/10 rounded-lg transition-all duration-200'>
+              {/* <button className='relative p-2 text-slate-400 hover:text-white hover:bg-white/10 rounded-lg transition-all duration-200'>
                 <Bell size={20} />
                 <div className='absolute -top-1 -right-1 w-3 h-3 bg-red-500 rounded-full' />
-              </button>
+              </button> */}
 
               <Link
                 href='/contact'

@@ -30,7 +30,7 @@ export const metadata: Metadata = {
     siteName: 'Larbol Construction',
     images: [
       {
-        url: '/assets/indexpagescreenshot.png',
+        url: '/web-screenshot.png',
         width: 1920,
         height: 1080,
         alt: 'Larbol Construction Homepage',
@@ -44,7 +44,7 @@ export const metadata: Metadata = {
     title: 'About Us - Larbol Construction | Building Dreams, Crafting Reality',
     description:
       'Discover Larbol Construction, a leading construction company with over 10 years of expertise in delivering innovative and sustainable building solutions.',
-    images: ['/assets/indexpagescreenshot.png'],
+    images: ['/web-screenshot.png'],
     creator: '@larbolconstruction',
   },
   robots: {

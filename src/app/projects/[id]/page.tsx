@@ -128,9 +128,7 @@ const projects = [
 
 export default async function Page({ params }: Props) {
   const projectId = (await params).id
-  console.log(projectId)
   const project = projects.find((p) => p.id === projectId)
-  console.log(project)
 
   return <ProjectDetailsClient project={project} />
 }

@@ -38,7 +38,7 @@ export const metadata: Metadata = {
     siteName: 'Larbol Construction',
     images: [
       {
-        url: '/assets/indexpagescreenshot.png',
+        url: '/web-screenshot.png',
         width: 1920,
         height: 1080,
         alt: 'Larbol Construction Services',
@@ -52,7 +52,7 @@ export const metadata: Metadata = {
     title: 'Construction Services | Larbol Construction - Building Excellence',
     description:
       'Discover our comprehensive range of professional construction services including road construction, bridge development, building construction, drainage systems, infrastructure planning, and project management.',
-    images: ['/assets/indexpagescreenshot.png'],
+    images: ['/web-screenshot.png'],
     creator: '@larbolconstruction',
   },
   robots: {

@@ -45,7 +45,7 @@ export const metadata: Metadata = {
     siteName: 'Larbol Construction',
     images: [
       {
-        url: '/indexpagescreenshot.png',
+        url: '/web-screenshot.png',
         width: 1920,
         height: 1080,
         alt: 'Larbol Construction - Building Tomorrow',
@@ -59,7 +59,7 @@ export const metadata: Metadata = {
     title: 'Larbol Construction - Building Tomorrow with Excellence',
     description:
       'Larbol Construction is a premier construction company specializing in road networks, bridge development, and infrastructure projects.',
-    images: ['/indexpagescreenshot.png'],
+    images: ['/web-screenshot.png'],
     creator: '@larbolconstruction',
   },
   robots: {
@@ -92,7 +92,7 @@ export default function RootLayout({
   return (
     <html lang='en'>
       <body
-        className={`${inter.className} ${bebasNeue.variable} ${playfairDisplay.variable} flex flex-col gap-10`}
+        className={`${inter.className} ${bebasNeue.variable} ${playfairDisplay.variable}`}
       >
         <NavbarComp />
         {children}
