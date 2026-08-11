@@ -272,12 +272,12 @@ export default function FooterComp() {
                   />
                   <div>
                     <p className='text-white font-medium'>Phone</p>
-                    <a
+                    <Link
                       href='tel:+2348123456789'
                       className='text-slate-400 text-sm hover:text-green-400 transition-colors'
                     >
                       +234 812 345 6789
-                    </a>
+                    </Link>
                   </div>
                 </div>
 
@@ -288,12 +288,12 @@ export default function FooterComp() {
                   />
                   <div>
                     <p className='text-white font-medium'>Email</p>
-                    <a
+                    <Link
                       href='mailto:info@larbolconstruction.ng'
                       className='text-slate-400 text-sm hover:text-purple-400 transition-colors'
                     >
                       info@larbolconstruction.ng
-                    </a>
+                    </Link>
                   </div>
                 </div>
 
@@ -322,12 +322,12 @@ export default function FooterComp() {
                     24/7 Emergency
                   </span>
                 </div>
-                <a
+                <Link
                   href='tel:+2348123456789'
                   className='text-sm text-slate-300 hover:text-red-400 transition-colors'
                 >
                   +234 812 345 6789
-                </a>
+                </Link>
               </div>
             </div>
           </div>

@@ -114,12 +114,12 @@ export default function NavbarComp() {
             <div className='hidden md:flex items-center gap-6'>
               <div className='hidden xl:flex items-center gap-2 text-sm text-brand-muted font-medium'>
                 <span>Call Us:</span>
-                <a
+                <Link
                   href='tel:+00412345688'
                   className='text-brand-dark font-semibold hover:underline'
                 >
                   +(004) 123 - 456 88
-                </a>
+                </Link>
               </div>
 
               <Link
@@ -147,9 +147,9 @@ export default function NavbarComp() {
 
       {/* Mobile Drawer Navigation */}
       <div
-        className={`mobile-menu fixed top-0 right-0 z-[100] w-full max-w-sm h-screen transform translate-x-full md:hidden bg-brand-bg border-l border-brand-border shadow-2xl flex flex-col justify-between`}
+        className={`mobile-menu fixed top-0 left-0 z-[100] w-full max-w-sm h-screen transform translate-x-full md:hidden bg-brand-bg flex flex-col justify-between`}
       >
-        <div className='p-6'>
+        <div className='p-5'>
           {/* Mobile Header */}
           <div className='flex justify-between items-center pb-6 border-b border-brand-border'>
             <Link
@@ -205,12 +205,12 @@ export default function NavbarComp() {
             <p className='text-xs text-neutral-400 uppercase tracking-wider mb-1'>
               Have questions?
             </p>
-            <a
+            <Link
               href='tel:+00412345688'
               className='text-brand-dark font-semibold hover:underline block text-base'
             >
               +(004) 123 - 456 88
-            </a>
+            </Link>
           </div>
 
           <Link
