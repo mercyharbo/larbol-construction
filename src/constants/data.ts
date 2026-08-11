@@ -118,32 +118,57 @@ export const testimonials = [
 export const sliderImages = [
   {
     id: 1,
-    imageUrl:
-      'https://img.freepik.com/free-photo/heavy-machines-construction-workers-working-building_181624-8234.jpg',
-    title: 'Heavy Construction',
+    imageUrl: '/images/slides/slide-1.jpg',
+    category: 'Commercial Real Estate',
+    title: 'A New Standard of Architectural Excellence',
+    description:
+      'We engineer and construct landmark commercial towers and urban developments built to define modern skylines with unyielding structural integrity.',
+    highlightNumber: '15+',
+    highlightLabel: 'Years of Engineering Mastery',
+    badgeText: 'Featured Milestone',
   },
   {
     id: 2,
-    imageUrl:
-      'https://img.freepik.com/free-photo/construction-workers-sunset_53876-138180.jpg',
-    title: 'Construction Workers',
+    imageUrl: '/images/slides/slide-2.jpg',
+    category: 'Civil Infrastructure',
+    title: 'Connecting Regions with Resilient Infrastructure',
+    description:
+      'Designing and executing large-scale highway networks, bridge corridors, and municipal transport systems built to endure generations of growth.',
+    highlightNumber: '120km+',
+    highlightLabel: 'Roadways & Transit Completed',
+    badgeText: 'Civil Networks',
   },
   {
     id: 3,
-    imageUrl:
-      'https://img.freepik.com/free-photo/large-building-site_1127-3252.jpg',
-    title: 'Building Site',
+    imageUrl: '/images/slides/slide-3.jpg',
+    category: 'Luxury Residential',
+    title: 'Crafting Distinction in Custom Living Spaces',
+    description:
+      'From private luxury estates to sustainable multi-family residences, we combine precision craftsmanship with timeless architectural design.',
+    highlightNumber: '99%',
+    highlightLabel: 'Client Satisfaction Rate',
+    badgeText: 'Bespoke Living',
   },
   {
     id: 4,
-    imageUrl:
-      'https://img.freepik.com/free-photo/construction-site_53876-23128.jpg',
-    title: 'Construction Site',
+    imageUrl: '/images/slides/slide-4.jpg',
+    category: 'Sustainable Building',
+    title: 'Pioneering Eco-Conscious Construction Solutions',
+    description:
+      'Integrating smart thermal envelope systems, renewable energy, and eco-certified materials to minimize environmental impact.',
+    highlightNumber: '40%',
+    highlightLabel: 'Carbon Footprint Reduction',
+    badgeText: 'Green Innovation',
   },
   {
     id: 5,
-    imageUrl:
-      'https://img.freepik.com/free-photo/construction-site_53876-23128.jpg',
-    title: 'Construction Project',
+    imageUrl: '/images/slides/slide-5.jpg',
+    category: 'Industrial Engineering',
+    title: 'Turnkey Project Execution from Blueprint to Built',
+    description:
+      'End-to-end site development, structural engineering oversight, and rigorous quality control for complex industrial assets.',
+    highlightNumber: '₦50B+',
+    highlightLabel: 'Capital Portfolio Delivered',
+    badgeText: 'Industrial Assets',
   },
 ]

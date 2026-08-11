@@ -1,82 +1,56 @@
 'use client'
 
-import type React from 'react'
-
-import { cn } from '@/utils'
 import gsap from 'gsap'
-import { ChevronLeft, ChevronRight, Maximize2, Pause, Play } from 'lucide-react'
+import { ArrowUpRight, ChevronLeft, ChevronRight, Pause, Play, X } from 'lucide-react'
 import Image from 'next/image'
 import Link from 'next/link'
 import { useCallback, useEffect, useRef, useState } from 'react'
 
-interface SlideData {
+export interface SlideData {
   id: number
   imageUrl: string
   title: string
-  caption?: string
+  description?: string
+  category?: string
+  highlightNumber?: string
+  highlightLabel?: string
+  badgeText?: string
+  videoUrl?: string
 }
 
 interface SliderProps {
   slides: SlideData[]
-  height?: string
   autoPlay?: boolean
   autoPlayInterval?: number
-  showCounter?: boolean
-  showProgressBar?: boolean
-  enableFullscreen?: boolean
 }
 
-export default function EnhancedSlider({
+export default function PremiumHeroSlider({
   slides,
-  height = '500px',
   autoPlay = true,
-  autoPlayInterval = 5000,
-  showCounter = true,
-  showProgressBar = true,
-  enableFullscreen = false,
+  autoPlayInterval = 7500,
 }: SliderProps) {
-  const sliderRef = useRef<HTMLDivElement>(null)
-  const slideRefs = useRef<(HTMLDivElement | null)[]>([])
-  const progressRef = useRef<HTMLDivElement>(null)
   const [currentSlide, setCurrentSlide] = useState(0)
   const [isAnimating, setIsAnimating] = useState(false)
   const [isPaused, setIsPaused] = useState(false)
-  const [isFullscreen, setIsFullscreen] = useState(false)
-  const [touchStart, setTouchStart] = useState<number | null>(null)
-  const [touchEnd, setTouchEnd] = useState<number | null>(null)
-  const [imagesLoaded, setImagesLoaded] = useState<boolean[]>(
-    new Array(slides.length).fill(false)
-  )
-  const intervalRef = useRef<NodeJS.Timeout | null>(null)
-  const progressAnimationRef = useRef<gsap.core.Tween | null>(null)
+  const [isVideoOpen, setIsVideoOpen] = useState(false)
 
-  // Minimum swipe distance
-  const minSwipeDistance = 50
+  const imageRef = useRef<HTMLDivElement>(null)
+  const contentRef = useRef<HTMLDivElement>(null)
+  const progressRef = useRef<HTMLDivElement>(null)
+  const progressTweenRef = useRef<gsap.core.Tween | null>(null)
 
-  // Initialize slider
-  useEffect(() => {
-    const context = gsap.context(() => {
-      gsap.set(slideRefs.current, {
-        opacity: 0,
-        scale: 1.1,
-        visibility: 'hidden',
-      })
-      gsap.set(slideRefs.current[0], {
-        opacity: 1,
-        scale: 1,
-        visibility: 'visible',
-      })
-    }, sliderRef)
+  const activeSlide = slides[currentSlide] || slides[0]
 
-    return () => context.revert()
-  }, [])
+  // Progress Bar Animation
+  const startProgress = useCallback(() => {
+    if (!autoPlay || isPaused || !progressRef.current) return
 
-  // Progress bar animation
-  const startProgressAnimation = useCallback(() => {
-    if (!showProgressBar || !progressRef.current || isPaused || !autoPlay)
-      return
+    if (progressTweenRef.current) {
+      progressTweenRef.current.kill()
+    }
 
-    progressAnimationRef.current = gsap.to(progressRef.current, {
+    gsap.set(progressRef.current, { width: '0%' })
+    progressTweenRef.current = gsap.to(progressRef.current, {
       width: '100%',
       duration: autoPlayInterval / 1000,
       ease: 'none',
@@ -86,11 +60,11 @@ export default function EnhancedSlider({
         }
       },
     })
-  }, [isPaused, autoPlay, autoPlayInterval])
+  }, [autoPlay, isPaused, autoPlayInterval])
 
-  const resetProgressAnimation = useCallback(() => {
-    if (progressAnimationRef.current) {
-      progressAnimationRef.current.kill()
+  const stopProgress = useCallback(() => {
+    if (progressTweenRef.current) {
+      progressTweenRef.current.kill()
     }
     if (progressRef.current) {
       gsap.set(progressRef.current, { width: '0%' })
@@ -100,63 +74,61 @@ export default function EnhancedSlider({
   const goToSlide = useCallback(
     (index: number) => {
       if (isAnimating) return
-      const nextIndex =
-        ((index % slides.length) + slides.length) % slides.length
+      const nextIndex = ((index % slides.length) + slides.length) % slides.length
       if (nextIndex === currentSlide) return
 
       setIsAnimating(true)
-      resetProgressAnimation()
+      stopProgress()
 
-      const isNext =
-        nextIndex > currentSlide ||
-        (currentSlide === slides.length - 1 && nextIndex === 0)
-
-      gsap.set(slideRefs.current[nextIndex], {
-        visibility: 'visible',
-        opacity: 0,
-        x: isNext ? '100%' : '-100%',
-        scale: 1,
-      })
-
-      const timeline = gsap.timeline({
+      const tl = gsap.timeline({
         onComplete: () => {
           setIsAnimating(false)
-          slides.forEach((_, i) => {
-            if (i !== nextIndex) {
-              gsap.set(slideRefs.current[i], { visibility: 'hidden' })
-            }
-          })
-          startProgressAnimation()
+          startProgress()
         },
       })
 
-      timeline.to(slideRefs.current[currentSlide], {
-        opacity: 0,
-        x: isNext ? '-100%' : '100%',
-        duration: 0.7,
-        ease: 'power2.inOut',
-      })
-
-      timeline.to(
-        slideRefs.current[nextIndex],
-        {
-          opacity: 1,
-          x: '0%',
-          duration: 0.7,
+      // Step 1: Smooth fade out of image and text
+      if (imageRef.current && contentRef.current) {
+        tl.to(imageRef.current, {
+          opacity: 0.15,
+          scale: 1.05,
+          duration: 0.45,
           ease: 'power2.inOut',
-        },
-        '-=0.5'
-      )
-
-      setCurrentSlide(nextIndex)
+        })
+        .to(
+          contentRef.current,
+          {
+            opacity: 0,
+            y: -10,
+            duration: 0.4,
+            ease: 'power2.inOut',
+          },
+          0
+        )
+        // Step 2: Switch slide state at the midpoint
+        .add(() => {
+          setCurrentSlide(nextIndex)
+        })
+        // Step 3: Slow luxury bloom effect on new slide
+        .to(imageRef.current, {
+          opacity: 1,
+          scale: 1,
+          duration: 1.1,
+          ease: 'power3.out',
+        })
+        .to(
+          contentRef.current,
+          {
+            opacity: 1,
+            y: 0,
+            duration: 1.0,
+            ease: 'power3.out',
+          },
+          '-=0.9'
+        )
+      }
     },
-    [
-      currentSlide,
-      isAnimating,
-      slides.length,
-      startProgressAnimation,
-      resetProgressAnimation,
-    ]
+    [currentSlide, isAnimating, slides.length, startProgress, stopProgress]
   )
 
   const nextSlide = useCallback(() => {
@@ -167,290 +139,173 @@ export default function EnhancedSlider({
     goToSlide(currentSlide - 1)
   }, [currentSlide, goToSlide])
 
-  // Touch handlers
-  const onTouchStart = (e: React.TouchEvent) => {
-    setTouchEnd(null)
-    setTouchStart(e.targetTouches[0].clientX)
+  const togglePlayPause = () => {
+    setIsPaused((prev) => !prev)
   }
 
-  const onTouchMove = (e: React.TouchEvent) => {
-    setTouchEnd(e.targetTouches[0].clientX)
-  }
-
-  const onTouchEnd = () => {
-    if (!touchStart || !touchEnd) return
-
-    const distance = touchStart - touchEnd
-    const isLeftSwipe = distance > minSwipeDistance
-    const isRightSwipe = distance < -minSwipeDistance
-
-    if (isLeftSwipe) {
-      nextSlide()
-    } else if (isRightSwipe) {
-      prevSlide()
-    }
-  }
-
-  // Keyboard navigation
+  // Handle Autoplay lifecycle
   useEffect(() => {
-    const handleKeyDown = (e: KeyboardEvent) => {
-      if (isAnimating) return
-
-      switch (e.key) {
-        case 'ArrowLeft':
-          e.preventDefault()
-          prevSlide()
-          break
-        case 'ArrowRight':
-        case ' ':
-          e.preventDefault()
-          nextSlide()
-          break
-        case 'Home':
-          e.preventDefault()
-          goToSlide(0)
-          break
-        case 'End':
-          e.preventDefault()
-          goToSlide(slides.length - 1)
-          break
-        case 'Escape':
-          if (isFullscreen) {
-            setIsFullscreen(false)
-          }
-          break
-      }
-    }
-
-    window.addEventListener('keydown', handleKeyDown)
-    return () => window.removeEventListener('keydown', handleKeyDown)
-  }, [
-    isAnimating,
-    nextSlide,
-    prevSlide,
-    goToSlide,
-    slides.length,
-    isFullscreen,
-  ])
-
-  // Auto-play with pause on hover
-  useEffect(() => {
-    if (!autoPlay || isPaused || isAnimating || slides.length <= 1) return
-
-    startProgressAnimation()
+    if (!autoPlay || isPaused || isAnimating) return
+    startProgress()
 
     return () => {
-      resetProgressAnimation()
+      stopProgress()
     }
-  }, [
-    currentSlide,
-    isPaused,
-    isAnimating,
-    slides.length,
-    autoPlay,
-    startProgressAnimation,
-    resetProgressAnimation,
-  ])
-
-  // Pause/resume handlers
-  const handleMouseEnter = () => {
-    if (autoPlay) {
-      setIsPaused(true)
-      resetProgressAnimation()
-    }
-  }
-
-  const handleMouseLeave = () => {
-    if (autoPlay) {
-      setIsPaused(false)
-    }
-  }
-
-  const togglePlayPause = () => {
-    setIsPaused(!isPaused)
-  }
-
-  // Image load handler
-  const handleImageLoad = (index: number) => {
-    setImagesLoaded((prev) => {
-      const newState = [...prev]
-      newState[index] = true
-      return newState
-    })
-  }
-
-  // Fullscreen toggle
-  const toggleFullscreen = () => {
-    setIsFullscreen(!isFullscreen)
-  }
+  }, [currentSlide, autoPlay, isPaused, isAnimating, startProgress, stopProgress])
 
   return (
-    <div
-      ref={sliderRef}
-      className={cn(
-        'w-full relative overflow-hidden bg-gray-900',
-        isFullscreen ? 'fixed inset-0 z-50' : 'h-[calc(100vh-3.5rem)]',
-        height && !isFullscreen && height
-      )}
-      onMouseEnter={handleMouseEnter}
-      onMouseLeave={handleMouseLeave}
-      onTouchStart={onTouchStart}
-      onTouchMove={onTouchMove}
-      onTouchEnd={onTouchEnd}
-      role='region'
-      aria-label='Image carousel'
-      aria-live='polite'
-    >
-      {/* Progress Bar */}
-      {showProgressBar && autoPlay && (
-        <div className='absolute top-0 left-0 w-full h-1 bg-white/20 z-40'>
+    <>
+      <section className='w-full bg-[#F5F4F0] pt-24 pb-12 lg:pt-28 lg:pb-16 min-h-[calc(100vh-4rem)] flex items-center'>
+        <div className='max-w-[1400px] mx-auto px-4 sm:px-6 lg:px-8 w-full'>
+          {/* Spaciaz-inspired Split Hero Layout */}
           <div
-            ref={progressRef}
-            className='h-full bg-white transition-colors'
-            style={{ width: '0%' }}
-          />
-        </div>
-      )}
+            className='grid grid-cols-1 lg:grid-cols-12 gap-6 lg:gap-8 items-stretch'
+            onMouseEnter={() => setIsPaused(true)}
+            onMouseLeave={() => setIsPaused(false)}
+          >
+            {/* Left Card: Vertical Architectural Image Card */}
+            <div className='lg:col-span-5 xl:col-span-5 relative rounded-[32px] overflow-hidden bg-neutral-900 min-h-[460px] sm:min-h-[540px] lg:min-h-[620px] shadow-sm group'>
+              <div ref={imageRef} className='relative w-full h-full min-h-[460px] sm:min-h-[540px] lg:min-h-[620px]'>
+                <Image
+                  src={activeSlide.imageUrl}
+                  alt={activeSlide.title}
+                  fill
+                  priority
+                  sizes='(max-width: 1024px) 100vw, 45vw'
+                  className='object-cover w-full h-full transition-transform duration-1000 group-hover:scale-105'
+                />
+                <div className='absolute inset-0 bg-gradient-to-t from-black/40 via-transparent to-black/10' />
+              </div>
 
-      {slides.map((slide, index) => (
-        <div
-          key={slide.id}
-          ref={(el) => {
-            slideRefs.current[index] = el
-          }}
-          className='absolute top-0 left-0 w-full h-full overflow-hidden'
-          aria-hidden={currentSlide !== index}
-        >
-          <div className='absolute inset-0 z-10 bg-black/60' />
-
-          {/* Loading placeholder */}
-          {!imagesLoaded[index] && (
-            <div className='absolute inset-0 z-5 bg-gray-800 flex items-center justify-center'>
-              <div className='animate-spin rounded-full h-12 w-12 border-b-2 border-white'></div>
+              {/* Progress Line Bar at Bottom of Image */}
+              {autoPlay && (
+                <div className='absolute bottom-0 left-0 w-full h-1.5 bg-white/20 z-30'>
+                  <div ref={progressRef} className='h-full bg-[#D4F639]' style={{ width: '0%' }} />
+                </div>
+              )}
             </div>
-          )}
 
-          <Image
-            src={slide.imageUrl || '/placeholder.svg'}
-            alt={slide.title}
-            fill
-            priority={index === 0}
-            sizes='(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw'
-            className='object-cover w-full transition-transform duration-700'
-            onLoad={() => handleImageLoad(index)}
-          />
+            {/* Right Card: Warm Light Architectural Content Panel */}
+            <div className='lg:col-span-7 xl:col-span-7 bg-[#EFECE6] rounded-[32px] p-8 sm:p-12 lg:p-14 flex flex-col justify-between min-h-[460px] sm:min-h-[540px] lg:min-h-[620px] border border-neutral-300/40 shadow-xs relative'>
+              
+              {/* Upper Content Area */}
+              <div ref={contentRef} className='space-y-6 max-w-2xl'>
+                <h1 className='text-4xl sm:text-5xl lg:text-6xl font-bold tracking-tight text-neutral-950 leading-[1.12] font-sans'>
+                  {activeSlide.title}
+                </h1>
 
-          <div className='absolute inset-0 z-20 flex items-center justify-center p-8'>
-            <div className='flex flex-col items-center text-center gap-5 font-normal text-white w-full lg:w-[65%] max-sm:gap-5 max-xs:gap-3'>
-              <h1 className='lg:text-4xl/snug md:text-[3rem] max-sm:text-2xl/relaxed font-bold'>
-                {slide.title ||
-                  "Building Tomorrow's Legacy: Where Innovation Meets Infrastructure Excellence"}
-              </h1>
-              <p className='lg:text-lg md:text-2xl max-sm:text-base max-xs:text-base max-w-3xl text-gray-300'>
-                {slide.caption ||
-                  "From groundbreaking road networks to iconic structures, we build the foundation of tomorrow. With cutting-edge technology and decades of expertise, we're shaping the future of construction, one project at a time."}
-              </p>
-              <Link
-                href='/services'
-                className='bg-blue-600 hover:bg-blue-700 text-white px-6 py-3 rounded-lg cursor-pointer transition-all duration-300 hover:scale-105 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2'
-              >
-                Explore Our Services →
-              </Link>
+                <p className='text-neutral-600 text-base sm:text-lg font-normal leading-relaxed max-w-xl'>
+                  {activeSlide.description}
+                </p>
+
+                <div className='pt-2'>
+                  <Link
+                    href='/services'
+                    className='inline-flex items-center gap-3.5 bg-white hover:bg-neutral-50 text-neutral-950 font-semibold text-base px-7 py-3.5 rounded-full shadow-xs border border-neutral-200/80 transition-all duration-200 hover:scale-[1.02] active:scale-[0.98] cursor-pointer group'
+                  >
+                    <span>View All Services</span>
+                    <div className='w-9 h-9 rounded-full bg-[#D4F639] text-neutral-950 flex items-center justify-center font-bold group-hover:scale-105 transition-transform'>
+                      <ArrowUpRight size={18} strokeWidth={2.5} />
+                    </div>
+                  </Link>
+                </div>
+              </div>
+
+              {/* Bottom Metric & Interactive Controller Bar */}
+              <div className='pt-8 border-t border-neutral-300/60 mt-8 flex flex-wrap items-center justify-between gap-6'>
+                {/* Metric Callout (e.g. 40 years of experiences) */}
+                <div className='flex items-center gap-4'>
+                  <span className='text-5xl sm:text-6xl font-black text-neutral-950 tracking-tight font-sans'>
+                    {activeSlide.highlightNumber || '40'}
+                  </span>
+                  <span className='text-xs font-bold text-neutral-700 uppercase tracking-wider leading-tight max-w-[90px] block'>
+                    {activeSlide.highlightLabel || 'years of experiences'}
+                  </span>
+                </div>
+
+                {/* Video Showreel & Navigation Pill Controls */}
+                <div className='flex items-center gap-3'>
+                  {/* Watch Video Showreel Pill */}
+                  <button
+                    onClick={() => setIsVideoOpen(true)}
+                    className='bg-neutral-950 hover:bg-neutral-900 text-white rounded-full px-5 py-3 flex items-center gap-3 transition-all duration-200 shadow-md cursor-pointer group'
+                  >
+                    <div className='relative w-9 h-6 rounded-md overflow-hidden bg-neutral-800 flex items-center justify-center'>
+                      <Image
+                        src={activeSlide.imageUrl}
+                        alt='Video preview'
+                        fill
+                        className='object-cover opacity-60 group-hover:opacity-80 transition-opacity'
+                      />
+                      <Play size={12} className='text-white relative z-10 fill-white ml-0.5' />
+                    </div>
+                    <span className='text-xs font-semibold tracking-wide pr-1'>Watch</span>
+                  </button>
+
+                  {/* Slider Controls Container */}
+                  <div className='flex items-center gap-1.5 bg-white/80 backdrop-blur-xs p-1.5 rounded-full border border-neutral-300/60 shadow-xs'>
+                    <button
+                      onClick={togglePlayPause}
+                      aria-label={isPaused ? 'Resume' : 'Pause'}
+                      className='w-9 h-9 rounded-full bg-neutral-100 hover:bg-neutral-200 text-neutral-900 flex items-center justify-center transition-colors'
+                    >
+                      {isPaused ? <Play size={14} /> : <Pause size={14} />}
+                    </button>
+                    <button
+                      onClick={prevSlide}
+                      disabled={isAnimating}
+                      aria-label='Previous Slide'
+                      className='w-9 h-9 rounded-full bg-neutral-100 hover:bg-neutral-200 text-neutral-900 flex items-center justify-center transition-colors disabled:opacity-40'
+                    >
+                      <ChevronLeft size={16} />
+                    </button>
+                    <span className='text-xs font-mono font-bold text-neutral-800 px-2'>
+                      0{currentSlide + 1}
+                    </span>
+                    <button
+                      onClick={nextSlide}
+                      disabled={isAnimating}
+                      aria-label='Next Slide'
+                      className='w-9 h-9 rounded-full bg-neutral-950 hover:bg-neutral-800 text-white flex items-center justify-center transition-colors disabled:opacity-40'
+                    >
+                      <ChevronRight size={16} />
+                    </button>
+                  </div>
+                </div>
+              </div>
+
             </div>
           </div>
         </div>
-      ))}
+      </section>
 
-      {/* Navigation Arrows */}
-      <button
-        onClick={prevSlide}
-        disabled={isAnimating}
-        className='absolute cursor-pointer left-4 top-1/2 -translate-y-1/2 bg-white/20 lg:block hidden hover:bg-white/30 p-3 rounded-full transition-all duration-200 z-30 disabled:opacity-50 focus:outline-none focus:ring-2 focus:ring-white/50'
-        aria-label='Previous slide'
-      >
-        <ChevronLeft size={24} color='white' />
-      </button>
-
-      <button
-        onClick={nextSlide}
-        disabled={isAnimating}
-        className='absolute cursor-pointer right-4 top-1/2 -translate-y-1/2 bg-white/20 lg:block hidden hover:bg-white/30 p-3 rounded-full transition-all duration-200 z-30 disabled:opacity-50 focus:outline-none focus:ring-2 focus:ring-white/50'
-        aria-label='Next slide'
-      >
-        <ChevronRight size={24} color='white' />
-      </button>
-
-      {/* Mobile Navigation Arrows */}
-      <div className='lg:hidden absolute bottom-16 left-1/2 -translate-x-1/2 flex gap-4 z-30'>
-        <button
-          onClick={prevSlide}
-          disabled={isAnimating}
-          className='bg-white/20 hover:bg-white/30 p-2 rounded-full transition-all duration-200 disabled:opacity-50'
-          aria-label='Previous slide'
-        >
-          <ChevronLeft size={20} color='white' />
-        </button>
-        <button
-          onClick={nextSlide}
-          disabled={isAnimating}
-          className='bg-white/20 hover:bg-white/30 p-2 rounded-full transition-all duration-200 disabled:opacity-50'
-          aria-label='Next slide'
-        >
-          <ChevronRight size={20} color='white' />
-        </button>
-      </div>
-
-      {/* Controls */}
-      <div className='absolute top-4 right-4 flex gap-2 z-30'>
-        {autoPlay && (
-          <button
-            onClick={togglePlayPause}
-            className='bg-white/20 hover:bg-white/30 p-2 rounded-full transition-all duration-200 focus:outline-none focus:ring-2 focus:ring-white/50'
-            aria-label={isPaused ? 'Play slideshow' : 'Pause slideshow'}
-          >
-            {isPaused ? (
-              <Play size={20} color='white' />
-            ) : (
-              <Pause size={20} color='white' />
-            )}
-          </button>
-        )}
-
-        {enableFullscreen && (
-          <button
-            onClick={toggleFullscreen}
-            className='bg-white/20 hover:bg-white/30 p-2 rounded-full transition-all duration-200 focus:outline-none focus:ring-2 focus:ring-white/50'
-            aria-label={isFullscreen ? 'Exit fullscreen' : 'Enter fullscreen'}
-          >
-            <Maximize2 size={20} color='white' />
-          </button>
-        )}
-      </div>
-
-      {/* Slide Counter */}
-      {showCounter && (
-        <div className='absolute top-4 left-4 bg-black/50 text-white px-3 py-1 rounded-full text-sm z-30'>
-          {currentSlide + 1} / {slides.length}
+      {/* Interactive Video Modal */}
+      {isVideoOpen && (
+        <div className='fixed inset-0 z-[200] bg-black/80 backdrop-blur-md flex items-center justify-center p-4 sm:p-8'>
+          <div className='relative w-full max-w-4xl bg-neutral-950 rounded-2xl overflow-hidden shadow-2xl border border-neutral-800'>
+            <div className='flex items-center justify-between p-4 border-b border-neutral-800 bg-neutral-900'>
+              <h3 className='text-white font-semibold text-base sm:text-lg'>
+                Larbol Construction — {activeSlide.title}
+              </h3>
+              <button
+                onClick={() => setIsVideoOpen(false)}
+                className='p-2 rounded-full text-neutral-400 hover:text-white hover:bg-neutral-800 transition-colors'
+              >
+                <X size={20} />
+              </button>
+            </div>
+            <div className='relative aspect-video w-full bg-black flex items-center justify-center'>
+              <iframe
+                src='https://www.youtube-nocookie.com/embed/dQw4w9WgXcQ?autoplay=1'
+                title='Larbol Construction Overview Video'
+                className='w-full h-full border-0'
+                allow='accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture'
+                allowFullScreen
+              />
+            </div>
+          </div>
         </div>
       )}
-
-      {/* Dots Navigation */}
-      <div className='absolute bottom-4 left-1/2 -translate-x-1/2 flex gap-2 z-30'>
-        {slides.map((_, index) => (
-          <button
-            key={index}
-            onClick={() => goToSlide(index)}
-            disabled={isAnimating}
-            className={cn(
-              'h-3 cursor-pointer rounded-full transition-all duration-300 focus:outline-none focus:ring-2 focus:ring-white/50',
-              currentSlide === index
-                ? 'bg-white w-6'
-                : 'bg-white/50 w-3 hover:bg-white/70'
-            )}
-            aria-label={`Go to slide ${index + 1}`}
-          />
-        ))}
-      </div>
-    </div>
+    </>
   )
 }
