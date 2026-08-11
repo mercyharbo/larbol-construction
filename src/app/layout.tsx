@@ -4,7 +4,7 @@ import type { Metadata } from 'next'
 import { Bebas_Neue, Inter, Playfair_Display } from 'next/font/google'
 import './globals.css'
 
-const inter = Inter({ subsets: ['latin'] })
+const inter = Inter({ subsets: ['latin'], variable: '--font-inter' })
 const bebasNeue = Bebas_Neue({
   weight: '400',
   subsets: ['latin'],
@@ -92,7 +92,7 @@ export default function RootLayout({
   return (
     <html lang='en'>
       <body
-        className={`${inter.className} ${bebasNeue.variable} ${playfairDisplay.variable}`}
+        className={`${inter.className} ${inter.variable} ${bebasNeue.variable} ${playfairDisplay.variable}`}
       >
         <NavbarComp />
         {children}

@@ -26,7 +26,7 @@ export const metadata: Metadata = {
     title: 'About Us - Larbol Construction | Building Dreams, Crafting Reality',
     description:
       'Discover Larbol Construction, a leading construction company with over 10 years of expertise in delivering innovative and sustainable building solutions.',
-    url: 'https://larbolconstruction.com/about',
+    url: 'https://larbol-construction.vercel.app/about',
     siteName: 'Larbol Construction',
     images: [
       {
@@ -59,7 +59,7 @@ export const metadata: Metadata = {
     },
   },
   alternates: {
-    canonical: 'https://larbol-construction.vercel.app/',
+    canonical: 'https://larbol-construction.vercel.app/about',
   },
   category: 'construction',
 }

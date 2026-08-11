@@ -40,7 +40,7 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
       images: [project.videoThumbnail],
     },
     alternates: {
-      canonical: `https://larbol-construction.com/projects/${project.id}`,
+      canonical: `https://larbol-construction.vercel.app/projects/${project.id}`,
     },
   }
 }

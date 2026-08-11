@@ -1,42 +1,36 @@
-const path = require('path')
+import type { NextConfig } from 'next'
 
-module.exports = {
-  webpack: (config: any) => {
-    config.module.rules.push({
-      test: /\.(mp4|webm|ogg)$/,
-      use: {
-        loader: 'file-loader',
-        options: {
-          outputPath: 'static/videos/',
-          publicPath: '/_next/static/videos/',
-          name: '[name].[ext]',
-        },
-      },
-    })
-
-    return config
-  },
-
+const nextConfig: NextConfig = {
   images: {
     remotePatterns: [
       {
         protocol: 'https',
         hostname: 'img.freepik.com',
-        port: '',
-        pathname: '/**', // Make sure to handle all possible paths.
+        pathname: '/**',
       },
       {
         protocol: 'https',
         hostname: 'cdn.pixabay.com',
-        port: '',
-        pathname: '/**', // Make sure to handle all possible paths.
+        pathname: '/**',
       },
       {
         protocol: 'https',
         hostname: 'i.pinimg.com',
-        port: '',
-        pathname: '/**', // Make sure to handle all possible paths.
+        pathname: '/**',
       },
     ],
   },
+  webpack: (config) => {
+    config.module.rules.push({
+      test: /\.(mp4|webm|ogg)$/,
+      type: 'asset/resource',
+      generator: {
+        filename: 'static/videos/[name][ext]',
+      },
+    })
+
+    return config
+  },
 }
+
+export default nextConfig
