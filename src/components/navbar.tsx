@@ -57,7 +57,7 @@ export default function NavbarComp() {
       })
     } else {
       tl.to('.mobile-menu', {
-        x: '100%',
+        x: '-100%',
         opacity: 0,
         duration: 0.3,
         ease: 'power2.in',
@@ -147,7 +147,7 @@ export default function NavbarComp() {
 
       {/* Mobile Drawer Navigation */}
       <div
-        className={`mobile-menu fixed top-0 left-0 z-[100] w-full max-w-sm h-screen transform translate-x-full md:hidden bg-brand-bg flex flex-col justify-between`}
+        className={`mobile-menu fixed top-0 left-0 z-[100] w-full max-w-sm h-screen transform -translate-x-full md:hidden bg-brand-bg flex flex-col justify-between`}
       >
         <div className='p-5'>
           {/* Mobile Header */}
@@ -206,10 +206,10 @@ export default function NavbarComp() {
               Have questions?
             </p>
             <Link
-              href='tel:+00412345688'
+              href='tel:+2348031234567'
               className='text-brand-dark font-semibold hover:underline block text-base'
             >
-              +(004) 123 - 456 88
+              +234 (0) 803 123 4567
             </Link>
           </div>
 

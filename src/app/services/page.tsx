@@ -1,40 +1,32 @@
-import ServicesComp from '@/components/ServicesComp'
-import {
-  contentSections,
-  faqs,
-  processSteps,
-  servicesData,
-} from '@/data/services'
 import type { Metadata } from 'next'
+import EngineeringProcess from './components/EngineeringProcess'
+import ServicesCta from './components/ServicesCta'
+import ServicesGrid from './components/ServicesGrid'
+import ServicesHero from './components/ServicesHero'
 
 export const metadata: Metadata = {
-  title: 'Construction Services | Larbol Construction - Building Excellence',
+  title: 'Engineering & Construction Services | Larbol Construction',
   description:
-    'Discover our comprehensive range of professional construction services including road construction, bridge development, building construction, drainage systems, infrastructure planning, and project management. Trust Larbol Construction for quality and expertise.',
+    'Explore Larbol Construction Limited comprehensive structural engineering, civil highway construction, commercial building development, and project management services in Nigeria.',
   keywords: [
     'construction services',
-    'road construction',
-    'bridge development',
+    'road construction Nigeria',
+    'highway engineering Lagos',
     'building construction',
-    'drainage systems',
-    'infrastructure planning',
+    'civil infrastructure',
     'project management',
-    'construction company',
-    'construction Nigeria',
-    'civil engineering',
-    'construction solutions',
-    'building services',
-    'construction expertise',
-    'sustainable construction',
+    'construction company Nigeria',
+    'COREN civil engineers',
+    'commercial building contractor',
   ],
-  authors: [{ name: 'Code With Mercy' }],
-  creator: 'Code With Mercy',
+  authors: [{ name: 'Larbol Construction' }],
+  creator: 'Larbol Construction',
   publisher: 'Larbol Construction',
   openGraph: {
-    title: 'Construction Services | Larbol Construction - Building Excellence',
+    title: 'Engineering & Construction Services | Larbol Construction Limited',
     description:
-      'Discover our comprehensive range of professional construction services including road construction, bridge development, building construction, drainage systems, infrastructure planning, and project management.',
-    url: 'https://larbol-construction.vercel.app/services',
+      'Comprehensive structural engineering, civil highway construction, and commercial building development in Nigeria.',
+    url: '/services',
     siteName: 'Larbol Construction',
     images: [
       {
@@ -49,9 +41,9 @@ export const metadata: Metadata = {
   },
   twitter: {
     card: 'summary_large_image',
-    title: 'Construction Services | Larbol Construction - Building Excellence',
+    title: 'Engineering & Construction Services | Larbol Construction Limited',
     description:
-      'Discover our comprehensive range of professional construction services including road construction, bridge development, building construction, drainage systems, infrastructure planning, and project management.',
+      'Comprehensive structural engineering, civil highway construction, and commercial building development in Nigeria.',
     images: ['/web-screenshot.png'],
     creator: '@larbolconstruction',
   },
@@ -67,18 +59,66 @@ export const metadata: Metadata = {
     },
   },
   alternates: {
-    canonical: 'https://larbol-construction.vercel.app/services',
+    canonical: '/services',
   },
   category: 'construction',
 }
 
 export default function ServicesPage() {
+  const jsonLdData = {
+    '@context': 'https://schema.org',
+    '@type': 'Service',
+    serviceType: 'Construction & Civil Engineering',
+    provider: {
+      '@type': 'GeneralContractor',
+      name: 'Larbol Construction Limited',
+      url: 'https://larbol-construction.vercel.app/services',
+    },
+    areaServed: 'Nigeria',
+    hasOfferCatalog: {
+      '@type': 'OfferCatalog',
+      name: 'Construction Services Catalog',
+      itemListElement: [
+        {
+          '@type': 'Offer',
+          itemOffered: {
+            '@type': 'Service',
+            name: 'Civil & Highway Engineering',
+          },
+        },
+        {
+          '@type': 'Offer',
+          itemOffered: {
+            '@type': 'Service',
+            name: 'Commercial & Multi-Family Towers',
+          },
+        },
+        {
+          '@type': 'Offer',
+          itemOffered: {
+            '@type': 'Service',
+            name: 'Industrial & Logistics Parks',
+          },
+        },
+      ],
+    },
+  }
+
   return (
-    <ServicesComp
-      servicesData={servicesData}
-      contentSections={contentSections}
-      processSteps={processSteps}
-      faqs={faqs}
-    />
+    <main className='w-full'>
+      {/* Schema.org Service catalog JSON-LD metadata with id prop */}
+      <script
+        id='services-schema'
+        type='application/ld+json'
+        dangerouslySetInnerHTML={{
+          __html: JSON.stringify(jsonLdData),
+        }}
+      />
+
+      <ServicesHero />
+      <ServicesGrid />
+      <EngineeringProcess />
+      <ServicesCta />
+    </main>
   )
 }

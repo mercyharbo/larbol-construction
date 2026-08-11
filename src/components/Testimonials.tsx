@@ -110,10 +110,12 @@ export default function CompactTestimonialsSlider() {
         
         {/* Compact Section Header */}
         <div className='flex items-center justify-between gap-4 border-b border-neutral-300/50 pb-4'>
-          <div className='space-y-1'>
-            <span className='text-[11px] font-mono font-bold uppercase tracking-widest text-neutral-500'>
-              CLIENT FEEDBACK
-            </span>
+          <div className='space-y-3'>
+            <div className='inline-block'>
+              <span className='text-sm font-bold tracking-wide text-neutral-700 border border-neutral-300 px-4 py-1.5 rounded-full bg-white/70'>
+                Client Feedback
+              </span>
+            </div>
             <h2 className='text-2xl sm:text-3xl font-bold tracking-tight text-neutral-950 font-sans'>
               What Clients Say
             </h2>
@@ -178,6 +180,7 @@ export default function CompactTestimonialsSlider() {
 
         {/* Structured Data for SEO / AI Search Engine Indexing */}
         <script
+          id='testimonials-aggregaterating-schema'
           type='application/ld+json'
           dangerouslySetInnerHTML={{
             __html: JSON.stringify({

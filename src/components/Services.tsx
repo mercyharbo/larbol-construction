@@ -90,10 +90,12 @@ export default function SpaciazServicesAndStatsSection() {
       <section className='w-full bg-[#F5F4F0] py-16 lg:py-24 border-t border-neutral-300/40'>
         <div className='max-w-[1400px] mx-auto px-4 sm:px-6 lg:px-8 space-y-12'>
           <div className='flex flex-col md:flex-row md:items-end justify-between gap-6'>
-            <div className='space-y-3 max-w-xl'>
-              <span className='text-xs font-bold uppercase tracking-widest text-neutral-600 border border-neutral-300 px-4 py-1.5 rounded-full bg-white/60 inline-block'>
-                EXPERT CAPABILITIES
-              </span>
+            <div className='space-y-4 max-w-xl'>
+              <div className='inline-block'>
+                <span className='text-sm font-bold tracking-wide text-neutral-700 border border-neutral-300 px-4 py-1.5 rounded-full bg-white/70'>
+                  Expert Capabilities
+                </span>
+              </div>
               <h2 className='text-3xl sm:text-4xl lg:text-5xl font-bold tracking-tight text-neutral-950 font-sans'>
                 Our Premier Services
               </h2>

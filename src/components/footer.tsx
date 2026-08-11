@@ -32,6 +32,7 @@ export default function FooterComp() {
     <footer className='w-full bg-[#121417] text-white pt-16 pb-12 border-t border-neutral-800 relative z-10'>
       {/* Schema.org LocalBusiness JSON-LD for Google Knowledge Graph & AI Search Engines */}
       <script
+        id='footer-generalcontractor-schema'
         type='application/ld+json'
         dangerouslySetInnerHTML={{
           __html: JSON.stringify({

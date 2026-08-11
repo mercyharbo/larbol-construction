@@ -19,8 +19,8 @@ export default function SpaciazFeatureCardsSection() {
         {/* Header Title & Tag */}
         <div className='text-center space-y-4 max-w-3xl mx-auto'>
           <div className='inline-block'>
-            <span className='text-xs font-bold uppercase tracking-widest text-neutral-600 border border-neutral-300 px-4 py-1.5 rounded-full bg-white/60'>
-              WHO WE ARE
+            <span className='text-sm font-bold tracking-wide text-neutral-700 border border-neutral-300 px-4 py-1.5 rounded-full bg-white/70'>
+              Who We Are
             </span>
           </div>
 
