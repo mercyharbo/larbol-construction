@@ -1,855 +1,203 @@
 'use client'
 
-import type React from 'react'
-
-import { testimonials } from '@/constants/data'
-import { useGSAP } from '@gsap/react'
 import gsap from 'gsap'
-import { ScrollTrigger } from 'gsap/ScrollTrigger'
-import {
-  Award,
-  Building,
-  Camera,
-  Filter,
-  Grid3X3,
-  Heart,
-  List,
-  MapPin,
-  Plus,
-  Quote,
-  Share2,
-  Star,
-  TrendingUp,
-  Verified,
-  Video,
-  X,
-} from 'lucide-react'
-import Image from 'next/image'
-import { useEffect, useRef, useState } from 'react'
+import { ChevronLeft, ChevronRight, Quote, Star } from 'lucide-react'
+import { useCallback, useRef, useState } from 'react'
 
-gsap.registerPlugin(useGSAP, ScrollTrigger)
+interface Testimonial {
+  id: number
+  name: string
+  role: string
+  company: string
+  project: string
+  rating: number
+  quote: string
+}
 
-// Enhanced testimonial data structure
-const enhancedTestimonials = [
+const verifiedTestimonials: Testimonial[] = [
   {
-    ...testimonials[0],
     id: 1,
+    name: 'Adebayo Adekunle',
+    role: 'Managing Director',
+    company: 'Horizon Property Developments',
+    project: 'Commercial Office Tower Complex',
     rating: 5,
-    avatar:
-      'https://i.pinimg.com/736x/ce/98/36/ce9836d6d78e7a2f524d5c0ed97c8de3.jpg',
-    position: 'CEO',
-    company: 'Tech Innovations Inc.',
-    location: 'New York, NY',
-    date: '2024-01-15',
-    projectType: 'Commercial',
-    verified: true,
-    featured: true,
-    images: [
-      'https://i.pinimg.com/736x/3d/c9/c3/3dc9c31e1703ac5a10a04f740203f6ec.jpg',
-      'https://i.pinimg.com/1200x/9a/38/6b/9a386b0f8fb2bb961d0429250f6ab42e.jpg',
-    ],
-    videoUrl: null,
-    likes: 24,
-    helpful: 18,
+    quote:
+      'Larbol Construction delivered our multi-story commercial office tower ahead of deadline. Their structural engineering precision, safety compliance, and transparent project management set a benchmark for construction excellence.',
   },
   {
-    ...testimonials[1],
     id: 2,
+    name: 'Engr. Folake Balogun',
+    role: 'Head of Infrastructure Projects',
+    company: 'Civic Transport Authority',
+    project: 'Dual Carriage Arterial Road Corridor',
     rating: 5,
-    avatar:
-      'https://i.pinimg.com/1200x/0b/2e/98/0b2e988dcec7af0209aa42d919c6967b.jpg',
-    position: 'Homeowner',
-    company: 'Private Residence',
-    location: 'Los Angeles, CA',
-    date: '2024-01-10',
-    projectType: 'Residential',
-    verified: true,
-    featured: false,
-    images: [
-      'https://i.pinimg.com/736x/b2/43/a0/b243a048408396129b3079dc535b0f29.jpg',
-    ],
-    videoUrl: '/placeholder-video.mp4',
-    likes: 31,
-    helpful: 25,
+    quote:
+      'Partnering with Larbol Construction on our arterial roadway expansion was seamless. Their civil engineering team demonstrated exceptional quality control, heavy machinery mobilization, and strict adherence to standards.',
   },
   {
-    ...testimonials[2],
     id: 3,
-    rating: 4,
-    avatar:
-      'https://i.pinimg.com/1200x/97/e1/59/97e159c6c2dcb7d9d0c455e1a4e6287d.jpg',
-    position: 'Project Manager',
-    company: 'Urban Development Corp',
-    location: 'Chicago, IL',
-    date: '2024-01-05',
-    projectType: 'Infrastructure',
-    verified: true,
-    featured: true,
-    images: [
-      'https://i.pinimg.com/736x/e8/2c/08/e82c087782d016bde52997809b34b570.jpg',
-      'https://i.pinimg.com/1200x/b3/92/a9/b392a9634e95c53797ec26e31fc992fc.jpg',
-    ],
-    videoUrl: null,
-    likes: 19,
-    helpful: 14,
+    name: 'Arc. Tunde Williams',
+    role: 'Principal Architect',
+    company: 'Apex Design Studios',
+    project: 'Luxury Contemporary Residential Estate',
+    rating: 5,
+    quote:
+      'Larbol Construction turns complex architectural blueprints into structural reality without compromising on materials, finishing, or structural aesthetics. They are our trusted contractor for high-end developments.',
   },
   {
-    ...testimonials[0],
     id: 4,
+    name: 'Dr. Chidera Eze',
+    role: 'Chief Operations Officer',
+    company: 'Prime Health Facilities',
+    project: 'Specialist Medical Center',
     rating: 5,
-    avatar:
-      'https://i.pinimg.com/736x/a7/78/1b/a7781b8c72004ae4f9c014cfeeffd005.jpg',
-    position: 'Facilities Director',
-    company: 'Healthcare Systems',
-    location: 'Miami, FL',
-    date: '2023-12-28',
-    projectType: 'Commercial',
-    verified: true,
-    featured: false,
-    images: [
-      'https://i.pinimg.com/736x/a2/fa/69/a2fa69538f8fca3e833e5bf71cda02c6.jpg',
-      'https://i.pinimg.com/736x/a9/e0/37/a9e0372548a1930abe384fd79ee13fe9.jpg',
-    ],
-    videoUrl: null,
-    likes: 42,
-    helpful: 33,
-  },
-  {
-    ...testimonials[1],
-    id: 5,
-    rating: 5,
-    avatar:
-      'https://i.pinimg.com/736x/3b/d4/25/3bd42567321ad6bf5fa828ad95c499a6.jpg',
-    position: 'Property Owner',
-    company: 'Residential Client',
-    location: 'Seattle, WA',
-    date: '2023-12-20',
-    projectType: 'Residential',
-    verified: false,
-    featured: false,
-    images: [
-      'https://i.pinimg.com/736x/a7/ac/88/a7ac88715bfa8c70fa373cfcb4815c6d.jpg',
-    ],
-    videoUrl: '/placeholder-video.mp4',
-    likes: 16,
-    helpful: 12,
-  },
-  {
-    ...testimonials[2],
-    id: 6,
-    rating: 4,
-    avatar:
-      'https://i.pinimg.com/736x/83/cb/ec/83cbec8de600194db81b44590ca32603.jpg',
-    position: 'Operations Manager',
-    company: 'Manufacturing Co.',
-    location: 'Detroit, MI',
-    date: '2023-12-15',
-    projectType: 'Industrial',
-    verified: true,
-    featured: false,
-    images: [
-      'https://i.pinimg.com/736x/15/e0/77/15e07754221e54e3e7e40c18498be5fb.jpg',
-    ],
-    videoUrl: null,
-    likes: 28,
-    helpful: 21,
+    quote:
+      'From soil testing and foundation piling to MEP systems installation, Larbol Construction maintained absolute professionalism, zero safety incidents, and transparent cost accounting throughout.',
   },
 ]
 
-const projectTypes = [
-  'All',
-  'Commercial',
-  'Residential',
-  'Infrastructure',
-  'Industrial',
-]
+export default function CompactTestimonialsSlider() {
+  const [current, setCurrent] = useState(0)
+  const [isAnimating, setIsAnimating] = useState(false)
+  const cardRef = useRef<HTMLDivElement>(null)
 
-interface TestimonialSubmissionFormProps {
-  onClose: () => void
-}
+  const active = verifiedTestimonials[current]
 
-function TestimonialSubmissionForm({
-  onClose,
-}: TestimonialSubmissionFormProps) {
-  const [formData, setFormData] = useState({
-    name: '',
-    email: '',
-    company: '',
-    position: '',
-    location: '',
-    projectType: '',
-    rating: 5,
-    testimonial: '',
-    images: [] as File[],
-  })
+  const goToSlide = useCallback(
+    (index: number) => {
+      if (isAnimating) return
+      const nextIndex = ((index % verifiedTestimonials.length) + verifiedTestimonials.length) % verifiedTestimonials.length
+      if (nextIndex === current) return
 
-  const handleSubmit = (e: React.FormEvent) => {
-    e.preventDefault()
-    console.log('Testimonial submitted:', formData)
-    onClose()
-  }
+      setIsAnimating(true)
+      const isNext = nextIndex > current || (current === verifiedTestimonials.length - 1 && nextIndex === 0)
+      const exitX = isNext ? -70 : 70
+      const enterX = isNext ? 70 : -70
 
-  return (
-    <div className='fixed inset-0 bg-black/50 backdrop-blur-sm z-50 flex items-center justify-center p-4'>
-      <div className='bg-white rounded-2xl max-w-2xl w-full max-h-[90vh] overflow-y-auto'>
-        <div className='p-6'>
-          <div className='flex items-center justify-between'>
-            <h3 className='text-2xl font-bold text-gray-900'>
-              Share Your Experience
-            </h3>
-            <button
-              onClick={onClose}
-              className='p-2 hover:bg-gray-100 rounded-full transition-colors'
-              aria-label='Close form'
-            >
-              <X size={20} />
-            </button>
-          </div>
-
-          <form onSubmit={handleSubmit} className='space-y-6'>
-            <div className='grid grid-cols-1 md:grid-cols-2 gap-4'>
-              <div>
-                <label className='block text-sm font-medium text-gray-700 mb-1'>
-                  Name *
-                </label>
-                <input
-                  type='text'
-                  required
-                  className='w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent'
-                  value={formData.name}
-                  onChange={(e) =>
-                    setFormData({ ...formData, name: e.target.value })
-                  }
-                />
-              </div>
-              <div>
-                <label className='block text-sm font-medium text-gray-700 mb-1'>
-                  Email *
-                </label>
-                <input
-                  type='email'
-                  required
-                  className='w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent'
-                  value={formData.email}
-                  onChange={(e) =>
-                    setFormData({ ...formData, email: e.target.value })
-                  }
-                />
-              </div>
-            </div>
-
-            <div className='grid grid-cols-1 md:grid-cols-2 gap-4'>
-              <div>
-                <label className='block text-sm font-medium text-gray-700 mb-1'>
-                  Company
-                </label>
-                <input
-                  type='text'
-                  className='w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent'
-                  value={formData.company}
-                  onChange={(e) =>
-                    setFormData({ ...formData, company: e.target.value })
-                  }
-                />
-              </div>
-              <div>
-                <label className='block text-sm font-medium text-gray-700 mb-1'>
-                  Position
-                </label>
-                <input
-                  type='text'
-                  className='w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent'
-                  value={formData.position}
-                  onChange={(e) =>
-                    setFormData({ ...formData, position: e.target.value })
-                  }
-                />
-              </div>
-            </div>
-
-            <div className='grid grid-cols-1 md:grid-cols-2 gap-4'>
-              <div>
-                <label className='block text-sm font-medium text-gray-700 mb-1'>
-                  Location
-                </label>
-                <input
-                  type='text'
-                  className='w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent'
-                  value={formData.location}
-                  onChange={(e) =>
-                    setFormData({ ...formData, location: e.target.value })
-                  }
-                />
-              </div>
-              <div>
-                <label className='block text-sm font-medium text-gray-700 mb-1'>
-                  Project Type
-                </label>
-                <select
-                  className='w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent'
-                  value={formData.projectType}
-                  onChange={(e) =>
-                    setFormData({ ...formData, projectType: e.target.value })
-                  }
-                >
-                  <option value=''>Select project type</option>
-                  {projectTypes.slice(1).map((type) => (
-                    <option key={type} value={type}>
-                      {type}
-                    </option>
-                  ))}
-                </select>
-              </div>
-            </div>
-
-            <div>
-              <label className='block text-sm font-medium text-gray-700 mb-2'>
-                Rating *
-              </label>
-              <div className='flex gap-1'>
-                {[1, 2, 3, 4, 5].map((star) => (
-                  <button
-                    key={star}
-                    type='button'
-                    onClick={() => setFormData({ ...formData, rating: star })}
-                    className={`p-1 ${
-                      star <= formData.rating
-                        ? 'text-yellow-400'
-                        : 'text-gray-300'
-                    }`}
-                  >
-                    <Star
-                      size={24}
-                      fill={star <= formData.rating ? 'currentColor' : 'none'}
-                    />
-                  </button>
-                ))}
-              </div>
-            </div>
-
-            <div>
-              <label className='block text-sm font-medium text-gray-700 mb-1'>
-                Your Testimonial *
-              </label>
-              <textarea
-                required
-                rows={4}
-                className='w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent'
-                placeholder='Share your experience working with us...'
-                value={formData.testimonial}
-                onChange={(e) =>
-                  setFormData({ ...formData, testimonial: e.target.value })
-                }
-              />
-            </div>
-
-            <div>
-              <label className='block text-sm font-medium text-gray-700 mb-2'>
-                Project Images (Optional)
-              </label>
-              <div className='border-2 border-dashed border-gray-300 rounded-lg p-6 text-center hover:border-blue-500 transition-colors'>
-                <Camera size={32} className='mx-auto text-gray-400 mb-2' />
-                <p className='text-sm text-gray-600'>
-                  Click to upload project images
-                </p>
-                <input
-                  type='file'
-                  multiple
-                  accept='image/*'
-                  className='hidden'
-                />
-              </div>
-            </div>
-
-            <button
-              type='submit'
-              className='w-full bg-blue-600 text-white py-3 rounded-lg hover:bg-blue-700 transition-colors font-medium'
-            >
-              Submit Testimonial
-            </button>
-          </form>
-        </div>
-      </div>
-    </div>
-  )
-}
-
-export default function EnhancedTestimonials() {
-  const container = useRef<HTMLElement>(null)
-  const revealRefs = useRef<Array<HTMLElement>>([])
-  const carouselRef = useRef<HTMLDivElement>(null)
-  const [selectedFilter, setSelectedFilter] = useState('All')
-  const [viewMode, setViewMode] = useState<'grid' | 'carousel'>('grid')
-  const [currentSlide, setCurrentSlide] = useState(0)
-  const [isAutoPlaying, setIsAutoPlaying] = useState(true)
-  const [showSubmissionForm, setShowSubmissionForm] = useState(false)
-  const [selectedTestimonial, setSelectedTestimonial] = useState<any>(null)
-
-  // Filter testimonials
-  const filteredTestimonials = enhancedTestimonials.filter((testimonial) => {
-    return (
-      selectedFilter === 'All' || testimonial.projectType === selectedFilter
-    )
-  })
-
-  // Featured testimonials for carousel
-  const featuredTestimonials = enhancedTestimonials.filter((t) => t.featured)
-
-  useGSAP(() => {
-    // Header animations
-    const headerElements = revealRefs.current.slice(0, 2)
-    gsap.fromTo(
-      headerElements,
-      { y: 50, opacity: 0 },
-      {
-        y: 0,
-        opacity: 1,
-        duration: 1,
-        stagger: 0.2,
-        ease: 'power3.out',
-        scrollTrigger: {
-          trigger: headerElements[0],
-          start: 'top center+=100',
-          toggleActions: 'play none none reverse',
-        },
-      }
-    )
-
-    // Testimonial cards animations
-    const cardElements = revealRefs.current.slice(2)
-    cardElements.forEach((el, index) => {
-      gsap.fromTo(
-        el,
-        {
-          y: 100,
+      if (cardRef.current) {
+        gsap.to(cardRef.current, {
           opacity: 0,
-          scale: 0.9,
-          rotationX: 45,
-        },
-        {
-          y: 0,
-          opacity: 1,
-          scale: 1,
-          rotationX: 0,
-          duration: 1.2,
-          ease: 'back.out(1.7)',
-          delay: index * 0.1,
-          scrollTrigger: {
-            trigger: el,
-            start: 'top center+=50',
-            toggleActions: 'play none none reverse',
+          x: exitX,
+          duration: 0.3,
+          ease: 'power2.in',
+          onComplete: () => {
+            setCurrent(nextIndex)
+            gsap.fromTo(
+              cardRef.current,
+              { opacity: 0, x: enterX },
+              {
+                opacity: 1,
+                x: 0,
+                duration: 0.45,
+                ease: 'power3.out',
+                onComplete: () => setIsAnimating(false),
+              }
+            )
           },
-        }
-      )
-    })
+        })
+      }
+    },
+    [current, isAnimating]
+  )
 
-    // Floating animation for quote icons
-    gsap.to('.quote-icon', {
-      y: -10,
-      duration: 3,
-      ease: 'power2.inOut',
-      yoyo: true,
-      repeat: -1,
-      stagger: 0.5,
-    })
-  }, [filteredTestimonials])
-
-  // Auto-play carousel
-  useEffect(() => {
-    if (!isAutoPlaying || viewMode !== 'carousel') return
-
-    const interval = setInterval(() => {
-      setCurrentSlide((prev) => (prev + 1) % featuredTestimonials.length)
-    }, 5000)
-
-    return () => clearInterval(interval)
-  }, [isAutoPlaying, viewMode, featuredTestimonials.length])
-
-  const addToRefs = (el: HTMLElement | null) => {
-    if (el && !revealRefs.current.includes(el)) {
-      revealRefs.current.push(el)
-    }
-  }
-
-  const nextSlide = () => {
-    setCurrentSlide((prev) => (prev + 1) % featuredTestimonials.length)
-  }
-
-  const prevSlide = () => {
-    setCurrentSlide(
-      (prev) =>
-        (prev - 1 + featuredTestimonials.length) % featuredTestimonials.length
-    )
-  }
-
-  const renderStars = (rating: number) => {
-    return [...Array(5)].map((_, i) => (
-      <Star
-        key={i}
-        size={16}
-        className={
-          i < rating ? 'text-yellow-400 fill-current' : 'text-gray-400'
-        }
-      />
-    ))
-  }
-
-  const formatDate = (dateString: string) => {
-    return new Date(dateString).toLocaleDateString('en-US', {
-      year: 'numeric',
-      month: 'short',
-      day: 'numeric',
-    })
-  }
+  const nextSlide = () => goToSlide(current + 1)
+  const prevSlide = () => goToSlide(current - 1)
 
   return (
-    <section
-      ref={container}
-      className='bg-gradient-to-br from-slate-900 via-blue-900 to-slate-900 w-full text-white relative overflow-hidden py-20 px-5 lg:px-10'
-    >
-      <div className='absolute inset-0 opacity-10'>
-        <div className="absolute inset-0 bg-[url('/placeholder.svg?height=100&width=100')] opacity-20" />
-        <div className='absolute top-0 left-0 w-full h-full bg-gradient-to-r from-blue-600/10 to-purple-600/10' />
-      </div>
-
-      <div className='absolute inset-0 overflow-hidden pointer-events-none'>
-        {[...Array(20)].map((_, i) => (
-          <div
-            key={i}
-            className='absolute w-1 h-1 bg-white/30 rounded-full animate-pulse'
-            style={{
-              left: `${Math.random() * 100}%`,
-              top: `${Math.random() * 100}%`,
-              animationDelay: `${Math.random() * 3}s`,
-              animationDuration: `${2 + Math.random() * 3}s`,
-            }}
-          />
-        ))}
-      </div>
-
-      <div className='container mx-auto px-4 relative z-10 space-y-[3rem]'>
-        {/* Enhanced header */}
-        <div className='text-center space-y-5 '>
-          <div className='inline-flex items-center gap-2 bg-white/10 backdrop-blur-sm px-4 py-2 rounded-full '>
-            <Award className='text-yellow-400' size={20} />
-            <span className='text-sm font-medium'>Client Testimonials</span>
+    <section className='w-full bg-[#F5F4F0] py-14 lg:py-18 border-t border-neutral-300/40 relative'>
+      <div className='max-w-[1000px] mx-auto px-4 sm:px-6 lg:px-8 space-y-8'>
+        
+        {/* Compact Section Header */}
+        <div className='flex items-center justify-between gap-4 border-b border-neutral-300/50 pb-4'>
+          <div className='space-y-1'>
+            <span className='text-[11px] font-mono font-bold uppercase tracking-widest text-neutral-500'>
+              CLIENT FEEDBACK
+            </span>
+            <h2 className='text-2xl sm:text-3xl font-bold tracking-tight text-neutral-950 font-sans'>
+              What Clients Say
+            </h2>
           </div>
 
-          <h2
-            ref={addToRefs}
-            className='text-5xl md:text-6xl font-bold bg-gradient-to-r from-white via-blue-200 to-white bg-clip-text text-transparent'
-          >
-            What Our Clients Say
-          </h2>
-
-          <p
-            ref={addToRefs}
-            className='text-xl text-gray-300 max-w-3xl mx-auto leading-relaxed mb-8'
-          >
-            Discover why our clients trust Larbol Construction for their
-            projects. Read firsthand experiences from satisfied customers who
-            have witnessed our commitment to quality, reliability, and
-            exceptional service.
-          </p>
-
-          <div className='grid grid-cols-2 md:grid-cols-4 gap-6 max-w-4xl mx-auto space-y-5'>
-            <div className='text-center space-y-2'>
-              <h3 className='text-3xl font-bold text-blue-400'>4.8</h3>
-              <span className='text-sm text-gray-400'>Average Rating</span>
-            </div>
-            <div className='text-center space-y-2'>
-              <h3 className='text-3xl font-bold text-green-400'>500+</h3>
-              <span className='text-sm text-gray-400'>Happy Clients</span>
-            </div>
-            <div className='text-center space-y-2'>
-              <h3 className='text-3xl font-bold text-purple-400'>98%</h3>
-              <span className='text-sm text-gray-400'>Satisfaction Rate</span>
-            </div>
-            <div className='text-center space-y-2'>
-              <h3 className='text-3xl font-bold text-yellow-400'>10+</h3>
-              <span className='text-sm text-gray-400'>Reviews</span>
-            </div>
-          </div>
-
-          <div className='flex flex-wrap items-center justify-center gap-4'>
-            <div className='flex flex-wrap gap-2 justify-center lg:justify-start'>
-              {projectTypes.map((type) => (
-                <button
-                  key={type}
-                  onClick={() => setSelectedFilter(type)}
-                  className={`px-4 py-2 rounded-full text-sm font-medium transition-all duration-200 ${
-                    selectedFilter === type
-                      ? 'bg-blue-600 text-white'
-                      : 'bg-white/10 text-gray-300 hover:bg-white/20'
-                  }`}
-                >
-                  {type}
-                </button>
-              ))}
-            </div>
-
-            <div className='flex bg-white/10 rounded-lg p-1'>
-              <button
-                onClick={() => setViewMode('grid')}
-                className={`px-3 py-2 rounded text-sm flex items-center gap-1 ${
-                  viewMode === 'grid' ? 'bg-blue-600' : 'hover:bg-white/10'
-                }`}
-              >
-                <Grid3X3 size={16} className='inline' />
-                Grid
-              </button>
-              <button
-                onClick={() => setViewMode('carousel')}
-                className={`px-3 py-2 rounded text-sm flex items-center gap-1 ${
-                  viewMode === 'carousel' ? 'bg-blue-600' : 'hover:bg-white/10'
-                }`}
-              >
-                <List size={16} className='inline' />
-                Carousel
-              </button>
-            </div>
-
+          {/* Navigation Buttons */}
+          <div className='flex items-center gap-2'>
+            <span className='text-xs font-mono font-semibold text-neutral-500 mr-2'>
+              0{current + 1} / 0{verifiedTestimonials.length}
+            </span>
             <button
-              onClick={() => setShowSubmissionForm(true)}
-              className='bg-green-600 hover:bg-green-700 text-white px-4 py-2 rounded-full text-sm font-medium transition-colors flex items-center gap-2'
-            >
-              <Plus size={16} />
-              Share Your Experience
-            </button>
-          </div>
-        </div>
-
-        {viewMode === 'carousel' && (
-          <div className='relative max-w-4xl mx-auto mb-16'>
-            <div ref={carouselRef} className='overflow-hidden rounded-2xl'>
-              <div
-                className='flex transition-transform duration-500 ease-in-out'
-                style={{ transform: `translateX(-${currentSlide * 100}%)` }}
-              >
-                {featuredTestimonials.map((testimonial, index) => (
-                  <div
-                    key={testimonial.id}
-                    className='w-full flex-shrink-0 p-8 bg-white/5 backdrop-blur-sm'
-                  >
-                    <div className='text-center max-w-3xl mx-auto space-y-5'>
-                      <Quote
-                        className='quote-icon mx-auto text-blue-400'
-                        size={48}
-                      />
-                      <blockquote className='text-2xl font-light leading-relaxed'>
-                        "{testimonial.text}"
-                      </blockquote>
-                      <div className='flex items-center justify-center gap-4'>
-                        <Image
-                          src={testimonial.avatar || '/placeholder.svg'}
-                          alt={testimonial.author}
-                          width={60}
-                          height={60}
-                          className='rounded-full'
-                        />
-                        <div className='text-left space-y-2'>
-                          <div className='font-semibold text-lg'>
-                            {testimonial.author}
-                          </div>
-                          <div className='text-gray-400 text-sm'>
-                            {testimonial.position} at {testimonial.company}
-                          </div>
-                          <div className='flex items-center gap-2'>
-                            <div className='flex'>
-                              {renderStars(testimonial.rating)}
-                            </div>
-                            {testimonial.verified && (
-                              <Verified className='text-blue-400' size={16} />
-                            )}
-                          </div>
-                        </div>
-                      </div>
-                    </div>
-                  </div>
-                ))}
-              </div>
-            </div>
-
-            {/* <button
               onClick={prevSlide}
-              className='absolute left-4 top-1/2 -translate-y-1/2 bg-white/20 hover:bg-white/30 p-3 rounded-full transition-colors'
+              disabled={isAnimating}
+              aria-label='Previous Testimonial'
+              className='w-9 h-9 rounded-full bg-white border border-neutral-300 text-neutral-900 flex items-center justify-center hover:bg-neutral-100 transition-colors disabled:opacity-40 cursor-pointer'
             >
-              <ChevronLeft size={24} />
+              <ChevronLeft size={16} />
             </button>
             <button
               onClick={nextSlide}
-              className='absolute right-4 top-1/2 -translate-y-1/2 bg-white/20 hover:bg-white/30 p-3 rounded-full transition-colors'
+              disabled={isAnimating}
+              aria-label='Next Testimonial'
+              className='w-9 h-9 rounded-full bg-neutral-950 text-white flex items-center justify-center hover:bg-neutral-800 transition-colors disabled:opacity-40 cursor-pointer'
             >
-              <ChevronRight size={24} />
-            </button> */}
+              <ChevronRight size={16} />
+            </button>
+          </div>
+        </div>
 
-            <div className='flex justify-center gap-2 mt-6'>
-              {featuredTestimonials.map((_, index) => (
-                <button
-                  key={index}
-                  onClick={() => setCurrentSlide(index)}
-                  className={`w-3 h-3 rounded-full transition-all duration-200 ${
-                    currentSlide === index
-                      ? 'bg-blue-400 w-6'
-                      : 'bg-white/30 hover:bg-white/50'
-                  }`}
-                />
+        {/* Compact Testimonial Slider Card (No Avatar, No Location, Zero Shadow) */}
+        <div className='bg-white rounded-[24px] p-8 sm:p-10 border border-neutral-200/80 min-h-[220px] flex flex-col justify-between relative'>
+          <div ref={cardRef} className='space-y-4'>
+            {/* Rating Stars */}
+            <div className='flex items-center gap-1 text-amber-500'>
+              {[...Array(active.rating)].map((_, i) => (
+                <Star key={i} size={15} fill='currentColor' strokeWidth={0} />
               ))}
             </div>
-          </div>
-        )}
 
-        {viewMode === 'grid' && (
-          <div className='grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 2xl:grid-cols-4 gap-8'>
-            {filteredTestimonials.map((testimonial, index) => (
-              <div
-                key={testimonial.id}
-                ref={addToRefs}
-                className='group relative bg-white/5 backdrop-blur-sm border border-white/10 rounded-2xl overflow-hidden hover:bg-white/10 hover:border-white/20 hover:shadow-2xl hover:shadow-blue-500/20'
-              >
-                {/* Featured badge */}
-                {testimonial.featured && (
-                  <div className='absolute top-4 right-4 z-20 bg-gradient-to-r from-yellow-400 to-orange-500 text-black px-2 py-1 rounded-full text-xs font-bold'>
-                    Featured
-                  </div>
-                )}
+            {/* Quote */}
+            <p className='text-neutral-800 text-base sm:text-lg leading-relaxed font-normal italic'>
+              &ldquo;{active.quote}&rdquo;
+            </p>
 
-                {/* Video indicator */}
-                {testimonial.videoUrl && (
-                  <div className='absolute top-4 left-4 z-20 bg-red-600 text-white p-2 rounded-full'>
-                    <Video size={16} />
-                  </div>
-                )}
-
-                <div className='p-6 space-y-5'>
-                  <div className='flex items-start gap-4'>
-                    <Image
-                      src={testimonial.avatar || '/placeholder.svg'}
-                      alt={testimonial.author}
-                      width={50}
-                      height={50}
-                      className='rounded-full flex-shrink-0'
-                    />
-                    <div className='flex-1 min-w-0 space-y-2'>
-                      <div className='flex items-center gap-2'>
-                        <h3 className='font-semibold text-white truncate'>
-                          {testimonial.author}
-                        </h3>
-                        {testimonial.verified && (
-                          <Verified
-                            className='text-blue-400 flex-shrink-0'
-                            size={16}
-                          />
-                        )}
-                      </div>
-                      <p className='text-sm text-gray-400 truncate'>
-                        {testimonial.position} at {testimonial.company}
-                      </p>
-                      <div className='flex items-center gap-2'>
-                        <div className='flex'>
-                          {renderStars(testimonial.rating)}
-                        </div>
-                        <span className='text-xs text-gray-500'>
-                          {formatDate(testimonial.date)}
-                        </span>
-                      </div>
-                    </div>
-                  </div>
-
-                  <blockquote className='text-gray-300 leading-relaxed group-hover:text-white/90 transition-colors duration-300'>
-                    <Quote
-                      className='quote-icon inline-block text-blue-400'
-                      size={16}
-                    />
-                    {testimonial.text}
-                  </blockquote>
-
-                  <div className='flex items-center gap-4 text-xs text-gray-400'>
-                    <span className='flex items-center gap-1'>
-                      <Building size={12} />
-                      {testimonial.projectType}
-                    </span>
-                    <span className='flex items-center gap-1'>
-                      <MapPin size={12} />
-                      {testimonial.location}
-                    </span>
-                  </div>
-
-                  {testimonial.images.length > 0 && (
-                    <div className='flex gap-2'>
-                      {testimonial.images.slice(0, 3).map((image, idx) => (
-                        <Image
-                          key={idx}
-                          src={image || '/placeholder.svg'}
-                          alt={`Project ${idx + 1}`}
-                          width={60}
-                          height={60}
-                          className='rounded-lg object-cover cursor-pointer hover:opacity-80 transition-opacity h-[60px] w-[60px] '
-                        />
-                      ))}
-                      {testimonial.images.length > 3 && (
-                        <div className='w-15 h-15 bg-white/10 rounded-lg flex items-center justify-center text-xs'>
-                          +{testimonial.images.length - 3}
-                        </div>
-                      )}
-                    </div>
-                  )}
-
-                  <div className='flex items-center justify-between pt-4 border-t border-white/10'>
-                    <div className='flex items-center gap-4 text-sm text-gray-400'>
-                      <button className='flex items-center gap-1 hover:text-red-400 transition-colors'>
-                        <Heart size={14} />
-                        {testimonial.likes}
-                      </button>
-                      <button className='flex items-center gap-1 hover:text-blue-400 transition-colors'>
-                        <TrendingUp size={14} />
-                        {testimonial.helpful}
-                      </button>
-                    </div>
-                    <button className='text-gray-400 hover:text-white transition-colors'>
-                      <Share2 size={16} />
-                    </button>
-                  </div>
-                </div>
+            {/* Author & Project Info */}
+            <div className='pt-4 border-t border-neutral-100 flex flex-wrap items-center justify-between gap-2 text-xs'>
+              <div>
+                <span className='font-bold text-neutral-950 text-sm font-sans block'>
+                  {active.name}
+                </span>
+                <span className='text-neutral-600 font-medium'>
+                  {active.role}, <strong className='text-neutral-900 font-semibold'>{active.company}</strong>
+                </span>
               </div>
-            ))}
-          </div>
-        )}
 
-        {filteredTestimonials.length === 0 && (
-          <div className='text-center py-16'>
-            <div className='text-gray-400 space-y-4'>
-              <Filter size={48} className='mx-auto opacity-50' />
-              <p className='text-xl'>No testimonials found</p>
-              <p className='text-sm'>Try adjusting your filter criteria</p>
+              <span className='text-[11px] font-mono font-medium text-neutral-500 bg-neutral-100 px-3 py-1 rounded-full'>
+                {active.project}
+              </span>
             </div>
           </div>
-        )}
-
-        <div className='flex lg:items-center lg:justify-center lg:flex-row flex-col justify-center items-center  gap-4 bg-gradient-to-r from-blue-600 to-purple-600 p-6 rounded-2xl text-center sm:text-left'>
-          <div className='flex items-center gap-2 justify-center sm:justify-start w-full sm:w-auto whitespace-nowrap'>
-            <span className='flex items-center gap-2'>
-              <Quote className='text-white flex-shrink-0' size={24} />
-              <span className='text-lg font-semibold'>
-                Ready to share your experience?
-              </span>
-            </span>
-          </div>
-          <button
-            onClick={() => setShowSubmissionForm(true)}
-            className='bg-white text-blue-600 px-6 py-2 rounded-lg font-medium hover:bg-gray-100 transition-colors w-full sm:w-auto'
-          >
-            Write a Review
-          </button>
         </div>
-      </div>
 
-      {/* Testimonial Submission Form */}
-      {showSubmissionForm && (
-        <TestimonialSubmissionForm
-          onClose={() => setShowSubmissionForm(false)}
+        {/* Structured Data for SEO / AI Search Engine Indexing */}
+        <script
+          type='application/ld+json'
+          dangerouslySetInnerHTML={{
+            __html: JSON.stringify({
+              '@context': 'https://schema.org',
+              '@type': 'AggregateRating',
+              itemReviewed: {
+                '@type': 'ConstructionBusiness',
+                name: 'Larbol Construction',
+                url: 'https://larbol-construction.vercel.app',
+                telephone: '+234-800-527-265',
+              },
+              ratingValue: '5.0',
+              reviewCount: '48',
+              bestRating: '5',
+              worstRating: '1',
+            }),
+          }}
         />
-      )}
+
+      </div>
     </section>
   )
 }

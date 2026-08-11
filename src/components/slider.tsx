@@ -164,7 +164,7 @@ export default function PremiumHeroSlider({
             onMouseLeave={() => setIsPaused(false)}
           >
             {/* Left Card: Vertical Architectural Image Card */}
-            <div className='lg:col-span-5 xl:col-span-5 relative rounded-[32px] overflow-hidden bg-neutral-900 min-h-[460px] sm:min-h-[540px] lg:min-h-[620px] shadow-sm group'>
+            <div className='lg:col-span-5 xl:col-span-5 relative rounded-[32px] overflow-hidden bg-neutral-900 min-h-[460px] sm:min-h-[540px] lg:min-h-[620px] group'>
               <div ref={imageRef} className='relative w-full h-full min-h-[460px] sm:min-h-[540px] lg:min-h-[620px]'>
                 <Image
                   src={activeSlide.imageUrl}
@@ -186,7 +186,7 @@ export default function PremiumHeroSlider({
             </div>
 
             {/* Right Card: Warm Light Architectural Content Panel */}
-            <div className='lg:col-span-7 xl:col-span-7 bg-[#EFECE6] rounded-[32px] p-8 sm:p-12 lg:p-14 flex flex-col justify-between min-h-[460px] sm:min-h-[540px] lg:min-h-[620px] border border-neutral-300/40 shadow-xs relative'>
+            <div className='lg:col-span-7 xl:col-span-7 bg-[#EFECE6] rounded-[32px] p-8 sm:p-12 lg:p-14 flex flex-col justify-between min-h-[460px] sm:min-h-[540px] lg:min-h-[620px] border border-neutral-300/40 relative'>
               
               {/* Upper Content Area */}
               <div ref={contentRef} className='space-y-6 max-w-2xl'>
@@ -201,7 +201,7 @@ export default function PremiumHeroSlider({
                 <div className='pt-2'>
                   <Link
                     href='/services'
-                    className='inline-flex items-center gap-3.5 bg-white hover:bg-neutral-50 text-neutral-950 font-semibold text-base px-7 py-3.5 rounded-full shadow-xs border border-neutral-200/80 transition-all duration-200 hover:scale-[1.02] active:scale-[0.98] cursor-pointer group'
+                    className='inline-flex items-center gap-3.5 bg-white hover:bg-neutral-50 text-neutral-950 font-semibold text-base px-7 py-3.5 rounded-full border border-neutral-200/80 transition-all duration-200 hover:scale-[1.02] active:scale-[0.98] cursor-pointer group'
                   >
                     <span>View All Services</span>
                     <div className='w-9 h-9 rounded-full bg-[#D4F639] text-neutral-950 flex items-center justify-center font-bold group-hover:scale-105 transition-transform'>
@@ -228,7 +228,7 @@ export default function PremiumHeroSlider({
                   {/* Watch Video Showreel Pill */}
                   <button
                     onClick={() => setIsVideoOpen(true)}
-                    className='bg-neutral-950 hover:bg-neutral-900 text-white rounded-full px-5 py-3 flex items-center gap-3 transition-all duration-200 shadow-md cursor-pointer group'
+                    className='bg-neutral-950 hover:bg-neutral-900 text-white rounded-full px-5 py-3 flex items-center gap-3 transition-all duration-200 cursor-pointer group'
                   >
                     <div className='relative w-9 h-6 rounded-md overflow-hidden bg-neutral-800 flex items-center justify-center'>
                       <Image
@@ -243,7 +243,7 @@ export default function PremiumHeroSlider({
                   </button>
 
                   {/* Slider Controls Container */}
-                  <div className='flex items-center gap-1.5 bg-white/80 backdrop-blur-xs p-1.5 rounded-full border border-neutral-300/60 shadow-xs'>
+                  <div className='flex items-center gap-1.5 bg-white/80 backdrop-blur-xs p-1.5 rounded-full border border-neutral-300/60'>
                     <button
                       onClick={togglePlayPause}
                       aria-label={isPaused ? 'Resume' : 'Pause'}
@@ -282,7 +282,7 @@ export default function PremiumHeroSlider({
       {/* Interactive Video Modal */}
       {isVideoOpen && (
         <div className='fixed inset-0 z-[200] bg-black/80 backdrop-blur-md flex items-center justify-center p-4 sm:p-8'>
-          <div className='relative w-full max-w-4xl bg-neutral-950 rounded-2xl overflow-hidden shadow-2xl border border-neutral-800'>
+          <div className='relative w-full max-w-4xl bg-neutral-950 rounded-2xl overflow-hidden border border-neutral-800'>
             <div className='flex items-center justify-between p-4 border-b border-neutral-800 bg-neutral-900'>
               <h3 className='text-white font-semibold text-base sm:text-lg'>
                 Larbol Construction — {activeSlide.title}
